@@ -58,12 +58,25 @@ const App: React.FC = () => {
       const userData = userSnap.data() as AppUser;
       const familyId = userData.familyId;
 
+      // Both member AND family must load before we clear the loading state.
+      // Without this, RoleRoute sees loading:false but member:null → redirects admin to /home.
+      let memberReady = false;
+      let familyReady = false;
+      const trySetReady = () => {
+        if (memberReady && familyReady) {
+          setLoading(false);
+          setInitialized(true);
+        }
+      };
+
       // Realtime listener: membro
       unsubMember = onSnapshot(
         doc(db, 'families', familyId, 'members', firebaseUser.uid),
         (snap) => {
           if (snap.exists()) {
             setMember(snap.data() as Member);
+            memberReady = true;
+            trySetReady();
           }
         }
       );
@@ -72,8 +85,8 @@ const App: React.FC = () => {
       unsubFamily = onSnapshot(doc(db, 'families', familyId), (snap) => {
         if (snap.exists()) {
           setFamily({ id: snap.id, ...snap.data() } as Family);
-          setLoading(false);
-          setInitialized(true);
+          familyReady = true;
+          trySetReady();
         }
       });
 
