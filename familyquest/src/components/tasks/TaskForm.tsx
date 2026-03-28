@@ -19,7 +19,7 @@ const schema = z.object({
   weekOfMonth: z.number().min(1).max(4).optional(),
   dayOfWeekRelative: z.number().min(0).max(6).optional(),
   dueTime: z.string().optional(),
-  pointsOnComplete: z.number().min(1).max(1000),
+  pointsOnComplete: z.number().min(0).max(1000),
   pointsOnMiss: z.number().max(0).min(-1000),
   assignedTo: z.union([z.literal('all'), z.array(z.string())]),
   startDate: z.string().optional(), // ISO date string for 'once'
@@ -342,14 +342,20 @@ export const TaskForm: React.FC<TaskFormProps> = ({
             render={({ field }) => (
               <input
                 type="number"
-                min={1}
+                min={0}
                 max={1000}
                 {...field}
-                onChange={(e) => field.onChange(Number(e.target.value))}
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  if (raw === '') return;
+                  const num = Number(raw);
+                  if (!isNaN(num)) field.onChange(num);
+                }}
                 className={inputClass(errors.pointsOnComplete)}
               />
             )}
           />
+          {errors.pointsOnComplete && <p className="text-error text-xs mt-1 ml-2">{errors.pointsOnComplete.message}</p>}
         </div>
         <div>
           {fieldLabel(type === 'mandatory' ? 'Penalidade (negativo)' : 'Penalidade')}
@@ -362,12 +368,19 @@ export const TaskForm: React.FC<TaskFormProps> = ({
                 max={0}
                 min={-1000}
                 {...field}
-                onChange={(e) => field.onChange(Number(e.target.value))}
+                onChange={(e) => {
+                  const raw = e.target.value;
+                  // Allow intermediate states like "-" while typing negative numbers
+                  if (raw === '' || raw === '-') return;
+                  const num = Number(raw);
+                  if (!isNaN(num)) field.onChange(num);
+                }}
                 disabled={type === 'optional'}
                 className={`${inputClass(errors.pointsOnMiss)} ${type === 'optional' ? 'opacity-40 cursor-not-allowed' : ''}`}
               />
             )}
           />
+          {errors.pointsOnMiss && <p className="text-error text-xs mt-1 ml-2">{errors.pointsOnMiss.message}</p>}
         </div>
       </div>
 
