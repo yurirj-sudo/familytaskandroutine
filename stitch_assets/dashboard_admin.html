@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FamilyQuest - Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "error-dim": "#a70138",
+              "on-tertiary-fixed-variant": "#624900",
+              "on-error": "#ffefef",
+              "error": "#b41340",
+              "outline-variant": "#a0aec5",
+              "tertiary-dim": "#654c00",
+              "surface-container-lowest": "#ffffff",
+              "on-primary": "#f4f1ff",
+              "surface-bright": "#f4f6ff",
+              "surface": "#f4f6ff",
+              "on-secondary-fixed": "#004a1d",
+              "secondary-dim": "#005d26",
+              "inverse-surface": "#010f20",
+              "on-background": "#212f42",
+              "tertiary-container": "#fdc425",
+              "on-primary-container": "#0a0081",
+              "outline": "#6a788d",
+              "on-error-container": "#510017",
+              "surface-container-highest": "#c9deff",
+              "surface-container": "#dce9ff",
+              "secondary-fixed": "#6bff8f",
+              "on-surface-variant": "#4e5c71",
+              "on-tertiary-fixed": "#3f2e00",
+              "surface-variant": "#c9deff",
+              "background": "#f4f6ff",
+              "inverse-on-surface": "#8f9eb4",
+              "on-surface": "#212f42",
+              "surface-dim": "#bfd6f9",
+              "secondary-container": "#6bff8f",
+              "on-primary-fixed": "#000000",
+              "inverse-primary": "#8083ff",
+              "error-container": "#f74b6d",
+              "primary-dim": "#3939c7",
+              "on-secondary-fixed-variant": "#006a2d",
+              "on-primary-fixed-variant": "#0e009d",
+              "surface-container-high": "#d3e4ff",
+              "tertiary-fixed-dim": "#edb60f",
+              "secondary-fixed-dim": "#5bf083",
+              "primary-container": "#9396ff",
+              "tertiary": "#745700",
+              "primary": "#4647d3",
+              "on-secondary-container": "#005f28",
+              "primary-fixed": "#9396ff",
+              "on-tertiary": "#fff1da",
+              "surface-container-low": "#eaf1ff",
+              "tertiary-fixed": "#fdc425",
+              "surface-tint": "#4647d3",
+              "primary-fixed-dim": "#8387ff",
+              "on-tertiary-container": "#574000",
+              "secondary": "#006a2d",
+              "on-secondary": "#ceffd0"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        vertical-align: middle;
+      }
+      body { font-family: 'Be Vietnam Pro', sans-serif; }
+      h1, h2, h3, .font-headline { font-family: 'Plus Jakarta Sans', sans-serif; }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+      }
+      .cloud-shadow {
+        shadow: 0 10px 30px rgba(33, 47, 66, 0.08);
+      }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-40 bg-[#f4f6ff]/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-[0_10px_30px_rgba(33,47,66,0.08)] flex justify-between items-center px-6 h-20 w-full">
+<div class="flex items-center gap-3">
+<span class="text-2xl font-black text-indigo-600 dark:text-indigo-400">FamilyQuest</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors rounded-full active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors rounded-full active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-10 w-10 rounded-full bg-primary-container border-2 border-surface-container-lowest overflow-hidden">
+<img alt="Parent Profile Avatar" class="w-full h-full object-cover" data-alt="Portrait of a smiling father in a professional but casual setting, warm lighting, outdoor blurred background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-IIqgSTMOcoCQJORuhUzfpCuidGrunGpsF6lk8ZwA98T7qIGmFi-FI02yYtzLmNySZ4Cv_AvwWuZejaPriUPJtsQMf1XqHF1CYKXpAgKeFic0HMTc7ahzdPkUNk1uAbLLdvtR1s1BXZSDYUFoZU5pyGFQ8MJxI3XWTC1EfWOGDL00rxE9cW8fsLQAX3RlIP2kG8jwZnXDTXbtCBKD2sdoGwjoh0CONT4E7tLsYxOOt5zpHmpgAKcuFMySkQEfcb8XilbjBPh6MNKH"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar -->
+<aside class="h-screen w-64 fixed left-0 top-0 hidden md:flex flex-col bg-[#eaf1ff] dark:bg-slate-900 pt-24 py-8 gap-2 z-30">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3 p-3 bg-white dark:bg-slate-800 rounded-xl shadow-sm">
+<div class="w-10 h-10 rounded-lg bg-tertiary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-container" data-icon="shield">shield</span>
+</div>
+<div>
+<p class="font-headline font-bold text-sm text-indigo-600">Família Silva</p>
+<p class="text-[10px] text-slate-500 font-medium">1,250 Pontos Acumulados</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 px-2 space-y-1">
+<a class="flex items-center gap-3 bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 shadow-sm rounded-xl px-4 py-3 font-bold font-be-vietnam-pro text-sm transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-xl px-4 py-3 font-be-vietnam-pro text-sm transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span>Tarefas</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-xl px-4 py-3 font-be-vietnam-pro text-sm transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="military_tech">military_tech</span>
+<span>Prêmios</span>
+</a>
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-xl px-4 py-3 font-be-vietnam-pro text-sm transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Membros</span>
+</a>
+</nav>
+<div class="px-4 mt-auto space-y-4">
+<button class="w-full py-3 px-4 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-xl font-bold shadow-[0_4px_12px_rgba(70,71,211,0.3)] hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                Nova Missão
+            </button>
+<div class="pt-4 border-t border-slate-200 dark:border-slate-700">
+<a class="flex items-center gap-3 text-slate-600 dark:text-slate-400 hover:bg-white/50 dark:hover:bg-slate-800/50 rounded-xl px-4 py-2 font-be-vietnam-pro text-xs transition-all" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="settings">settings</span>
+<span>Configurações</span>
+</a>
+<a class="flex items-center gap-3 text-error dark:text-error-container hover:bg-error/10 rounded-xl px-4 py-2 font-be-vietnam-pro text-xs transition-all" href="#">
+<span class="material-symbols-outlined text-sm" data-icon="logout">logout</span>
+<span>Sair</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content -->
+<main class="md:ml-64 pt-24 pb-12 px-6 lg:px-10 min-h-screen">
+<div class="max-w-7xl mx-auto space-y-8">
+<!-- Welcome Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="space-y-1">
+<h1 class="text-3xl font-black tracking-tight text-on-surface">Olá, Papai Silva! 👋</h1>
+<p class="text-on-surface-variant font-medium">Sua família está no caminho certo para a meta semanal.</p>
+</div>
+<div class="flex gap-3">
+<button class="px-5 py-2.5 bg-surface-container-high text-on-surface font-bold rounded-full hover:bg-surface-container-highest transition-colors flex items-center gap-2 text-sm">
+<span class="material-symbols-outlined text-lg" data-icon="query_stats">query_stats</span>
+                        Ver Relatório Completo
+                    </button>
+</div>
+</div>
+<!-- 1. Stats Grid -->
+<section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Points Card -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-[0_10px_30px_rgba(33,47,66,0.08)] flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-primary p-2 bg-primary/10 rounded-lg" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="text-xs font-bold text-secondary flex items-center gap-1 bg-secondary/10 px-2 py-1 rounded-full">
+<span class="material-symbols-outlined text-xs" data-icon="trending_up">trending_up</span> +12%
+                        </span>
+</div>
+<div>
+<p class="text-sm font-medium text-on-surface-variant">Total de Pontos da Família</p>
+<p class="text-3xl font-black text-on-surface">12.450 <span class="text-sm font-medium text-tertiary">pts</span></p>
+</div>
+</div>
+<!-- Completion Rate Card -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-[0_10px_30px_rgba(33,47,66,0.08)] flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-secondary p-2 bg-secondary/10 rounded-lg" data-icon="task_alt" style="font-variation-settings: 'FILL' 1;">task_alt</span>
+<!-- Mini Sparkline Placeholder -->
+<div class="flex items-end gap-1 h-8">
+<div class="w-1 bg-secondary/20 h-4 rounded-full"></div>
+<div class="w-1 bg-secondary/40 h-6 rounded-full"></div>
+<div class="w-1 bg-secondary h-8 rounded-full"></div>
+<div class="w-1 bg-secondary/60 h-5 rounded-full"></div>
+</div>
+</div>
+<div>
+<p class="text-sm font-medium text-on-surface-variant">Taxa de Conclusão Semanal</p>
+<p class="text-3xl font-black text-on-surface">88<span class="text-xl font-bold">%</span></p>
+</div>
+</div>
+<!-- Pending Quests Card -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-[0_10px_30px_rgba(33,47,66,0.08)] flex flex-col justify-between h-40">
+<div class="flex justify-between items-start">
+<span class="material-symbols-outlined text-error p-2 bg-error/10 rounded-lg" data-icon="schedule" style="font-variation-settings: 'FILL' 1;">schedule</span>
+<div class="flex -space-x-2">
+<div class="w-6 h-6 rounded-full border-2 border-white bg-slate-300 overflow-hidden">
+<img alt="avatar" data-alt="Portrait of a young girl with braids smiling, soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuALUY6d3Ik-9wtnKUZql33bH9cW1DrT3KuH2cHQ3L2-lPlzj83PNnOqEEK06-iZYmcPRYZL4kJSYlTnTyizkWOUtQqCuhzvg8bDPaEZIkViOLbqVFEquXBtx_aeI3IYbDWqc607ymnSKfO6B3mqwGl8FndpdBAOhYm_tnheF-_WY8GHZXlwOPyGxhzWQelY48_rCbfaCEu7LVPs4CT51TsbRr6c6oPV9uZJD6epKXCLqkYBpx6NsWcvX_X84ur-iPgPSSxHr40p6Hb8"/>
+</div>
+<div class="w-6 h-6 rounded-full border-2 border-white bg-slate-400 overflow-hidden">
+<img alt="avatar" data-alt="Portrait of a young boy wearing a cap, outdoors at a park" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxbTNzVFQv9gOTw-YuJ8Ev43FasMf_qWBMblQZOBk--emZnvxmcKaS3-nknpqjBnh4uM9-Dn0Bo44i7z1YEKpuH6tNdHqoFJ_NT3BjRwCNTnc1LaNt0kqjUnIpigIa8wWXYTdIyO_kIYuk2OmNBa_YUo9NEdFalZ5RQnz_iEvdaTCEMK_PLXIyPklv0Wawvc5mOq_qxMcTIGws6NAS4ZPaZt1Z5iYiaLqn5wm8bphuIprTlzrR7E2Yc2o2XUz84eFtj7J3xBl6PzMJ"/>
+</div>
+</div>
+</div>
+<div>
+<p class="text-sm font-medium text-on-surface-variant">Missões Pendentes Hoje</p>
+<p class="text-3xl font-black text-on-surface">06</p>
+</div>
+</div>
+</section>
+<!-- 2. Performance Chart Section -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<div class="lg:col-span-2 bg-surface-container-lowest p-8 rounded-lg shadow-[0_10px_30px_rgba(33,47,66,0.08)]">
+<div class="flex items-center justify-between mb-8">
+<div>
+<h2 class="text-xl font-black text-on-surface">Conclusão de Tarefas</h2>
+<p class="text-sm text-on-surface-variant font-medium">Desempenho nos últimos 7 dias</p>
+</div>
+<select class="bg-surface-container-low border-none rounded-full text-xs font-bold px-4 py-2 focus:ring-primary">
+<option>Esta Semana</option>
+<option>Última Semana</option>
+</select>
+</div>
+<!-- Chart Placeholder -->
+<div class="relative h-64 w-full mt-4">
+<div class="absolute inset-0 flex items-end justify-between px-2">
+<!-- Simulated Area Chart using SVG -->
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 700 200">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#4647d3" stop-opacity="0.3"></stop>
+<stop offset="100%" stop-color="#4647d3" stop-opacity="0"></stop>
+</lineargradient>
+</defs>
+<path d="M0,150 Q100,120 150,160 T300,80 T450,110 T600,40 T700,60 L700,200 L0,200 Z" fill="url(#chartGradient)"></path>
+<path d="M0,150 Q100,120 150,160 T300,80 T450,110 T600,40 T700,60" fill="none" stroke="#4647d3" stroke-linecap="round" stroke-width="4"></path>
+<!-- Data points -->
+<circle cx="150" cy="160" fill="#4647d3" r="5" stroke="white" stroke-width="2"></circle>
+<circle cx="300" cy="80" fill="#4647d3" r="5" stroke="white" stroke-width="2"></circle>
+<circle cx="450" cy="110" fill="#4647d3" r="5" stroke="white" stroke-width="2"></circle>
+<circle cx="600" cy="40" fill="#4647d3" r="5" stroke="white" stroke-width="2"></circle>
+</svg>
+</div>
+<div class="absolute bottom-[-24px] w-full flex justify-between text-[10px] font-bold text-on-surface-variant px-2 uppercase tracking-wider">
+<span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span><span>Dom</span>
+</div>
+</div>
+</div>
+<!-- 4. Quick Actions (Asymmetric placement for high-end look) -->
+<div class="space-y-6">
+<h2 class="text-xl font-black text-on-surface">Ações Rápidas</h2>
+<div class="grid grid-cols-1 gap-4">
+<button class="group p-5 bg-white rounded-lg shadow-sm hover:shadow-md transition-all border-l-4 border-primary flex items-center gap-4 text-left">
+<div class="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-primary" data-icon="add_task">add_task</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Nova Missão</p>
+<p class="text-xs text-on-surface-variant">Crie uma tarefa para hoje</p>
+</div>
+</button>
+<button class="group p-5 bg-white rounded-lg shadow-sm hover:shadow-md transition-all border-l-4 border-tertiary flex items-center gap-4 text-left">
+<div class="w-12 h-12 rounded-full bg-tertiary/10 flex items-center justify-center group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-tertiary" data-icon="edit_calendar">edit_calendar</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">Ajustar Pontos</p>
+<p class="text-xs text-on-surface-variant">Bonificações manuais</p>
+</div>
+</button>
+<div class="relative overflow-hidden p-6 bg-gradient-to-br from-indigo-900 to-indigo-700 rounded-lg text-white shadow-lg">
+<div class="relative z-10">
+<p class="text-xs font-bold text-indigo-200 uppercase tracking-widest mb-1">Destaque do Mês</p>
+<p class="text-lg font-black leading-tight mb-4">Recompensa: Noite da Pizza 🍕</p>
+<div class="w-full bg-white/20 h-2 rounded-full overflow-hidden">
+<div class="bg-tertiary w-3/4 h-full"></div>
+</div>
+<p class="text-[10px] mt-2 text-indigo-100">750/1000 pontos alcançados</p>
+</div>
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-8xl text-white/10" data-icon="local_pizza">local_pizza</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Family Ranking & Quests Grid -->
+<section class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+<!-- Ranking Column -->
+<div class="xl:col-span-1 space-y-6">
+<h2 class="text-xl font-black text-on-surface">Ranking da Família</h2>
+<div class="bg-surface-container-low rounded-lg p-2 space-y-2">
+<!-- Rank 1 -->
+<div class="flex items-center gap-4 p-4 bg-white rounded-lg shadow-sm border-2 border-tertiary-container/30">
+<div class="relative">
+<div class="w-12 h-12 rounded-full border-2 border-tertiary-container overflow-hidden">
+<img alt="Ranking 1" data-alt="Portrait of a young teenage girl smiling, warm golden hour light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-nLvvqPcGkQ8vnVzVNc93Rzxs9fKgnS0Csk37_nkLu7mdWpYbut6ckWTS03PRrzhslSfVSAouTgf7HbJspMpmjqjA4E4RqZy2-ByYj68iNxTF3VKAZKnVTZd9lg6acqzLcjCmYLoH2Ta2dm-C5_Q5QPniHZCyCam0kG507wKBxw5ZhFTT7rsIT8ua_iIx_OCayOV5KpWVi5DCyi-NAAp07Sp3fO90EDG0Gx-WYsR8lVNpw1nEeiYcAhkHQG0_y6DAaaQMBXNA87G0"/>
+</div>
+<div class="absolute -top-2 -right-2 w-6 h-6 bg-tertiary text-on-tertiary-container rounded-full flex items-center justify-center text-[10px] font-black shadow-sm">1º</div>
+</div>
+<div class="flex-1">
+<p class="font-bold text-on-surface leading-tight">Alice Silva</p>
+<p class="text-xs text-secondary font-medium flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="military_tech" style="font-variation-settings: 'FILL' 1;">military_tech</span> Exploradora Expert
+                                </p>
+</div>
+<p class="text-right font-black text-primary">4,820 <span class="block text-[10px] text-on-surface-variant font-medium">pts</span></p>
+</div>
+<!-- Rank 2 -->
+<div class="flex items-center gap-4 p-4 bg-white/60 rounded-lg hover:bg-white transition-colors">
+<div class="relative">
+<div class="w-12 h-12 rounded-full border-2 border-slate-200 overflow-hidden">
+<img alt="Ranking 2" data-alt="Close-up of a young boy with curly hair, natural background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfsd0k_ujbIuppBXyqQFGXB2sttwCb6QzVAFz-M0xkI6ol9Njpto3239sJ4Q3_Gm9oFHNX0N94OQg3Tqj0oyN_wPaNdNsg_8EA3jVY3LqgdPbJbE0TrcaU8PdgpZYAxdNmGg2u9kLTxN7tACJA0iuRxUhzKlNEvSGbSEEbxhMRwZTjV4x7yUZ2PpY-HBFBSsEPmn9n2b3Rr79IptCLf5L8bgApAuBGMYN6bYRB0rhhnml0ZT0i2_oZohSX9wXRKEqrYuGbLaX7Q0jk"/>
+</div>
+<div class="absolute -top-2 -right-2 w-6 h-6 bg-slate-200 text-slate-600 rounded-full flex items-center justify-center text-[10px] font-black">2º</div>
+</div>
+<div class="flex-1">
+<p class="font-bold text-on-surface leading-tight">Leo Silva</p>
+<p class="text-xs text-on-surface-variant font-medium">Caçador de Recompensas</p>
+</div>
+<p class="text-right font-black text-slate-400">3,910 <span class="block text-[10px] font-medium">pts</span></p>
+</div>
+<!-- Rank 3 -->
+<div class="flex items-center gap-4 p-4 bg-white/60 rounded-lg hover:bg-white transition-colors opacity-80">
+<div class="relative">
+<div class="w-12 h-12 rounded-full border-2 border-slate-200 overflow-hidden">
+<img alt="Ranking 3" data-alt="Portrait of a smiling father, soft focus interior background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCM8CHrw-LWZgYl7BHVvMMnWzlBTSbsAWsZQ3b3pEBNDI0O1jf4OB_e59YadQ-sj8fIE0CPk4_sKvRYDHZykg5bJoQa5N8c0IQ9JxvXYzPL4k7dQVysv5Jm28YJZouJEF89dWTjzfgPMpbpYpbgI5aMvB7zks-ydT-KqqATgIUn_XlD55CH-pad8oa_U9Z_d2__pf5y5hz3d6nf0Npqu-YXEhPemWuBryJN7RfF4NYkt_MnrW_e6cBLLH4JptU3zLOC9JYCzCy5pM6i"/>
+</div>
+<div class="absolute -top-2 -right-2 w-6 h-6 bg-orange-200 text-orange-700 rounded-full flex items-center justify-center text-[10px] font-black">3º</div>
+</div>
+<div class="flex-1">
+<p class="font-bold text-on-surface leading-tight">Papai Silva</p>
+<p class="text-xs text-on-surface-variant font-medium">Mestre da Guilda</p>
+</div>
+<p class="text-right font-black text-slate-400">3,720 <span class="block text-[10px] font-medium">pts</span></p>
+</div>
+</div>
+</div>
+<!-- Recent Quests / Task Feed -->
+<div class="xl:col-span-2 space-y-6">
+<div class="flex items-center justify-between">
+<h2 class="text-xl font-black text-on-surface">Missões em Revisão</h2>
+<button class="text-xs font-bold text-primary hover:underline">Ver todas</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- Task Card 1 -->
+<div class="bg-surface-container-lowest p-5 rounded-lg border-2 border-transparent hover:border-primary/20 transition-all shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden">
+<img alt="Alice" data-alt="Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaT1ND9RWXDxfeaaAoz5G7kxgsnSve1hNiB4z92jEjBKQqwCuinPaTs1o_7k6ZrWGVyRWmctpYqU_VY4CzlT-kAFqkziAmwQ3ov28t3bARlkogtDtbOu31hhVVxMNqZydqZLbHhGLSXdw5MK3Dl1sy3FxjxV9x9oh-RMYVyUdZkxr4QGxNCVdhZtOYwPfb3TdtAOfWBkHZWLLTtbLxRtvfV9hAmUOc8NAgUul1zsgDwzv3f7dwMWOZpZoA1oE7XxW3h0vrwZQ0kmGu"/>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant">Alice Silva</p>
+<p class="font-black text-on-surface">Organizar Brinquedos</p>
+</div>
+</div>
+<span class="bg-tertiary-container text-on-tertiary-container text-[10px] font-bold px-2 py-1 rounded-full">+50 pts</span>
+</div>
+<div class="bg-surface-container-low rounded-lg aspect-video mb-4 overflow-hidden group relative">
+<img alt="Task Proof" class="w-full h-full object-cover" data-alt="Photo proof of a clean and organized toy shelf in a bright child's bedroom" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDL4gvPkt2NB9qmWkfSqw-1K0HO5j5PWgXB2ZjnN3MNa-qlRa8vnCI_JcBZRIo5FdUSHkr_lUv4eQ5NTRPInAvTVCAif34uX-Ys6BmO6P0mImOC4M64IHZybYfDNICrX7NXBZbQPnuqZYESe3oLixDwXvhI5Od32M-Wlw8J1gEl7ybeHLFkblCtuXYgd_M6_GkSSG_C3ebkSiiPWZMzaJEiSKjgNFkIMpzyoUhhWvtkJ_jTMZH3YA_3F-e1EHX9luDj4NeMqeYckhmK"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+<span class="text-white text-xs font-bold">Ver Prova Completa</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 py-2 bg-secondary/10 text-secondary font-bold text-xs rounded-full hover:bg-secondary/20 transition-colors">Aprovar</button>
+<button class="flex-1 py-2 bg-error/10 text-error font-bold text-xs rounded-full hover:bg-error/20 transition-colors">Refazer</button>
+</div>
+</div>
+<!-- Task Card 2 -->
+<div class="bg-surface-container-lowest p-5 rounded-lg border-2 border-transparent hover:border-primary/20 transition-all shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden">
+<img alt="Leo" data-alt="Avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4hoYYe7g8CRnzcIXkvpNcf0_s5tGZVJLGMNng8ufmNas0sML0nNowNvNIldqRw5MTNkxUpRicgqRpQrPkGXSTQ2wQBEbXe9DXYDL4VIE36FB0mzcKd5zz3LukhjjbU8fZ_llsE4W2IeVu4J0n4GajIf2iZAE0Ws0cAma7Pgkkpfs1a4k-U6MvTdN39hqWcEZCv6l_8yLESxFETggRVTNBNmqqlcM57h0OIrV0vdwV0nmOjszj2IJykkG1U9TAOFXCfaSUM-05YTXu"/>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant">Leo Silva</p>
+<p class="font-black text-on-surface">Lavar a Louça</p>
+</div>
+</div>
+<span class="bg-tertiary-container text-on-tertiary-container text-[10px] font-bold px-2 py-1 rounded-full">+100 pts</span>
+</div>
+<div class="bg-surface-container-low rounded-lg aspect-video mb-4 overflow-hidden group relative">
+<img alt="Task Proof" class="w-full h-full object-cover" data-alt="Shiny clean kitchen sink with sparkling dishes, bright morning sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQ81Js6x465RLZgOP-Y92kQuvnQ5tPiIVRP0MlX280OHNZPUVs1uy1Z8BOs4avBd9ohF-tbRKJqxWOW4w6mpkYAncAVaTUICdku4p4fsBze5llQvZdyNMXvFt-_cXfEtdI_aAFVyQP6z1STqhcmHzVE5lD_5zC8TJWlwPN718vXYuOwwkD-n5bpi_W74fS3nFj_CDxYu7a3eMBKjYTYtK6fc8MAVsy7a5MJ7fWY-ebrs_UrgtpATOBU6NTWJjSw-ywu1vzLAd1OVKo"/>
+<div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
+<span class="text-white text-xs font-bold">Ver Prova Completa</span>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 py-2 bg-secondary/10 text-secondary font-bold text-xs rounded-full hover:bg-secondary/20 transition-colors">Aprovar</button>
+<button class="flex-1 py-2 bg-error/10 text-error font-bold text-xs rounded-full hover:bg-error/20 transition-colors">Refazer</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- FAB for mobile (Only if mobile layout was needed, but here as a signature element) -->
+<button class="md:hidden fixed bottom-6 right-6 w-16 h-16 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center active:scale-90 transition-transform z-50">
+<span class="material-symbols-outlined text-2xl" data-icon="add">add</span>
+</button>
+</body></html>

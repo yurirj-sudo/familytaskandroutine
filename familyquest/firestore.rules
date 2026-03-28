@@ -1,0 +1,61 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /users/{uid} {
+      allow read, write: if request.auth.uid == uid;
+    }
+
+    match /families/{familyId} {
+      allow read: if isMember(familyId);
+      allow write: if isAdmin(familyId);
+
+      match /members/{uid} {
+        allow read: if isMember(familyId);
+        allow write: if isAdmin(familyId) || request.auth.uid == uid;
+      }
+
+      match /tasks/{taskId} {
+        allow read: if isMember(familyId);
+        allow write: if isAdmin(familyId);
+      }
+
+      match /completions/{completionId} {
+        allow read: if isMember(familyId);
+        allow create: if isMember(familyId) &&
+          request.resource.data.userId == request.auth.uid;
+        allow update: if isAdmin(familyId) ||
+          (request.auth.uid == resource.data.userId &&
+           request.resource.data.status in ['submitted']);
+        allow delete: if isAdmin(familyId);
+      }
+
+      match /prizes/{prizeId} {
+        allow read: if isMember(familyId);
+        allow write: if isAdmin(familyId);
+      }
+
+      match /redemptions/{redemptionId} {
+        allow read: if isMember(familyId);
+        allow create: if isMember(familyId) &&
+          request.resource.data.userId == request.auth.uid;
+        allow update, delete: if isAdmin(familyId);
+      }
+
+      match /cycles/{cycleId} {
+        allow read: if isMember(familyId);
+        allow write: if isAdmin(familyId);
+      }
+    }
+
+    function isMember(familyId) {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/families/$(familyId)/members/$(request.auth.uid));
+    }
+
+    function isAdmin(familyId) {
+      return isMember(familyId) &&
+        get(/databases/$(database)/documents/families/$(familyId)/members/$(request.auth.uid)).data.role == 'admin';
+    }
+  }
+}

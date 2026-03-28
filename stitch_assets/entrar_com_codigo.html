@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&amp;family=Plus+Jakarta+Sans:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#eaf1ff",
+              "surface-bright": "#f4f6ff",
+              "secondary-container": "#6bff8f",
+              "surface-container": "#dce9ff",
+              "primary": "#4647d3",
+              "on-surface": "#212f42",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-fixed-dim": "#edb60f",
+              "on-primary-fixed": "#000000",
+              "on-surface-variant": "#4e5c71",
+              "surface-container-high": "#d3e4ff",
+              "on-error-container": "#510017",
+              "on-tertiary": "#fff1da",
+              "inverse-surface": "#010f20",
+              "on-primary-fixed-variant": "#0e009d",
+              "surface-variant": "#c9deff",
+              "tertiary-dim": "#654c00",
+              "on-error": "#ffefef",
+              "tertiary-container": "#fdc425",
+              "primary-fixed": "#9396ff",
+              "secondary": "#006a2d",
+              "on-background": "#212f42",
+              "surface-tint": "#4647d3",
+              "background": "#f4f6ff",
+              "on-primary-container": "#0a0081",
+              "on-secondary": "#ceffd0",
+              "surface-container-highest": "#c9deff",
+              "secondary-dim": "#005d26",
+              "primary-dim": "#3939c7",
+              "tertiary-fixed": "#fdc425",
+              "surface-dim": "#bfd6f9",
+              "on-tertiary-fixed": "#3f2e00",
+              "on-tertiary-container": "#574000",
+              "surface": "#f4f6ff",
+              "secondary-fixed": "#6bff8f",
+              "inverse-primary": "#8083ff",
+              "secondary-fixed-dim": "#5bf083",
+              "on-primary": "#f4f1ff",
+              "error-container": "#f74b6d",
+              "on-secondary-container": "#005f28",
+              "on-secondary-fixed-variant": "#006a2d",
+              "on-tertiary-fixed-variant": "#624900",
+              "primary-container": "#9396ff",
+              "error": "#b41340",
+              "primary-fixed-dim": "#8387ff",
+              "outline-variant": "#a0aec5",
+              "on-secondary-fixed": "#004a1d",
+              "error-dim": "#a70138",
+              "tertiary": "#745700",
+              "inverse-on-surface": "#8f9eb4",
+              "outline": "#6a788d"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-effect {
+        backdrop-filter: blur(12px);
+        background: rgba(255, 255, 255, 0.8);
+      }
+      .custom-shadow {
+        box-shadow: 0 10px 30px rgba(70, 71, 211, 0.08);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface min-h-screen flex flex-col">
+<!-- Suppressing Navigation Shell as per "Linear/Transactional" logic (Login/Join flow) -->
+<main class="flex-grow flex items-center justify-center px-6 py-12 relative overflow-hidden bg-gradient-to-br from-surface via-surface-container-low to-surface-variant/30">
+<!-- Background Decorative Elements -->
+<div class="absolute -top-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="absolute -bottom-24 -left-24 w-96 h-96 bg-tertiary-container/10 rounded-full blur-3xl"></div>
+<div class="w-full max-w-md z-10">
+<!-- Header Section -->
+<div class="text-center mb-10">
+<div class="inline-flex items-center justify-center w-20 h-20 mb-6 bg-surface-container-lowest rounded-xl custom-shadow relative group">
+<span class="material-symbols-outlined text-4xl text-primary transition-transform group-hover:scale-110" data-icon="key">key</span>
+<div class="absolute -top-2 -right-2 bg-tertiary-container text-on-tertiary-container rounded-full px-2 py-1 text-[10px] font-black uppercase tracking-tighter">New</div>
+</div>
+<h1 class="font-headline font-extrabold text-3xl text-on-surface tracking-tight leading-tight mb-3">
+                    Recebeu um convite?
+                </h1>
+<p class="text-on-surface-variant font-medium max-w-[280px] mx-auto leading-relaxed">
+                    Sua jornada em família começa com uma simples chave mágica.
+                </p>
+</div>
+<!-- Interaction Card -->
+<div class="bg-surface-container-lowest/70 backdrop-blur-xl rounded-lg p-8 custom-shadow border border-white/40">
+<div class="space-y-8">
+<!-- Illustration / Visual Anchor -->
+<div class="flex justify-center">
+<div class="relative w-48 h-32 rounded-lg overflow-hidden bg-primary-container/20 group">
+<img alt="Antique golden key on a soft glowing indigo surface" class="w-full h-full object-cover mix-blend-overlay opacity-60" data-alt="a majestic glowing golden key floating in the center of an ethereal indigo portal with soft light particles" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPTsTCk7yAH9fVl0OHb5V_TOg4NprJWfI3PzOLaCjdJ376-pSe-4_b8Yp5Dt8sWrTlP20TcX0sh0tzJhwJ91rrMWVm_7lY5nUgwWw96xnpScZNFuLKcrtXA45L9WIWfkhKaUAAIOR9t5rV1B_10jRvfMAUWlcvq25Zy-NM7Eq4k6mF7gCq-71m8pxIRGAwBhAUbz7y5Ak27Ril1wLZi3AnvNq5XtWw5-FiwEvErvgbMQ6cK97lUucj9wPTo6SO9DOvzsUtD3bAdp4c"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-5xl text-primary/80" data-icon="auto_fix">auto_fix</span>
+</div>
+</div>
+</div>
+<!-- Input Section -->
+<div class="space-y-4">
+<label class="block text-center text-xs font-bold uppercase tracking-[0.2em] text-on-surface-variant opacity-60">
+                            Digite o código de 6 dígitos
+                        </label>
+<div class="flex justify-between gap-2 md:gap-3">
+<input class="w-full aspect-square text-center font-headline font-bold text-2xl border-none bg-surface-container-low rounded-md focus:ring-2 focus:ring-primary focus:bg-surface-container-highest transition-all text-primary uppercase" maxlength="1" placeholder="•" type="text"/>
+<input class="w-full aspect-square text-center font-headline font-bold text-2xl border-none bg-surface-container-low rounded-md focus:ring-2 focus:ring-primary focus:bg-surface-container-highest transition-all text-primary uppercase" maxlength="1" placeholder="•" type="text"/>
+<input class="w-full aspect-square text-center font-headline font-bold text-2xl border-none bg-surface-container-low rounded-md focus:ring-2 focus:ring-primary focus:bg-surface-container-highest transition-all text-primary uppercase" maxlength="1" placeholder="•" type="text"/>
+<input class="w-full aspect-square text-center font-headline font-bold text-2xl border-none bg-surface-container-low rounded-md focus:ring-2 focus:ring-primary focus:bg-surface-container-highest transition-all text-primary uppercase" maxlength="1" placeholder="•" type="text"/>
+<input class="w-full aspect-square text-center font-headline font-bold text-2xl border-none bg-surface-container-low rounded-md focus:ring-2 focus:ring-primary focus:bg-surface-container-highest transition-all text-primary uppercase" maxlength="1" placeholder="•" type="text"/>
+<input class="w-full aspect-square text-center font-headline font-bold text-2xl border-none bg-surface-container-low rounded-md focus:ring-2 focus:ring-primary focus:bg-surface-container-highest transition-all text-primary uppercase" maxlength="1" placeholder="•" type="text"/>
+</div>
+</div>
+<!-- CTA Section -->
+<div class="space-y-4 pt-2">
+<button class="w-full bg-gradient-to-br from-primary to-primary-container text-on-primary font-headline font-bold py-5 rounded-full shadow-lg shadow-primary/25 hover:opacity-90 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group">
+                            Entrar no Time
+                            <span class="material-symbols-outlined text-xl transition-transform group-hover:translate-x-1" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<div class="flex items-center gap-3 p-4 bg-surface-container/50 rounded-md">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="info">info</span>
+<p class="text-[13px] leading-snug font-medium text-on-surface-variant">
+                                Peça o código para o admin da sua família
+                            </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Footer Actions -->
+<div class="mt-8 text-center">
+<button class="text-primary font-bold text-sm hover:underline underline-offset-4 flex items-center justify-center gap-2 mx-auto">
+<span class="material-symbols-outlined text-lg" data-icon="add_home">add_home</span>
+                    Criar minha própria família
+                </button>
+</div>
+</div>
+</main>
+<!-- Support Link Footer (Minimalist for Transactional Flow) -->
+<footer class="py-6 text-center text-on-surface-variant/40 text-[11px] font-medium tracking-widest uppercase">
+        FamilyQuest © 2024 • Gamified Growth
+    </footer>
+</body></html>

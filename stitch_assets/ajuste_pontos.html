@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FamilyQuest - Ajuste de Pontos</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "inverse-on-surface": "#8f9eb4",
+              "on-surface": "#212f42",
+              "on-tertiary": "#fff1da",
+              "primary-fixed-dim": "#8387ff",
+              "primary": "#4647d3",
+              "surface-container": "#dce9ff",
+              "on-secondary": "#ceffd0",
+              "secondary-fixed-dim": "#5bf083",
+              "surface-variant": "#c9deff",
+              "surface-tint": "#4647d3",
+              "surface-container-lowest": "#ffffff",
+              "on-secondary-fixed": "#004a1d",
+              "surface": "#f4f6ff",
+              "on-primary-fixed-variant": "#0e009d",
+              "tertiary-fixed": "#fdc425",
+              "primary-fixed": "#9396ff",
+              "on-secondary-fixed-variant": "#006a2d",
+              "surface-container-highest": "#c9deff",
+              "on-primary": "#f4f1ff",
+              "error-container": "#f74b6d",
+              "on-primary-container": "#0a0081",
+              "surface-dim": "#bfd6f9",
+              "surface-container-high": "#d3e4ff",
+              "on-primary-fixed": "#000000",
+              "error": "#b41340",
+              "on-surface-variant": "#4e5c71",
+              "error-dim": "#a70138",
+              "tertiary-fixed-dim": "#edb60f",
+              "on-error": "#ffefef",
+              "outline": "#6a788d",
+              "outline-variant": "#a0aec5",
+              "background": "#f4f6ff",
+              "secondary": "#006a2d",
+              "tertiary": "#745700",
+              "tertiary-container": "#fdc425",
+              "inverse-primary": "#8083ff",
+              "on-tertiary-container": "#574000",
+              "secondary-dim": "#005d26",
+              "surface-container-low": "#eaf1ff",
+              "primary-dim": "#3939c7",
+              "tertiary-dim": "#654c00",
+              "secondary-fixed": "#6bff8f",
+              "on-tertiary-fixed": "#3f2e00",
+              "on-background": "#212f42",
+              "primary-container": "#9396ff",
+              "on-secondary-container": "#005f28",
+              "surface-bright": "#f4f6ff",
+              "on-tertiary-fixed-variant": "#624900",
+              "inverse-surface": "#010f20",
+              "on-error-container": "#510017",
+              "secondary-container": "#6bff8f"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .cloud-shadow {
+            box-shadow: 0 10px 30px rgba(33, 47, 66, 0.08);
+        }
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, #4647d3 0%, #9396ff 100%);
+            box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+        }
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #f4f6ff;
+        }
+        h1, h2, h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen flex">
+<!-- SideNavBar (Shared Component) -->
+<aside class="h-screen w-64 fixed left-0 top-0 hidden lg:flex flex-col bg-slate-50 dark:bg-slate-950 font-be-vietnam-pro text-sm tracking-wide bg-slate-100 dark:bg-slate-900 flat no-border z-40">
+<div class="p-6">
+<div class="flex items-center gap-3 mb-8">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined" data-icon="family_history">family_history</span>
+</div>
+<div>
+<h2 class="text-lg font-black text-indigo-600 dark:text-indigo-400 leading-tight">Admin Panel</h2>
+<p class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Manage Points</p>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+<!-- Active Navigation: Family Admin (Mapped from User Intent) -->
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-indigo-500 hover:translate-x-1 transition-all duration-200 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-indigo-500 hover:translate-x-1 transition-all duration-200 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="military_tech">military_tech</span>
+<span>Quests</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-indigo-500 hover:translate-x-1 transition-all duration-200 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="redeem">redeem</span>
+<span>Rewards</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 font-semibold rounded-xl shadow-sm active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="group_add">group_add</span>
+<span>Family Admin</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-indigo-500 hover:translate-x-1 transition-all duration-200 active:scale-[0.98]" href="#">
+<span class="material-symbols-outlined" data-icon="history">history</span>
+<span>History</span>
+</a>
+</nav>
+</div>
+<div class="mt-auto p-6">
+<button class="w-full py-3 px-4 bg-primary text-on-primary rounded-xl font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity active:scale-95">
+<span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+                Quick Adjustment
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 lg:ml-64 min-h-screen">
+<!-- TopAppBar (Shared Component) -->
+<header class="fixed top-0 w-full lg:w-[calc(100%-16rem)] z-30 bg-white/80 dark:bg-slate-900/80 backdrop-blur-lg flex justify-between items-center px-6 h-16 shadow-sm dark:shadow-none no-border">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold text-indigo-600 dark:text-indigo-400 tracking-tight">FamilyQuest</span>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden md:flex items-center bg-slate-100 dark:bg-slate-800 rounded-full px-4 py-1.5 gap-2">
+<span class="material-symbols-outlined text-slate-400 text-lg" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 text-on-surface" placeholder="Search members..." type="text"/>
+</div>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors active:scale-95">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden ring-2 ring-primary/20">
+<img alt="Parent Admin Profile" class="w-full h-full object-cover" data-alt="close-up portrait of a smiling middle-aged man with short hair and clean-shaven face, warm natural lighting, professional headshot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUNEJq1I2PaB2tzbRiltpviIOH0MkOvWApl-8fEVI9oem70Dl3eFmRy5k6z9qaKM2MiN6zxs3Qm1zLr17XAXFOszLmb8Zx0xlEPfJl0AU5-Yj73NghzcBB5COGeMAPnGh_l-aKedm_zGKAE9HuhhDbkUwiwRoduVFQIGO2FYjg5aWmDtxyMWSlddaeS1Ba2rSP2luA6IH3b__uXltRa3Q9i3s1MMR8ZvR0y-bsXMGclFYgihyBV_UftAmazxAUKLptu0-aAjU1Ir0S"/>
+</div>
+</div>
+</header>
+<!-- Content Area -->
+<div class="pt-24 px-6 pb-12 max-w-7xl mx-auto">
+<!-- Page Header -->
+<div class="mb-10">
+<h1 class="text-4xl font-extrabold text-on-surface tracking-tight mb-2">Ajuste de Pontos</h1>
+<p class="text-on-surface-variant text-lg">Adicione ou remova pontos manualmente da Guilda para recompensar ou corrigir comportamentos.</p>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Member Selection & Action Panel -->
+<div class="lg:col-span-8 space-y-8">
+<!-- Member Selector -->
+<section class="bg-surface-container-low rounded-xl p-8 cloud-shadow">
+<h3 class="text-on-surface-variant uppercase text-xs font-bold tracking-[0.2em] mb-6">1. Selecionar Membro</h3>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+<!-- Member Card: Selected -->
+<button class="group bg-surface-container-lowest p-5 rounded-xl border-2 border-primary ring-4 ring-primary/5 transition-all text-left relative overflow-hidden">
+<div class="absolute top-2 right-2">
+<span class="material-symbols-outlined text-primary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex items-center gap-4 mb-4">
+<img alt="Helena Silva" class="w-14 h-14 rounded-full ring-4 ring-surface-container-low object-cover" data-alt="portrait of a cheerful young girl with braided hair and a colorful shirt, bright sunny outdoor background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHNjGn4Qbe1_0birIDRzh_bcMHPuNWgF7qDuSBqk4N_e9E1wj5zp4Dye9Zgl7Ria3x8c2yEHoqXiV5uKnZauVH1CajnVy8pMPZePuG8cO02wde4IEfSuFDNqcLoVHEnVt3btzBx6wdudQKNMZvznfUEabZKlMKcftsLHWHYKmOPV9nhLkpTeLyPAEXzgiSZpxkkJHVPdfs50H1Os7SOdfQMcMhPVSaMlIX0hI3DzSbY3OFYmtM9sYgJ3QckQP_DAsg9WrJzSBBBYfD"/>
+<div>
+<h4 class="font-bold text-on-surface">Helena Silva</h4>
+<p class="text-xs text-on-surface-variant">Guilda Alpha</p>
+</div>
+</div>
+<div class="bg-primary/10 rounded-lg p-2 flex items-center justify-between">
+<span class="text-xs font-medium text-primary uppercase">Saldo Atual</span>
+<span class="text-lg font-black text-primary">1.450 pts</span>
+</div>
+</button>
+<!-- Member Card: Default -->
+<button class="group bg-surface-container-lowest p-5 rounded-xl hover:shadow-md transition-all text-left border-2 border-transparent">
+<div class="flex items-center gap-4 mb-4">
+<img alt="Lucas" class="w-14 h-14 rounded-full ring-4 ring-surface-container-low object-cover" data-alt="close-up portrait of a young boy with glasses and a friendly smile, soft indoor window light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdh6hAigMaAZuGCboiqnuuRMcGbISTJTXjJNT6w-y7FCkH9ADQImNKUuVCd8XJ4WeKv2yzwz3HVuqeWEjAP4gkI1ArkaTGhp-Y6405lN7-QuEK1pXxyrVrbOF-vGECsadm9QpOG5jw4MOcxM3aco4UtwC6O1hNsUZu3oBirr_LZ0G2puKvKs-Q9QhdeYWysqDyTl_iff3SR7oTcMrToSujAOJ1mIOefZpu2CDMAyDHJ0GYplvuchviV5pbEdca7jrkHEsIqBb8_1MY"/>
+<div>
+<h4 class="font-bold text-on-surface">Lucas</h4>
+<p class="text-xs text-on-surface-variant">Guilda Alpha</p>
+</div>
+</div>
+<div class="bg-surface-container-high rounded-lg p-2 flex items-center justify-between">
+<span class="text-xs font-medium text-on-surface-variant uppercase">Saldo Atual</span>
+<span class="text-lg font-black text-on-surface-variant">890 pts</span>
+</div>
+</button>
+<!-- Member Card: Default -->
+<button class="group bg-surface-container-lowest p-5 rounded-xl hover:shadow-md transition-all text-left border-2 border-transparent">
+<div class="flex items-center gap-4 mb-4">
+<img alt="Bia" class="w-14 h-14 rounded-full ring-4 ring-surface-container-low object-cover" data-alt="close-up portrait of a teenage girl with long dark hair looking thoughtful, artistic soft focus photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzFBu2fLs92FI-EHg_NDvI098VxHd_7BWv2iAV9EQBdeXcIIyYvFzDhEFCQG3EtVusndDzZ2g9IeXpfzfsUALGvCM9OXq2p0YHwijmmQy4z061xBWlDPmw1W5rBk_lk0wERB7tsi4Im_61kMOH4FVcbg7uOR70G3Nc9QxYrqtyJX9NWHP1ZU2IjuP3q8amTtu6-WWBD0us4g2GywYb_FFkvjp4pXatbYnDFXwoVvOFflY9E46e7j4VQpiEWqXkcw0ri_kw16GSq9dx"/>
+<div>
+<h4 class="font-bold text-on-surface">Bia</h4>
+<p class="text-xs text-on-surface-variant">Guilda Alpha</p>
+</div>
+</div>
+<div class="bg-surface-container-high rounded-lg p-2 flex items-center justify-between">
+<span class="text-xs font-medium text-on-surface-variant uppercase">Saldo Atual</span>
+<span class="text-lg font-black text-on-surface-variant">2.100 pts</span>
+</div>
+</button>
+</div>
+</section>
+<!-- Action Panel -->
+<section class="bg-surface-container-lowest rounded-xl p-8 cloud-shadow relative overflow-hidden">
+<div class="absolute top-0 right-0 p-8 opacity-5">
+<span class="material-symbols-outlined text-9xl" data-icon="edit_note">edit_note</span>
+</div>
+<h3 class="text-on-surface-variant uppercase text-xs font-bold tracking-[0.2em] mb-8">2. Detalhes do Ajuste</h3>
+<div class="space-y-8 max-w-2xl">
+<!-- Type and Amount -->
+<div class="flex flex-col md:flex-row gap-6">
+<div class="flex-1 space-y-3">
+<label class="block text-sm font-bold text-on-surface px-1">Tipo de Ação</label>
+<div class="grid grid-cols-2 gap-3 p-1.5 bg-surface-container-low rounded-full">
+<button class="bg-secondary text-white py-3 px-6 rounded-full font-bold flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+                                            Adicionar
+                                        </button>
+<button class="text-on-surface-variant py-3 px-6 rounded-full font-bold flex items-center justify-center gap-2 hover:bg-white transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="do_not_disturb_on">do_not_disturb_on</span>
+                                            Remover
+                                        </button>
+</div>
+</div>
+<div class="w-full md:w-48 space-y-3">
+<label class="block text-sm font-bold text-on-surface px-1">Pontos</label>
+<input class="w-full bg-surface-container-low border-none rounded-full py-4 px-6 text-2xl font-black text-on-surface placeholder:text-on-surface-variant/30 focus:ring-4 focus:ring-primary/10 transition-all" placeholder="000" type="number"/>
+</div>
+</div>
+<!-- Reason -->
+<div class="space-y-3">
+<label class="block text-sm font-bold text-on-surface px-1">Motivo do Ajuste</label>
+<textarea class="w-full bg-surface-container-low border-none rounded-xl py-4 px-6 text-on-surface placeholder:text-on-surface-variant/40 focus:ring-4 focus:ring-primary/10 transition-all resize-none" placeholder="Ex: Ajudou com as compras sem pedir..." rows="3"></textarea>
+</div>
+<!-- Quick Presets -->
+<div class="space-y-3">
+<label class="block text-sm font-bold text-on-surface px-1">Atalhos Rápidos</label>
+<div class="flex flex-wrap gap-3">
+<button class="bg-surface-container-low hover:bg-secondary-container text-on-surface-variant px-4 py-2 rounded-full text-sm font-medium transition-colors active:scale-95">
+<span class="text-secondary font-bold mr-1">+50</span> Bom comportamento
+                                    </button>
+<button class="bg-surface-container-low hover:bg-secondary-container text-on-surface-variant px-4 py-2 rounded-full text-sm font-medium transition-colors active:scale-95">
+<span class="text-secondary font-bold mr-1">+100</span> Meta batida
+                                    </button>
+<button class="bg-surface-container-low hover:bg-error-container/20 text-on-surface-variant px-4 py-2 rounded-full text-sm font-medium transition-colors active:scale-95">
+<span class="text-error font-bold mr-1">-20</span> Esqueceu a luz acesa
+                                    </button>
+</div>
+</div>
+<!-- Form Actions -->
+<div class="pt-6 flex flex-col sm:flex-row gap-4">
+<button class="btn-primary-gradient flex-1 text-on-primary py-5 px-8 rounded-full font-black text-lg tracking-tight active:scale-95 transition-all">
+                                    Confirmar Ajuste
+                                </button>
+<button class="bg-surface-container-high text-on-surface-variant py-5 px-8 rounded-full font-bold active:scale-95 transition-all">
+                                    Cancelar
+                                </button>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Recent History & Tips -->
+<div class="lg:col-span-4 space-y-8">
+<!-- Recent History -->
+<section class="bg-surface-container-lowest rounded-xl p-6 cloud-shadow border-t-4 border-primary">
+<div class="flex items-center justify-between mb-6">
+<h3 class="text-on-surface font-extrabold text-lg">Histórico Recente</h3>
+<button class="text-primary text-xs font-bold hover:underline">Ver tudo</button>
+</div>
+<div class="space-y-6">
+<!-- History Item -->
+<div class="flex gap-4 group">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="trending_up">trending_up</span>
+</div>
+<div class="flex-1 border-b border-surface-container pb-4 last:border-0 group-last:pb-0">
+<div class="flex justify-between items-start mb-1">
+<p class="text-sm font-bold text-on-surface">Helena Silva</p>
+<span class="text-sm font-black text-secondary">+150</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">Limpeza completa do quarto e organização dos brinquedos.</p>
+<p class="text-[10px] text-on-surface-variant/60 mt-2 font-medium">Hoje às 14:30 • Por Papai</p>
+</div>
+</div>
+<!-- History Item -->
+<div class="flex gap-4 group">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-error-container/20 flex items-center justify-center">
+<span class="material-symbols-outlined text-error text-sm" data-icon="trending_down">trending_down</span>
+</div>
+<div class="flex-1 border-b border-surface-container pb-4 last:border-0 group-last:pb-0">
+<div class="flex justify-between items-start mb-1">
+<p class="text-sm font-bold text-on-surface">Lucas</p>
+<span class="text-sm font-black text-error">-50</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">Atraso na entrega da lição de casa de matemática.</p>
+<p class="text-[10px] text-on-surface-variant/60 mt-2 font-medium">Ontem às 18:15 • Por Mamãe</p>
+</div>
+</div>
+<!-- History Item -->
+<div class="flex gap-4 group">
+<div class="flex-shrink-0 w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-sm" data-icon="trending_up">trending_up</span>
+</div>
+<div class="flex-1 last:border-0 group-last:pb-0">
+<div class="flex justify-between items-start mb-1">
+<p class="text-sm font-bold text-on-surface">Bia</p>
+<span class="text-sm font-black text-secondary">+200</span>
+</div>
+<p class="text-xs text-on-surface-variant leading-relaxed">Nota máxima na prova de ciências.</p>
+<p class="text-[10px] text-on-surface-variant/60 mt-2 font-medium">Ontem às 12:45 • Por Papai</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Points Guide Card -->
+<section class="bg-indigo-600 rounded-xl p-6 text-on-primary relative overflow-hidden cloud-shadow">
+<div class="relative z-10">
+<span class="material-symbols-outlined text-tertiary text-3xl mb-4" data-icon="lightbulb" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<h4 class="font-bold text-lg mb-2">Dica de Mestre</h4>
+<p class="text-sm text-on-primary/80 leading-relaxed mb-4">
+                                Use o ajuste manual com moderação. Recompensar proatividade inesperada é a melhor forma de manter o engajamento!
+                            </p>
+<a class="inline-flex items-center gap-2 text-xs font-black uppercase tracking-widest hover:translate-x-1 transition-transform" href="#">
+                                Ler Guia da Guilda
+                                <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<!-- Decorative circle -->
+<div class="absolute -bottom-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-2xl"></div>
+</section>
+<!-- Points Legend -->
+<section class="bg-surface-container-low rounded-xl p-6 border-2 border-dashed border-outline-variant/30">
+<h4 class="text-sm font-bold text-on-surface mb-4">Tabela de Referência</h4>
+<div class="space-y-3">
+<div class="flex items-center justify-between text-xs">
+<span class="text-on-surface-variant italic">Gentileza</span>
+<span class="font-bold text-secondary">+15 pts</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="text-on-surface-variant italic">Organização</span>
+<span class="font-bold text-secondary">+25 pts</span>
+</div>
+<div class="flex items-center justify-between text-xs">
+<span class="text-on-surface-variant italic">Estudo (Extra)</span>
+<span class="font-bold text-secondary">+50 pts</span>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+</main>
+<!-- Contextual FAB (Suppressed on Admin/Details page as per rule) -->
+</body></html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#eaf1ff",
+              "surface-bright": "#f4f6ff",
+              "secondary-container": "#6bff8f",
+              "surface-container": "#dce9ff",
+              "primary": "#4647d3",
+              "on-surface": "#212f42",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-fixed-dim": "#edb60f",
+              "on-primary-fixed": "#000000",
+              "on-surface-variant": "#4e5c71",
+              "surface-container-high": "#d3e4ff",
+              "on-error-container": "#510017",
+              "on-tertiary": "#fff1da",
+              "inverse-surface": "#010f20",
+              "on-primary-fixed-variant": "#0e009d",
+              "surface-variant": "#c9deff",
+              "tertiary-dim": "#654c00",
+              "on-error": "#ffefef",
+              "tertiary-container": "#fdc425",
+              "primary-fixed": "#9396ff",
+              "secondary": "#006a2d",
+              "on-background": "#212f42",
+              "surface-tint": "#4647d3",
+              "background": "#f4f6ff",
+              "on-primary-container": "#0a0081",
+              "on-secondary": "#ceffd0",
+              "surface-container-highest": "#c9deff",
+              "secondary-dim": "#005d26",
+              "primary-dim": "#3939c7",
+              "tertiary-fixed": "#fdc425",
+              "surface-dim": "#bfd6f9",
+              "on-tertiary-fixed": "#3f2e00",
+              "on-tertiary-container": "#574000",
+              "surface": "#f4f6ff",
+              "secondary-fixed": "#6bff8f",
+              "inverse-primary": "#8083ff",
+              "secondary-fixed-dim": "#5bf083",
+              "on-primary": "#f4f1ff",
+              "error-container": "#f74b6d",
+              "on-secondary-container": "#005f28",
+              "on-secondary-fixed-variant": "#006a2d",
+              "on-tertiary-fixed-variant": "#624900",
+              "primary-container": "#9396ff",
+              "error": "#b41340",
+              "primary-fixed-dim": "#8387ff",
+              "outline-variant": "#a0aec5",
+              "on-secondary-fixed": "#004a1d",
+              "error-dim": "#a70138",
+              "tertiary": "#745700",
+              "inverse-on-surface": "#8f9eb4",
+              "outline": "#6a788d"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      body { font-family: 'Be Vietnam Pro', sans-serif; }
+      .font-plus-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
+      .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+      .bg-primary-gradient { background: linear-gradient(135deg, #4647d3 0%, #9396ff 100%); }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen selection:bg-primary-container selection:text-on-primary-container">
+<!-- Screen Container -->
+<div class="max-w-md mx-auto min-h-screen flex flex-col relative px-6 pb-12">
+<!-- Header / Logo Area (Simplified for Registration) -->
+<header class="pt-12 pb-8 flex flex-col items-center">
+<div class="w-16 h-16 bg-primary-gradient rounded-xl flex items-center justify-center mb-6 shadow-[0_10px_30px_rgba(70,71,211,0.2)]">
+<span class="material-symbols-outlined text-white text-4xl" data-icon="castle">castle</span>
+</div>
+<h1 class="font-headline font-extrabold text-3xl text-on-surface tracking-tight text-center">Comece sua Jornada Familiar</h1>
+<p class="text-on-surface-variant text-center mt-2 font-medium">Transforme tarefas em aventuras épicas.</p>
+</header>
+<!-- Progress Bar -->
+<div class="mb-10">
+<div class="flex justify-between items-center mb-2 px-1">
+<span class="text-xs font-headline font-bold uppercase tracking-widest text-primary">Passo 1 de 2</span>
+<span class="text-xs font-headline font-bold text-on-surface-variant">Configurando Perfil</span>
+</div>
+<div class="h-2 w-full bg-surface-container rounded-full overflow-hidden">
+<div class="h-full w-1/2 bg-primary rounded-full transition-all duration-700 ease-out"></div>
+</div>
+</div>
+<!-- Form Section -->
+<main class="flex-grow space-y-8">
+<!-- Identity Section -->
+<section class="space-y-4">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="shield_person">shield_person</span>
+<h2 class="font-headline font-bold text-lg">Dados da Guilda</h2>
+</div>
+<div class="space-y-4">
+<!-- Family Name Input -->
+<div class="group">
+<label class="block text-sm font-headline font-bold text-on-surface-variant mb-2 ml-1">Nome da Família</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none rounded-full px-6 py-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary focus:bg-surface-container-highest transition-all duration-200" placeholder="Ex: Família Silva" type="text"/>
+</div>
+</div>
+<!-- Admin Email Input -->
+<div class="group">
+<label class="block text-sm font-headline font-bold text-on-surface-variant mb-2 ml-1">E-mail do Admin</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none rounded-full px-6 py-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary focus:bg-surface-container-highest transition-all duration-200" placeholder="pai@exemplo.com" type="email"/>
+</div>
+</div>
+<!-- Password Input -->
+<div class="group">
+<label class="block text-sm font-headline font-bold text-on-surface-variant mb-2 ml-1">Senha Mestra</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none rounded-full px-6 py-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary focus:bg-surface-container-highest transition-all duration-200" placeholder="••••••••" type="password"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Quick Config Section -->
+<section class="bg-surface-container-low p-6 rounded-lg space-y-4 relative overflow-hidden">
+<div class="absolute top-0 right-0 -mr-4 -mt-4 opacity-5 pointer-events-none">
+<span class="material-symbols-outlined text-9xl" data-icon="military_tech">military_tech</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-xl" data-icon="settings_suggest">settings_suggest</span>
+<h2 class="font-headline font-bold text-lg">Modo de Pontos</h2>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<!-- Option 1 -->
+<button class="relative flex flex-col items-center justify-center p-4 bg-surface-container-lowest rounded-md border-2 border-primary group transition-all duration-200">
+<div class="absolute top-2 right-2">
+<span class="material-symbols-outlined text-primary text-sm" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<span class="material-symbols-outlined text-3xl mb-2 text-primary" data-icon="history">history</span>
+<span class="font-headline font-bold text-sm text-on-surface">Reset Mensal</span>
+<span class="text-[10px] text-on-surface-variant text-center mt-1">Competição fresca todo mês</span>
+</button>
+<!-- Option 2 -->
+<button class="flex flex-col items-center justify-center p-4 bg-surface-container-lowest/50 rounded-md border-2 border-transparent hover:border-outline-variant transition-all duration-200">
+<span class="material-symbols-outlined text-3xl mb-2 text-on-surface-variant" data-icon="trending_up">trending_up</span>
+<span class="font-headline font-bold text-sm text-on-surface">Acumulativo</span>
+<span class="text-[10px] text-on-surface-variant text-center mt-1">Níveis infinitos e história</span>
+</button>
+</div>
+</section>
+</main>
+<!-- Action Button -->
+<footer class="mt-10">
+<button class="w-full bg-primary-gradient py-5 rounded-full shadow-[0_15px_40px_rgba(70,71,211,0.35)] flex items-center justify-center gap-3 active:scale-[0.98] transition-all group relative overflow-hidden">
+<!-- Glossy overlay -->
+<div class="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="font-headline font-extrabold text-on-primary text-lg tracking-wide">Criar Nossa Guilda</span>
+<span class="material-symbols-outlined text-on-primary group-hover:translate-x-1 transition-transform" data-icon="arrow_forward">arrow_forward</span>
+</button>
+<p class="text-center text-on-surface-variant text-sm mt-6 font-medium">
+                Já tem uma família? <a class="text-primary font-bold hover:underline" href="#">Entrar na Guilda</a>
+</p>
+</footer>
+<!-- Decorative Floating Elements -->
+<div class="fixed top-[15%] -left-12 w-24 h-24 bg-tertiary-container/20 rounded-full blur-3xl pointer-events-none"></div>
+<div class="fixed bottom-[20%] -right-12 w-32 h-32 bg-primary-container/20 rounded-full blur-3xl pointer-events-none"></div>
+</div>
+<!-- Background Texture -->
+<div class="fixed inset-0 pointer-events-none z-[-1] opacity-20">
+<div class="absolute top-0 left-0 w-full h-full" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDQlZfEY_hnjWaMdOhndacKreVvSAmlhahj9J3q-2d5MIGwJdkznDTHXvbJideUM3LHANo3M7MK_1EKT4LBY3jFMmDQfaKK1SPBYIT8uYZHUa7Oael13Fm020SRNty4daQbpjbKrIltz8kD7EsubDEjVIAsBssFQeQKkfTID0cvMg-KAm0vwtqrA_tyABpzqbpoEG-H3PxpMCobFDIbPQMMjLDUbQCMSzH6kQCakpKMkmd-aY6hiEImIpkQ5lYF8ypu5exn40O8UXvQ');"></div>
+</div>
+</body></html>

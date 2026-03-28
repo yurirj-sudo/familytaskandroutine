@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FamilyQuest - Home do Membro</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed-dim": "#5bf083",
+              "inverse-on-surface": "#8f9eb4",
+              "on-tertiary-fixed-variant": "#624900",
+              "secondary-fixed": "#6bff8f",
+              "secondary-dim": "#005d26",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-low": "#eaf1ff",
+              "secondary-container": "#6bff8f",
+              "inverse-primary": "#8083ff",
+              "surface-container-high": "#d3e4ff",
+              "on-primary-fixed-variant": "#0e009d",
+              "on-secondary-fixed": "#004a1d",
+              "outline": "#6a788d",
+              "tertiary-fixed-dim": "#edb60f",
+              "primary-fixed": "#9396ff",
+              "error": "#b41340",
+              "on-background": "#212f42",
+              "on-error": "#ffefef",
+              "primary-fixed-dim": "#8387ff",
+              "on-surface": "#212f42",
+              "on-primary-fixed": "#000000",
+              "tertiary-container": "#fdc425",
+              "outline-variant": "#a0aec5",
+              "on-tertiary-fixed": "#3f2e00",
+              "primary-container": "#9396ff",
+              "surface-container-highest": "#c9deff",
+              "on-secondary-fixed-variant": "#006a2d",
+              "on-secondary-container": "#005f28",
+              "surface-variant": "#c9deff",
+              "surface": "#f4f6ff",
+              "primary-dim": "#3939c7",
+              "on-surface-variant": "#4e5c71",
+              "surface-tint": "#4647d3",
+              "on-error-container": "#510017",
+              "error-container": "#f74b6d",
+              "secondary": "#006a2d",
+              "error-dim": "#a70138",
+              "surface-dim": "#bfd6f9",
+              "inverse-surface": "#010f20",
+              "on-primary": "#f4f1ff",
+              "on-tertiary-container": "#574000",
+              "tertiary": "#745700",
+              "tertiary-dim": "#654c00",
+              "surface-container": "#dce9ff",
+              "primary": "#4647d3",
+              "background": "#f4f6ff",
+              "tertiary-fixed": "#fdc425",
+              "on-secondary": "#ceffd0",
+              "on-tertiary": "#fff1da",
+              "surface-bright": "#f4f6ff",
+              "on-primary-container": "#0a0081"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background: linear-gradient(135deg, #f4f6ff 0%, #e0e7ff 100%);
+            min-height: 100vh;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .quest-gradient {
+            background: linear-gradient(135deg, #4647d3 0%, #9396ff 100%);
+        }
+        .stats-bento {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-background pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#f4f6ff]/80 dark:bg-slate-950/80 backdrop-blur-xl flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="relative">
+<img alt="Member Avatar" class="w-10 h-10 rounded-full border-2 border-white shadow-sm" data-alt="Close-up portrait of a cheerful young boy with a friendly smile, soft natural lighting, high-quality digital photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChMm9HMaprnJ-j3bnKFjhOX5yyRH_gOwFxIvxd2iroDAT4It0YkV3uFkUFLZ_qFryL5I6silUcO7hKDU0WOHHW_KUrw0LjRJ6OYiho4pe6CwFYfJYwjSWqfQfWaf4sBHWSsphj3_g8FtRopwSMDRFUo-r6Ts1CDJ9Ngg8u6RuHui_3FGxElPKRj2Kv_Mmk0_bpwoobyAZY7Qg3-wUvjomqy9GYXzKqxnH8ZdWo4temqdKhYEg6lhpNAqFwnMNEaU4cLOVfywPEYz4x"/>
+<div class="absolute -bottom-1 -right-1 w-4 h-4 bg-secondary-fixed-dim rounded-full border-2 border-white"></div>
+</div>
+<span class="font-['Plus_Jakarta_Sans'] font-black italic text-indigo-600 dark:text-indigo-400 text-xl">FamilyQuest</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full bg-surface-container-low text-indigo-600 hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="pt-24 px-6 max-w-md mx-auto space-y-8">
+<!-- Hero Section: Stats & Progress -->
+<section class="space-y-6">
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-[0_10px_30px_rgba(33,47,66,0.05)] relative overflow-hidden">
+<!-- Points Badge -->
+<div class="absolute top-4 right-4 bg-tertiary-container text-on-tertiary-container font-headline font-bold px-4 py-1 rounded-full text-sm transform rotate-3 shadow-sm">
+                    450 pts
+                </div>
+<div class="space-y-4">
+<div class="space-y-1">
+<p class="text-on-surface-variant text-sm font-medium">Nível Atual</p>
+<h2 class="text-2xl font-headline font-extrabold text-primary">Nível 4 - Aprendiz de Herói</h2>
+</div>
+<div class="space-y-2">
+<div class="h-4 w-full bg-surface-container-high rounded-full overflow-hidden p-0.5">
+<div class="h-full quest-gradient rounded-full w-[65%]"></div>
+</div>
+<div class="flex justify-between text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">
+<span>0 XP</span>
+<span>Próximo Nível: 600 XP</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Stats Grid -->
+<div class="stats-bento">
+<div class="bg-surface-container-low p-5 rounded-lg flex flex-col items-center justify-center space-y-2 text-center border-b-4 border-primary/10">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="task_alt">task_alt</span>
+<div>
+<p class="text-2xl font-headline font-extrabold text-on-surface">5/8</p>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">Tarefas Hoje</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-5 rounded-lg flex flex-col items-center justify-center space-y-2 text-center border-b-4 border-tertiary/10">
+<span class="material-symbols-outlined text-tertiary text-3xl" data-icon="local_fire_department" style="font-variation-settings: 'FILL' 1;">local_fire_department</span>
+<div>
+<p class="text-2xl font-headline font-extrabold text-on-surface">12</p>
+<p class="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">Dias Seguidos</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Highlight: Next Mission -->
+<section class="space-y-4">
+<h3 class="font-headline font-bold text-lg px-2 flex items-center gap-2">
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome">auto_awesome</span>
+                Próxima Missão
+            </h3>
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-xl border-l-8 border-primary flex items-center gap-6 group">
+<div class="w-16 h-16 bg-surface-container-low rounded-2xl flex items-center justify-center text-3xl shadow-inner group-hover:scale-110 transition-transform">
+                    🐾
+                </div>
+<div class="flex-1 space-y-3">
+<div>
+<h4 class="font-headline font-bold text-on-surface leading-tight">Alimentar o Pet</h4>
+<p class="text-sm text-on-surface-variant">Lembre-se de limpar a tigela também!</p>
+</div>
+<div class="flex items-center gap-4">
+<span class="text-xs font-bold text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+                            +50 pts
+                        </span>
+<button class="quest-gradient text-on-primary font-headline font-bold text-sm px-5 py-2 rounded-full shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all">
+                            Concluir
+                        </button>
+</div>
+</div>
+</div>
+</section>
+<!-- Recent Achievements / Activity teaser -->
+<section class="space-y-4">
+<div class="flex justify-between items-end px-2">
+<h3 class="font-headline font-bold text-lg">Conquistas Recentes</h3>
+<button class="text-xs font-bold text-primary uppercase tracking-wider hover:underline">Ver todas</button>
+</div>
+<div class="flex gap-4 overflow-x-auto pb-4 no-scrollbar">
+<div class="flex-none w-32 bg-white/50 backdrop-blur p-4 rounded-lg flex flex-col items-center text-center space-y-2">
+<div class="w-12 h-12 rounded-full bg-tertiary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-tertiary-container" data-icon="military_tech">military_tech</span>
+</div>
+<p class="text-[10px] font-bold uppercase leading-tight">Organizador Júnior</p>
+</div>
+<div class="flex-none w-32 bg-white/50 backdrop-blur p-4 rounded-lg flex flex-col items-center text-center space-y-2">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center">
+<span class="material-symbols-outlined text-on-secondary-container" data-icon="eco">eco</span>
+</div>
+<p class="text-[10px] font-bold uppercase leading-tight">Amigo da Terra</p>
+</div>
+<div class="flex-none w-32 bg-white/50 backdrop-blur p-4 rounded-lg flex flex-col items-center text-center space-y-2">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center opacity-50">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="lock">lock</span>
+</div>
+<p class="text-[10px] font-bold uppercase leading-tight">???</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full h-20 bg-[#f4f6ff]/80 dark:bg-slate-900/80 backdrop-blur-2xl flex justify-around items-center px-4 pb-2 rounded-t-[2.5rem] z-50 shadow-[0_-10px_30px_rgba(33,47,66,0.08)]">
+<!-- Home (Active) -->
+<a class="flex flex-col items-center justify-center bg-white dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-300 rounded-2xl px-5 py-2 transition-all duration-300 transform scale-110" href="#">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold uppercase tracking-wider">Home</span>
+</a>
+<!-- Tarefas -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 transition-all hover:text-indigo-500" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold uppercase tracking-wider">Tarefas</span>
+</a>
+<!-- Loja -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 transition-all hover:text-indigo-500" href="#">
+<span class="material-symbols-outlined" data-icon="redeem">redeem</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold uppercase tracking-wider">Loja</span>
+</a>
+<!-- Perfil -->
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 transition-all hover:text-indigo-500" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold uppercase tracking-wider">Perfil</span>
+</a>
+</nav>
+</body></html>

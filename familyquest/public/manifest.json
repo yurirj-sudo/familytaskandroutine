@@ -1,0 +1,26 @@
+{
+  "name": "FamilyQuest",
+  "short_name": "FamilyQuest",
+  "description": "App gamificado de tarefas e rotinas para famílias",
+  "theme_color": "#6366F1",
+  "background_color": "#0D0D1A",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "lang": "pt-BR",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ]
+}

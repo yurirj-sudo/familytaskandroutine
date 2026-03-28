@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FamilyQuest - Login</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#eaf1ff",
+              "surface-bright": "#f4f6ff",
+              "secondary-container": "#6bff8f",
+              "surface-container": "#dce9ff",
+              "primary": "#4647d3",
+              "on-surface": "#212f42",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-fixed-dim": "#edb60f",
+              "on-primary-fixed": "#000000",
+              "on-surface-variant": "#4e5c71",
+              "surface-container-high": "#d3e4ff",
+              "on-error-container": "#510017",
+              "on-tertiary": "#fff1da",
+              "inverse-surface": "#010f20",
+              "on-primary-fixed-variant": "#0e009d",
+              "surface-variant": "#c9deff",
+              "tertiary-dim": "#654c00",
+              "on-error": "#ffefef",
+              "tertiary-container": "#fdc425",
+              "primary-fixed": "#9396ff",
+              "secondary": "#006a2d",
+              "on-background": "#212f42",
+              "surface-tint": "#4647d3",
+              "background": "#f4f6ff",
+              "on-primary-container": "#0a0081",
+              "on-secondary": "#ceffd0",
+              "surface-container-highest": "#c9deff",
+              "secondary-dim": "#005d26",
+              "primary-dim": "#3939c7",
+              "tertiary-fixed": "#fdc425",
+              "surface-dim": "#bfd6f9",
+              "on-tertiary-fixed": "#3f2e00",
+              "on-tertiary-container": "#574000",
+              "surface": "#f4f6ff",
+              "secondary-fixed": "#6bff8f",
+              "inverse-primary": "#8083ff",
+              "secondary-fixed-dim": "#5bf083",
+              "on-primary": "#f4f1ff",
+              "error-container": "#f74b6d",
+              "on-secondary-container": "#005f28",
+              "on-secondary-fixed-variant": "#006a2d",
+              "on-tertiary-fixed-variant": "#624900",
+              "primary-container": "#9396ff",
+              "error": "#b41340",
+              "primary-fixed-dim": "#8387ff",
+              "outline-variant": "#a0aec5",
+              "on-secondary-fixed": "#004a1d",
+              "error-dim": "#a70138",
+              "tertiary": "#745700",
+              "inverse-on-surface": "#8f9eb4",
+              "outline": "#6a788d"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .font-plus-jakarta { font-family: 'Plus Jakarta Sans', sans-serif; }
+      .bg-glass { backdrop-filter: blur(12px); background-color: rgba(244, 246, 255, 0.8); }
+      .primary-gradient { background: linear-gradient(135deg, #4647d3 0%, #9396ff 100%); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface min-h-screen flex flex-col items-center justify-center p-4">
+<!-- Auth Layout Suppression: No BottomNavBar or TopAppBar for Login -->
+<main class="w-full max-w-md space-y-8 animate-fade-in">
+<!-- Logo Section -->
+<div class="flex flex-col items-center text-center gap-2">
+<div class="w-20 h-20 primary-gradient rounded-xl flex items-center justify-center shadow-[0_10px_30px_rgba(70,71,211,0.25)] mb-2">
+<span class="material-symbols-outlined text-on-primary text-5xl" data-icon="emoji_events">emoji_events</span>
+</div>
+<h1 class="font-headline font-extrabold text-4xl text-primary tracking-tight">FamilyQuest</h1>
+<p class="text-on-surface-variant font-medium text-lg mt-1">Prepare-se para a aventura!</p>
+</div>
+<!-- Illustration Card (Asymmetric Layout Hint) -->
+<div class="relative overflow-hidden rounded-lg bg-surface-container-low h-48 flex items-center justify-center group shadow-sm border border-outline-variant/10">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent"></div>
+<img alt="Family working together" class="object-cover w-full h-full opacity-90 group-hover:scale-105 transition-transform duration-700" data-alt="Modern 3D illustration style of a diverse happy family high-fiving in a bright living room, warm morning sunlight, vibrant soft colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrxUsHNxnmp4XChh8nf3qWAO2FPlK8nQWh44xRJHJISuXjdsUuDfXc3S6yQeckvhfkjVCLIPvrD0cbTQBqxviFWIkOEUfUK6XYXS8-WP34fVxfv6MtcOST4-T0IjDQMp5TIKO7YKTWxjgVz7c646LlO5vrhOjzLVBokrUKOhwwJ6uxrZUClDLvLP7k0c_umt0An9Zu8_oJkwJ-08LZ2H6BJtloxqmZG4mLOY-hj2defDzhISTWX6FVH5QFPvcao2E9T2gnoUIgDblh"/>
+<div class="absolute bottom-4 left-4 right-4 bg-surface-container-lowest/90 backdrop-blur-md px-4 py-2 rounded-full border border-outline-variant/10 flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary-fixed-dim" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="text-xs font-bold font-headline uppercase tracking-wider text-on-surface-variant">Novas missões diárias disponíveis!</span>
+</div>
+</div>
+<!-- Login Form Card -->
+<div class="bg-surface-container-lowest rounded-lg p-8 shadow-[0_20px_60px_rgba(33,47,66,0.08)] border border-outline-variant/10">
+<form class="space-y-6">
+<!-- Email Field -->
+<div class="space-y-2">
+<label class="block text-sm font-headline font-bold text-on-surface-variant px-2 uppercase tracking-wide" for="email">E-mail</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" data-icon="mail">mail</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded-full focus:ring-2 focus:ring-primary focus:bg-surface-container-highest transition-all duration-200 text-on-surface placeholder:text-outline" id="email" placeholder="seu@email.com" type="email"/>
+</div>
+</div>
+<!-- Password Field -->
+<div class="space-y-2">
+<div class="flex justify-between items-center px-2">
+<label class="block text-sm font-headline font-bold text-on-surface-variant uppercase tracking-wide" for="password">Senha</label>
+<a class="text-xs font-headline font-bold text-primary hover:text-primary-dim transition-colors" href="#">Esqueceu a senha?</a>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline" data-icon="lock">lock</span>
+<input class="w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded-full focus:ring-2 focus:ring-primary focus:bg-surface-container-highest transition-all duration-200 text-on-surface placeholder:text-outline" id="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Action Button -->
+<button class="w-full primary-gradient text-on-primary font-headline font-extrabold py-4 rounded-full shadow-[0_8px_25px_rgba(70,71,211,0.3)] active:scale-95 transition-all duration-200 flex items-center justify-center gap-2 text-lg" type="submit">
+                    Entrar
+                    <span class="material-symbols-outlined" data-icon="rocket_launch">rocket_launch</span>
+</button>
+</form>
+</div>
+<!-- Secondary Actions -->
+<div class="text-center space-y-4">
+<p class="text-on-surface-variant font-medium">Ainda não tem uma família?</p>
+<a class="inline-flex items-center gap-2 px-8 py-3 bg-surface-container-high text-primary font-headline font-extrabold rounded-full hover:bg-surface-container-highest transition-all duration-300" href="#">
+                Criar Agora
+                <span class="material-symbols-outlined text-xl" data-icon="group_add">group_add</span>
+</a>
+</div>
+</main>
+<!-- Background Decorative Elements (PWA Subtle Accents) -->
+<div class="fixed top-[-10%] right-[-10%] w-80 h-80 bg-primary/5 rounded-full blur-3xl -z-10"></div>
+<div class="fixed bottom-[-5%] left-[-5%] w-64 h-64 bg-tertiary-container/10 rounded-full blur-3xl -z-10"></div>
+</body></html>

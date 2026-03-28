@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gestão de Prêmios - FamilyQuest Admin</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-dim": "#3939c7",
+              "tertiary-fixed": "#fdc425",
+              "surface-container-highest": "#c9deff",
+              "secondary-dim": "#005d26",
+              "surface-dim": "#bfd6f9",
+              "on-tertiary-fixed": "#3f2e00",
+              "surface": "#f4f6ff",
+              "on-tertiary-container": "#574000",
+              "secondary-fixed-dim": "#5bf083",
+              "inverse-primary": "#8083ff",
+              "secondary-fixed": "#6bff8f",
+              "on-secondary-container": "#005f28",
+              "on-tertiary-fixed-variant": "#624900",
+              "on-secondary-fixed-variant": "#006a2d",
+              "on-primary": "#f4f1ff",
+              "error-container": "#f74b6d",
+              "error": "#b41340",
+              "primary-container": "#9396ff",
+              "error-dim": "#a70138",
+              "on-secondary-fixed": "#004a1d",
+              "outline-variant": "#a0aec5",
+              "primary-fixed-dim": "#8387ff",
+              "outline": "#6a788d",
+              "tertiary": "#745700",
+              "inverse-on-surface": "#8f9eb4",
+              "surface-bright": "#f4f6ff",
+              "surface-container-low": "#eaf1ff",
+              "on-surface": "#212f42",
+              "surface-container": "#dce9ff",
+              "primary": "#4647d3",
+              "secondary-container": "#6bff8f",
+              "tertiary-fixed-dim": "#edb60f",
+              "on-primary-fixed": "#000000",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-high": "#d3e4ff",
+              "on-surface-variant": "#4e5c71",
+              "on-tertiary": "#fff1da",
+              "inverse-surface": "#010f20",
+              "on-error-container": "#510017",
+              "tertiary-container": "#fdc425",
+              "tertiary-dim": "#654c00",
+              "on-error": "#ffefef",
+              "on-primary-fixed-variant": "#0e009d",
+              "surface-variant": "#c9deff",
+              "surface-tint": "#4647d3",
+              "on-background": "#212f42",
+              "secondary": "#006a2d",
+              "primary-fixed": "#9396ff",
+              "on-primary-container": "#0a0081",
+              "on-secondary": "#ceffd0",
+              "background": "#f4f6ff"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-card {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(12px);
+      }
+      .btn-primary-gradient {
+        background: linear-gradient(135deg, #4647d3 0%, #9396ff 100%);
+        box-shadow: inset 0 -2px 0 rgba(0,0,0,0.1);
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- Sidebar Navigation -->
+<aside class="h-screen w-64 fixed left-0 top-0 z-50 bg-slate-50 dark:bg-slate-950 border-r border-slate-200 dark:border-slate-800 flex flex-col p-4 gap-2 font-be-vietnam-pro text-sm font-medium">
+<div class="mb-8 px-2 py-4">
+<h1 class="text-lg font-black text-indigo-600 dark:text-indigo-400">FamilyQuest Admin</h1>
+<p class="text-xs text-slate-500 font-normal">Managing Prize Catalog</p>
+</div>
+<nav class="flex-1 flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/10 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/10 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Members</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/10 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="explore">explore</span>
+<span>Missions</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-xl transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="emoji_events" style="font-variation-settings: 'FILL' 1;">emoji_events</span>
+<span>Rewards</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/10 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-1 pt-4 border-t border-slate-200 dark:border-slate-800">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-indigo-50/50 dark:hover:bg-indigo-900/10 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+<span>Help Center</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:bg-red-50 dark:hover:bg-red-900/10 transition-all hover:translate-x-1 duration-200 text-error" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Logout</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 min-h-screen p-8 lg:p-12">
+<!-- Header Section -->
+<header class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+<div class="space-y-2">
+<nav class="flex items-center gap-2 text-xs font-semibold tracking-wider text-primary uppercase">
+<span>Catalog</span>
+<span class="material-symbols-outlined text-[10px]">chevron_right</span>
+<span>Admin</span>
+</nav>
+<h2 class="text-4xl font-extrabold font-headline tracking-tight text-on-surface">Gestão de Recompensas</h2>
+<p class="text-on-surface-variant max-w-lg">Manage the economy of your family quests. Add, edit, or remove prizes that members can claim with their hard-earned points.</p>
+</div>
+<button class="btn-primary-gradient px-8 py-4 rounded-full text-on-primary font-bold flex items-center gap-2 active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+<span>Adicionar Novo Prêmio</span>
+</button>
+</header>
+<!-- Stats Bento Grid (Quick Overview) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+<div class="bg-surface-container-low p-6 rounded-lg flex items-center gap-4">
+<div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Total Prêmios</p>
+<p class="text-2xl font-black text-on-surface">24</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg flex items-center gap-4 border-l-4 border-tertiary-fixed">
+<div class="w-12 h-12 bg-tertiary-fixed rounded-full flex items-center justify-center text-on-tertiary-fixed">
+<span class="material-symbols-outlined" data-icon="trending_up">trending_up</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Mais Resgatado</p>
+<p class="text-2xl font-black text-on-surface">Cinema 3D</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg flex items-center gap-4">
+<div class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center text-on-secondary-container">
+<span class="material-symbols-outlined" data-icon="check_circle">check_circle</span>
+</div>
+<div>
+<p class="text-xs font-bold text-on-surface-variant uppercase tracking-widest">Disponíveis</p>
+<p class="text-2xl font-black text-on-surface">18</p>
+</div>
+</div>
+</div>
+<!-- Prize Table Section -->
+<section class="bg-surface-container-lowest rounded-lg overflow-hidden shadow-sm">
+<div class="px-8 py-6 border-b border-surface-container flex items-center justify-between">
+<h3 class="font-headline font-bold text-xl">Catálogo de Prêmios</h3>
+<div class="flex gap-2">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm" data-icon="search">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-sm focus:ring-2 focus:ring-primary w-64" placeholder="Buscar prêmio..." type="text"/>
+</div>
+<button class="p-2 hover:bg-surface-container rounded-md transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="filter_list">filter_list</span>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-on-surface-variant text-xs uppercase tracking-widest font-bold">
+<th class="px-8 py-5">Prêmio</th>
+<th class="px-8 py-5 text-center">Custo (Pontos)</th>
+<th class="px-8 py-5">Estoque</th>
+<th class="px-8 py-5">Status</th>
+<th class="px-8 py-5 text-right">Ações</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container">
+<!-- Prize Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-tertiary-container flex items-center justify-center text-2xl rotate-[-5deg] group-hover:rotate-0 transition-transform">
+                                        🎮
+                                    </div>
+<div>
+<p class="font-bold text-on-surface">30 Minutos de Video Game</p>
+<p class="text-xs text-on-surface-variant">Tempo extra de tela livre</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<span class="bg-tertiary-fixed/20 text-tertiary px-3 py-1 rounded-full font-bold text-sm inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+                                    150
+                                </span>
+</td>
+<td class="px-8 py-5">
+<span class="text-sm font-medium text-on-surface">Unlimited</span>
+</td>
+<td class="px-8 py-5">
+<span class="flex items-center gap-1.5 text-secondary font-semibold text-sm">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                                    Available
+                                </span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 hover:bg-primary-container/20 text-primary rounded-md transition-all">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 text-error rounded-md transition-all">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Prize Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-2xl rotate-[5deg] group-hover:rotate-0 transition-transform">
+                                        🍕
+                                    </div>
+<div>
+<p class="font-bold text-on-surface">Escolher o Jantar</p>
+<p class="text-xs text-on-surface-variant">Rodízio ou Delivery preferido</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<span class="bg-tertiary-fixed/20 text-tertiary px-3 py-1 rounded-full font-bold text-sm inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+                                    500
+                                </span>
+</td>
+<td class="px-8 py-5">
+<span class="text-sm font-medium text-on-surface">2 remaining</span>
+</td>
+<td class="px-8 py-5">
+<span class="flex items-center gap-1.5 text-secondary font-semibold text-sm">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                                    Available
+                                </span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 hover:bg-primary-container/20 text-primary rounded-md transition-all">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 text-error rounded-md transition-all">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Prize Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-slate-200 flex items-center justify-center text-2xl grayscale group-hover:grayscale-0 transition-all">
+                                        🧸
+                                    </div>
+<div class="opacity-60">
+<p class="font-bold text-on-surface">Brinquedo Novo (Até R$50)</p>
+<p class="text-xs text-on-surface-variant">Prêmio físico de recompensa</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<span class="bg-slate-200 text-slate-500 px-3 py-1 rounded-full font-bold text-sm inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+                                    1200
+                                </span>
+</td>
+<td class="px-8 py-5">
+<span class="text-sm font-medium text-error">0 remaining</span>
+</td>
+<td class="px-8 py-5">
+<span class="flex items-center gap-1.5 text-on-surface-variant font-semibold text-sm">
+<span class="w-2 h-2 rounded-full bg-on-surface-variant"></span>
+                                    Unavailable
+                                </span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 hover:bg-primary-container/20 text-primary rounded-md transition-all">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 text-error rounded-md transition-all">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Prize Row 4 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="px-8 py-5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-lg bg-surface-container flex items-center justify-center text-2xl rotate-[-2deg] group-hover:rotate-0 transition-transform">
+                                        🍿
+                                    </div>
+<div>
+<p class="font-bold text-on-surface">Cinema em Família</p>
+<p class="text-xs text-on-surface-variant">Ingressos + Combo Pipoca</p>
+</div>
+</div>
+</td>
+<td class="px-8 py-5 text-center">
+<span class="bg-tertiary-fixed/20 text-tertiary px-3 py-1 rounded-full font-bold text-sm inline-flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+                                    800
+                                </span>
+</td>
+<td class="px-8 py-5">
+<span class="text-sm font-medium text-on-surface">5 remaining</span>
+</td>
+<td class="px-8 py-5">
+<span class="flex items-center gap-1.5 text-secondary font-semibold text-sm">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+                                    Available
+                                </span>
+</td>
+<td class="px-8 py-5 text-right">
+<div class="flex items-center justify-end gap-2">
+<button class="p-2 hover:bg-primary-container/20 text-primary rounded-md transition-all">
+<span class="material-symbols-outlined" data-icon="edit">edit</span>
+</button>
+<button class="p-2 hover:bg-error-container/20 text-error rounded-md transition-all">
+<span class="material-symbols-outlined" data-icon="delete">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-8 py-4 bg-surface-container-low/30 border-t border-surface-container flex items-center justify-between">
+<p class="text-xs text-on-surface-variant font-medium">Mostrando 4 de 24 recompensas cadastradas</p>
+<div class="flex gap-1">
+<button class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-surface-container text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_left">chevron_left</span>
+</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md bg-primary text-on-primary font-bold text-xs">1</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-surface-container text-on-surface font-bold text-xs">2</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-surface-container text-on-surface font-bold text-xs">3</button>
+<button class="w-8 h-8 flex items-center justify-center rounded-md hover:bg-surface-container text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Informational Footer -->
+<footer class="mt-12 flex flex-col md:flex-row gap-8">
+<div class="flex-1 bg-indigo-50/50 p-6 rounded-lg border border-indigo-100/50">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="info">info</span>
+<div>
+<h4 class="font-bold text-indigo-900 mb-1">Dica de Gestão</h4>
+<p class="text-sm text-indigo-700/80">Recompensas com estoque "Unlimited" são ideais para privilégios que não geram custo financeiro, como tempo extra de jogo ou escolha do filme do final de semana.</p>
+</div>
+</div>
+</div>
+<div class="w-full md:w-80 relative overflow-hidden rounded-lg group">
+<img class="w-full h-32 object-cover transition-transform duration-500 group-hover:scale-110" data-alt="vibrant 3D style illustration of a golden trophy with sparkling magical particles in a clean modern playful setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzWJF7dZJTylQOWO-NXMJnNtk0O97DKuVewyR8l1ubFQbr57mfQH0nBttohmpKIr_MOtAFURz84nfVz5WILr7ozRsbkH20DXBCqC_tuJgzHGB362LizkGaupkmxkAtbA7eOYMRw96_7ZcQ8UaXDys1wRQZYAdx7Z4lnZz0ZOFfnw9hD56UCdeC6PQoCEAhOGoCslSiztB7rhaFqRhmcFyLuHMO9pSYsQvVyXBcEgvYMeAKaQ1zE4YN6sYU6xonH7b8FfjSEkP8FK93"/>
+<div class="absolute inset-0 bg-gradient-to-t from-indigo-900/80 to-transparent flex flex-col justify-end p-4">
+<p class="text-white text-xs font-bold uppercase tracking-widest">Nova Funcionalidade</p>
+<p class="text-white text-sm font-medium">Auto-refil de estoque em breve!</p>
+</div>
+</div>
+</footer>
+</main>
+</body></html>

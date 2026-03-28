@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FamilyQuest - Gestão de Membros</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-dim": "#654c00",
+              "on-secondary": "#ceffd0",
+              "primary": "#4647d3",
+              "surface-dim": "#bfd6f9",
+              "on-background": "#212f42",
+              "surface-container-low": "#eaf1ff",
+              "surface-container-high": "#d3e4ff",
+              "on-secondary-container": "#005f28",
+              "error-container": "#f74b6d",
+              "tertiary-container": "#fdc425",
+              "on-primary": "#f4f1ff",
+              "outline-variant": "#a0aec5",
+              "secondary-fixed-dim": "#5bf083",
+              "on-error-container": "#510017",
+              "on-secondary-fixed-variant": "#006a2d",
+              "tertiary-fixed-dim": "#edb60f",
+              "primary-dim": "#3939c7",
+              "error-dim": "#a70138",
+              "on-primary-fixed-variant": "#0e009d",
+              "primary-fixed": "#9396ff",
+              "secondary-container": "#6bff8f",
+              "surface": "#f4f6ff",
+              "on-primary-container": "#0a0081",
+              "inverse-surface": "#010f20",
+              "surface-bright": "#f4f6ff",
+              "on-secondary-fixed": "#004a1d",
+              "on-tertiary-container": "#574000",
+              "surface-tint": "#4647d3",
+              "error": "#b41340",
+              "background": "#f4f6ff",
+              "primary-fixed-dim": "#8387ff",
+              "on-surface": "#212f42",
+              "on-primary-fixed": "#000000",
+              "inverse-on-surface": "#8f9eb4",
+              "outline": "#6a788d",
+              "on-surface-variant": "#4e5c71",
+              "tertiary-fixed": "#fdc425",
+              "surface-container-lowest": "#ffffff",
+              "on-tertiary": "#fff1da",
+              "surface-container": "#dce9ff",
+              "secondary-dim": "#005d26",
+              "secondary-fixed": "#6bff8f",
+              "on-tertiary-fixed-variant": "#624900",
+              "tertiary": "#745700",
+              "surface-container-highest": "#c9deff",
+              "inverse-primary": "#8083ff",
+              "secondary": "#006a2d",
+              "on-tertiary-fixed": "#3f2e00",
+              "primary-container": "#9396ff",
+              "on-error": "#ffefef",
+              "surface-variant": "#c9deff"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .bg-primary-gradient {
+        background: linear-gradient(135deg, #4647d3 0%, #9396ff 100%);
+      }
+      .ghost-border {
+        outline: 1px solid rgba(160, 174, 197, 0.15);
+      }
+      .cloud-shadow {
+        box-shadow: 0 10px 30px rgba(33, 47, 66, 0.08);
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased flex min-h-screen">
+<!-- SideNavBar (Shared Component) -->
+<aside class="bg-[#eaf1ff] font-body text-sm antialiased h-screen w-64 fixed left-0 top-0 hidden md:flex flex-col flex flex-col h-full py-6 gap-2 no-border-right bg-gradient-to-b from-surface-container-low to-surface z-50">
+<div class="px-6 mb-8">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-container cloud-shadow">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shield</span>
+</div>
+<div>
+<h1 class="text-xl font-black text-indigo-700 tracking-tight leading-none">FamilyQuest</h1>
+<p class="text-[10px] uppercase tracking-widest font-bold text-slate-500 mt-1">Portal do Guardião</p>
+</div>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="text-slate-600 mx-2 px-4 py-3 flex items-center gap-3 hover:bg-white/50 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="bg-white text-indigo-600 rounded-xl shadow-sm font-bold mx-2 px-4 py-3 flex items-center gap-3 translate-x-1 duration-300" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">group</span>
+<span>Membros</span>
+</a>
+<a class="text-slate-600 mx-2 px-4 py-3 flex items-center gap-3 hover:bg-white/50 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">fort</span>
+<span>Missões</span>
+</a>
+<a class="text-slate-600 mx-2 px-4 py-3 flex items-center gap-3 hover:bg-white/50 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">workspace_premium</span>
+<span>Recompensas</span>
+</a>
+<a class="text-slate-600 mx-2 px-4 py-3 flex items-center gap-3 hover:bg-white/50 rounded-xl transition-all" href="#">
+<span class="material-symbols-outlined">settings_accessibility</span>
+<span>Configurações</span>
+</a>
+</nav>
+<div class="mt-auto px-4 space-y-4">
+<button class="w-full bg-primary-gradient text-on-primary py-3 rounded-full font-bold shadow-lg flex items-center justify-center gap-2 text-sm">
+<span class="material-symbols-outlined">person_add</span>
+                Adicionar Membro
+            </button>
+<div class="pt-4 border-t border-slate-200/50">
+<a class="text-slate-600 px-4 py-2 flex items-center gap-3 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span>Suporte</span>
+</a>
+<a class="text-slate-600 px-4 py-2 flex items-center gap-3 hover:text-error transition-colors" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Sair</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 md:ml-64 min-h-screen">
+<!-- TopAppBar (Shared Component) -->
+<header class="bg-[#f4f6ff]/80 backdrop-blur-xl sticky top-0 w-full z-40 flex justify-between items-center px-6 py-4 w-full no-border bg-surface-container-low/50 shadow-[0_10px_30px_rgba(33,47,66,0.08)]">
+<div class="flex items-center gap-4">
+<span class="md:hidden material-symbols-outlined text-on-surface">menu</span>
+<h2 class="font-headline text-lg font-bold text-on-surface">Gerenciar Guilda</h2>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center bg-surface-container-low rounded-full px-4 py-2 gap-2 ghost-border">
+<span class="material-symbols-outlined text-outline text-sm">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-48 font-body" placeholder="Buscar herói..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-slate-500 hover:bg-indigo-50 transition-colors rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-indigo-50 transition-colors rounded-full">
+<span class="material-symbols-outlined">settings</span>
+</button>
+<div class="w-10 h-10 rounded-full border-2 border-primary-container p-0.5 ml-2">
+<img alt="Admin Avatar" class="w-full h-full rounded-full object-cover" data-alt="Close-up portrait of a friendly man with a neat beard, smiling, wearing a professional blue shirt, soft natural studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANeXO7Fe-Jhtmumz9z1fw7AiGglX8xn_IUH-dTuKbAAAR01ii-2R_xqSlEPck7h2LnQVscgUdVDnbXOEz1b64JqE9Q_nNNccLLrrav13by-aZu393YC8vFcaIPuy6DnGISk1X1J8iN5Sxqx8Q9jFJIAYE-az1Gl2SKjCgkvJETufjdlpiLLZoUl-N8ciS2mSg9ubqcjPqwapOLy_0ulsJBZ6HNeZcGw6wBgfXQWX9HGiEw881sgyq-dxenR6YLKAPNotl_cu4iJOlK"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Page Content -->
+<div class="p-6 md:p-10 max-w-7xl mx-auto space-y-10">
+<!-- Section Header & Invitation -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+<div>
+<h3 class="font-headline text-3xl font-extrabold text-on-surface tracking-tight">Gerenciar Guilda</h3>
+<p class="text-on-surface-variant mt-2 text-lg">Adicione ou edite os membros da sua jornada familiar.</p>
+</div>
+<div class="flex flex-wrap items-center gap-4">
+<!-- Family Code Card -->
+<div class="bg-surface-container-lowest cloud-shadow px-6 py-4 rounded-xl flex items-center gap-4 ghost-border">
+<div>
+<p class="text-[10px] uppercase font-bold text-slate-400 tracking-widest">Código da Família</p>
+<p class="font-headline text-xl font-black text-primary">FQ-778899</p>
+</div>
+<button class="bg-surface-container-low p-2 rounded-full text-primary hover:bg-primary hover:text-white transition-all">
+<span class="material-symbols-outlined text-sm">content_copy</span>
+</button>
+</div>
+<button class="bg-primary-gradient text-on-primary px-8 py-4 rounded-full font-bold shadow-lg flex items-center gap-3 hover:scale-105 transition-transform">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person_add</span>
+                        Convidar Novo Herói
+                    </button>
+</div>
+</div>
+<!-- Members Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Admin Card -->
+<div class="bg-surface-container-lowest rounded-xl p-6 cloud-shadow relative overflow-hidden group ghost-border">
+<div class="absolute top-0 right-0 w-24 h-24 bg-primary/5 -mr-8 -mt-8 rounded-full blur-2xl"></div>
+<div class="flex items-start justify-between mb-6">
+<div class="relative">
+<div class="w-16 h-16 rounded-full border-4 border-white cloud-shadow p-0.5">
+<img alt="Helena" class="w-full h-full rounded-full object-cover" data-alt="Portrait of a woman with curly hair and glasses, looking confident and smiling, vibrant studio background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_YHjWWpqF3-7EoYsDVLxdNHpw5bPsjN_sKhUi9I4HZv7JxKdV_vfeZGUsNQnan1KcBjSqglc71VcFG1nf-UmKjYvqKb61QwryN-dvoflcENiEJ8V2GR7O7lagh2PIvUwWkrS27QPiiKWg0BPFoGoGc16LFMQMjzE-zncQQL4KPCbtucqfoBVEcJFsXl2CYQ_eRfRnr-H_CkiUpLAIIuBj4_AfAvUV6q5loKO41wiPpGelpihzTW1bIA3ajRl1YsQ9gVbYTzIJFwr-"/>
+</div>
+<span class="absolute bottom-0 right-0 bg-primary text-white text-[10px] font-bold px-2 py-0.5 rounded-full border-2 border-white">ADMIN</span>
+</div>
+<div class="flex gap-1">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors rounded-full hover:bg-surface-container-low">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error transition-colors rounded-full hover:bg-error/10">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+<div class="mb-6">
+<h4 class="font-headline text-xl font-bold text-on-surface">Helena Silva</h4>
+<p class="text-on-surface-variant text-sm">Guardiã da Guilda</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low rounded-xl p-4">
+<p class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">Saldo Atual</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-tertiary-fixed text-lg" style="font-variation-settings: 'FILL' 1;">monetization_on</span>
+<span class="font-headline font-black text-lg text-on-surface">1.250</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-4">
+<p class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">Total Acumulado</p>
+<p class="font-headline font-black text-lg text-slate-500 mt-1">15.800</p>
+</div>
+</div>
+<button class="w-full mt-6 py-3 border-2 border-primary-container text-primary font-bold rounded-full hover:bg-primary-container/10 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">settings_suggest</span>
+                        Ajustar Pontos
+                    </button>
+</div>
+<!-- Member Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 cloud-shadow relative overflow-hidden group ghost-border">
+<div class="flex items-start justify-between mb-6">
+<div class="relative">
+<div class="w-16 h-16 rounded-full border-4 border-white cloud-shadow p-0.5">
+<img alt="Lucas" class="w-full h-full rounded-full object-cover" data-alt="Smiling teenage boy with short brown hair, wearing a green t-shirt, cheerful expression, sunny backyard background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDz6mmNFIi2bZDc36hUwnTE-6G2b3kCmO0xsgyQthH1gZfHa-1yMHGqUAutqpxSo37N3IiwdkN141znkTBJIUQFpywZo2_pM9VTWTgD2JvmJLI9yl155nJou4cz6bRnVxn7bUw-ssqHS7w1FFTgK_6NsTPFauSIAi3KLTkP0Ji18Z3OUBtVgV8AamRJC5kuyMKPxTv9m2KxjQdjWCifQKbheQnt4jHW1URGliZL_nrAZWO1Wgv13__wJ0trighqSKRDWvdjSvxjGf5Z"/>
+</div>
+<span class="absolute bottom-0 right-0 bg-secondary text-white text-[10px] font-bold px-2 py-0.5 rounded-full border-2 border-white">MEMBRO</span>
+</div>
+<div class="flex gap-1">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors rounded-full hover:bg-surface-container-low">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error transition-colors rounded-full hover:bg-error/10">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+<div class="mb-6">
+<h4 class="font-headline text-xl font-bold text-on-surface">Lucas "O Veloz"</h4>
+<p class="text-on-surface-variant text-sm">Explorador Nível 12</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low rounded-xl p-4">
+<p class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">Saldo Atual</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-tertiary-fixed text-lg" style="font-variation-settings: 'FILL' 1;">monetization_on</span>
+<span class="font-headline font-black text-lg text-on-surface">850</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-4">
+<p class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">Total Acumulado</p>
+<p class="font-headline font-black text-lg text-slate-500 mt-1">4.200</p>
+</div>
+</div>
+<button class="w-full mt-6 py-3 border-2 border-primary-container text-primary font-bold rounded-full hover:bg-primary-container/10 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">settings_suggest</span>
+                        Ajustar Pontos
+                    </button>
+</div>
+<!-- Member Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-6 cloud-shadow relative overflow-hidden group ghost-border">
+<div class="flex items-start justify-between mb-6">
+<div class="relative">
+<div class="w-16 h-16 rounded-full border-4 border-white cloud-shadow p-0.5">
+<img alt="Bia" class="w-full h-full rounded-full object-cover" data-alt="Young girl with braided hair and a joyful smile, wearing a yellow dress, bright and playful lighting, indoor playroom background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJNXK5X-Hre4MK6zju_ZhZxnbtMtlxttII99hjRdg0UtGevu6O3-KBMzRs1YajuVI1tI6EHMb2CyiCkMz7KM2E6xvxVaBDKoxc00WfvrbF3SZLm7_7QsyNCXgO48zfrxSeIOnkNbia3Z2KQEURvyeUFDbBXGn_s2Lf7sNEE11jIkRURTK5YFCBRe3CpMOVmRNE7oyUTOmiBMqFluQ1DwKvVIqLRK4hAgcFcmLlqgXLB02jsSO2ZdiYrMJzABKfczTso-61epk3CzyV"/>
+</div>
+<span class="absolute bottom-0 right-0 bg-secondary text-white text-[10px] font-bold px-2 py-0.5 rounded-full border-2 border-white">MEMBRO</span>
+</div>
+<div class="flex gap-1">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors rounded-full hover:bg-surface-container-low">
+<span class="material-symbols-outlined">edit</span>
+</button>
+<button class="p-2 text-slate-400 hover:text-error transition-colors rounded-full hover:bg-error/10">
+<span class="material-symbols-outlined">delete</span>
+</button>
+</div>
+</div>
+<div class="mb-6">
+<h4 class="font-headline text-xl font-bold text-on-surface">Bia Pintora</h4>
+<p class="text-on-surface-variant text-sm">Alquimista de Cores</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low rounded-xl p-4">
+<p class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">Saldo Atual</p>
+<div class="flex items-center gap-1 mt-1">
+<span class="material-symbols-outlined text-tertiary-fixed text-lg" style="font-variation-settings: 'FILL' 1;">monetization_on</span>
+<span class="font-headline font-black text-lg text-on-surface">2.100</span>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-xl p-4">
+<p class="text-[10px] font-bold text-slate-500 uppercase tracking-tighter">Total Acumulado</p>
+<p class="font-headline font-black text-lg text-slate-500 mt-1">8.950</p>
+</div>
+</div>
+<button class="w-full mt-6 py-3 border-2 border-primary-container text-primary font-bold rounded-full hover:bg-primary-container/10 transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">settings_suggest</span>
+                        Ajustar Pontos
+                    </button>
+</div>
+</div>
+<!-- Pending Invites Section -->
+<section class="mt-12">
+<div class="flex items-center justify-between mb-6">
+<h3 class="font-headline text-xl font-bold text-on-surface">Convites Pendentes</h3>
+<span class="bg-surface-container-high text-on-surface-variant text-xs font-bold px-3 py-1 rounded-full">1 Aguardando</span>
+</div>
+<div class="bg-surface-container-low rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4 ghost-border">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center text-outline-variant">
+<span class="material-symbols-outlined">person_outline</span>
+</div>
+<div>
+<p class="font-bold text-on-surface">arthur_aventureiro@email.com</p>
+<p class="text-xs text-on-surface-variant">Convidado em 12 de Outubro, 2023</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-4 py-2 text-sm font-bold text-primary hover:bg-white rounded-full transition-colors">Reenviar E-mail</button>
+<button class="px-4 py-2 text-sm font-bold text-error hover:bg-error/5 rounded-full transition-colors">Cancelar</button>
+</div>
+</div>
+</section>
+<!-- Stats & Insights Bento Area -->
+<div class="grid grid-cols-1 lg:grid-cols-4 gap-6 pt-6">
+<div class="lg:col-span-2 bg-indigo-900 rounded-xl p-8 text-white flex flex-col justify-between cloud-shadow relative overflow-hidden">
+<div class="absolute right-0 bottom-0 opacity-10 translate-x-1/4 translate-y-1/4">
+<span class="material-symbols-outlined text-[12rem]">groups</span>
+</div>
+<div>
+<p class="text-indigo-200 text-sm font-bold uppercase tracking-widest mb-2">Saúde da Guilda</p>
+<h4 class="font-headline text-3xl font-black mb-6 leading-tight">Sua família completou 85% das missões esta semana!</h4>
+</div>
+<div class="flex items-center gap-4">
+<div class="bg-indigo-800 rounded-full px-4 py-2 text-xs font-bold border border-indigo-700">+12% vs última semana</div>
+<button class="text-white font-bold flex items-center gap-1 group">
+                            Ver Relatório <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</div>
+</div>
+<div class="bg-tertiary-container rounded-xl p-6 text-on-tertiary-container flex flex-col justify-center items-center text-center cloud-shadow">
+<span class="material-symbols-outlined text-4xl mb-3" style="font-variation-settings: 'FILL' 1;">stars</span>
+<p class="text-xs font-bold uppercase tracking-tighter opacity-70">Top Recompensas</p>
+<p class="font-headline text-2xl font-black mt-1">Cinema &amp; Pizza</p>
+<p class="text-sm mt-2 font-medium">Meta: 5.000 pts</p>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-6 border-2 border-primary/10 flex flex-col justify-center items-center text-center ghost-border">
+<div class="w-12 h-12 bg-primary-container/20 rounded-full flex items-center justify-center text-primary mb-3">
+<span class="material-symbols-outlined">emoji_events</span>
+</div>
+<p class="text-xs font-bold uppercase tracking-tighter text-slate-400">Próximo Level</p>
+<p class="font-headline text-2xl font-black text-on-surface mt-1">Level 15</p>
+<div class="w-full bg-surface-container-low h-2 rounded-full mt-4 overflow-hidden">
+<div class="bg-primary h-full w-[72%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Floating Action Button (Mobile Only) -->
+<button class="md:hidden fixed bottom-6 right-6 w-14 h-14 bg-primary-gradient rounded-full text-white cloud-shadow flex items-center justify-center z-50">
+<span class="material-symbols-outlined">add</span>
+</button>
+</main>
+</body></html>

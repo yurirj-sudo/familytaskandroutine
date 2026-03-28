@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-fixed-dim": "#5bf083",
+              "inverse-on-surface": "#8f9eb4",
+              "on-tertiary-fixed-variant": "#624900",
+              "secondary-fixed": "#6bff8f",
+              "secondary-dim": "#005d26",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-low": "#eaf1ff",
+              "secondary-container": "#6bff8f",
+              "inverse-primary": "#8083ff",
+              "surface-container-high": "#d3e4ff",
+              "on-primary-fixed-variant": "#0e009d",
+              "on-secondary-fixed": "#004a1d",
+              "outline": "#6a788d",
+              "tertiary-fixed-dim": "#edb60f",
+              "primary-fixed": "#9396ff",
+              "error": "#b41340",
+              "on-background": "#212f42",
+              "on-error": "#ffefef",
+              "primary-fixed-dim": "#8387ff",
+              "on-surface": "#212f42",
+              "on-primary-fixed": "#000000",
+              "tertiary-container": "#fdc425",
+              "outline-variant": "#a0aec5",
+              "on-tertiary-fixed": "#3f2e00",
+              "primary-container": "#9396ff",
+              "surface-container-highest": "#c9deff",
+              "on-secondary-fixed-variant": "#006a2d",
+              "on-secondary-container": "#005f28",
+              "surface-variant": "#c9deff",
+              "surface": "#f4f6ff",
+              "primary-dim": "#3939c7",
+              "on-surface-variant": "#4e5c71",
+              "surface-tint": "#4647d3",
+              "on-error-container": "#510017",
+              "error-container": "#f74b6d",
+              "secondary": "#006a2d",
+              "error-dim": "#a70138",
+              "surface-dim": "#bfd6f9",
+              "inverse-surface": "#010f20",
+              "on-primary": "#f4f1ff",
+              "on-tertiary-container": "#574000",
+              "tertiary": "#745700",
+              "tertiary-dim": "#654c00",
+              "surface-container": "#dce9ff",
+              "primary": "#4647d3",
+              "background": "#f4f6ff",
+              "tertiary-fixed": "#fdc425",
+              "on-secondary": "#ceffd0",
+              "on-tertiary": "#fff1da",
+              "surface-bright": "#f4f6ff",
+              "on-primary-container": "#0a0081"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1;
+        }
+        .cloud-shadow {
+            box-shadow: 0 10px 30px rgba(33, 47, 66, 0.08);
+        }
+        .glass-effect {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        body {
+            font-family: 'Be Vietnam Pro', sans-serif;
+            background-color: #f4f6ff;
+            color: #212f42;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#f4f6ff]/80 dark:bg-slate-950/80 backdrop-blur-xl flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="close-up portrait of a smiling young boy with friendly eyes and soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGyL-S9mFtXGz85Ad7IkljKbmThsEaTqxEZO-4C1qZjqlxw5fByGkeNnV29oGDFakD9HjTkayP6Qj_JZRnEl5ImCQ8sCFV8aJVDuWO2T9Ajt81VwgGSqH4iRh3MWjJIg47T3A8KfcIW5IFr0YK9L3vQS2_BC1kA6E3Afb-b1XTkm0kP_XF64B48sr6DeJDukbp00ml-H4Ux42T7LwKvcUiVSMuupZbo1ZniGRQKN-iksAaVIStvT3sL1gaEDrrQ1torZB3MbwlpkQc"/>
+</div>
+<h1 class="font-['Plus_Jakarta_Sans'] font-bold text-xl text-indigo-600">Minhas Missões</h1>
+</div>
+<button class="text-slate-500 hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 px-6 space-y-8">
+<!-- Tab Navigation (Editorial Style) -->
+<nav class="flex gap-2 p-1 bg-surface-container-low rounded-full w-fit">
+<button class="px-6 py-2 rounded-full bg-surface-container-lowest text-primary font-bold shadow-sm transition-all text-sm">Hoje</button>
+<button class="px-6 py-2 rounded-full text-on-surface-variant font-medium hover:bg-white/50 transition-all text-sm">Amanhã</button>
+<button class="px-6 py-2 rounded-full text-on-surface-variant font-medium hover:bg-white/50 transition-all text-sm">Opcionais</button>
+</nav>
+<!-- Mandatory Missions Section -->
+<section class="space-y-4">
+<div class="flex justify-between items-end mb-2">
+<h2 class="font-headline text-2xl font-extrabold tracking-tight">Tarefas Obrigatórias</h2>
+<span class="text-xs font-bold text-primary bg-primary-container/20 px-3 py-1 rounded-full uppercase tracking-widest">3 Restantes</span>
+</div>
+<div class="grid gap-4">
+<!-- Urgency Card -->
+<div class="bg-surface-container-lowest p-5 rounded-lg cloud-shadow flex items-center justify-between group relative overflow-hidden">
+<div class="absolute top-0 left-0 h-full w-1.5 bg-error"></div>
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-2xl bg-error-container/20 flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-3xl filled-icon">wb_sunny</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-lg text-on-surface">Arrumar a Cama</h3>
+<div class="flex items-center gap-3 mt-1">
+<span class="flex items-center gap-1 text-error font-bold text-xs uppercase tracking-tighter">
+<span class="material-symbols-outlined text-sm">schedule</span> Até 08:00
+                                </span>
+<span class="w-1 h-1 rounded-full bg-outline-variant/30"></span>
+<span class="text-tertiary-dim font-bold text-xs">+50 pts</span>
+</div>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full border-2 border-surface-container-high flex items-center justify-center group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-surface-container-high group-hover:text-primary">check</span>
+</button>
+</div>
+<!-- Standard Card -->
+<div class="bg-surface-container-lowest p-5 rounded-lg cloud-shadow flex items-center justify-between group">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-2xl bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-3xl filled-icon">school</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-lg text-on-surface">Dever de Casa</h3>
+<div class="flex items-center gap-3 mt-1">
+<span class="flex items-center gap-1 text-on-surface-variant font-medium text-xs">
+<span class="material-symbols-outlined text-sm">schedule</span> Até 14:00
+                                </span>
+<span class="w-1 h-1 rounded-full bg-outline-variant/30"></span>
+<span class="text-tertiary-dim font-bold text-xs">+100 pts</span>
+</div>
+</div>
+</div>
+<button class="w-10 h-10 rounded-full border-2 border-surface-container-high flex items-center justify-center">
+<span class="material-symbols-outlined text-surface-container-high">check</span>
+</button>
+</div>
+<!-- Completed Card -->
+<div class="bg-secondary-container/10 p-5 rounded-lg border border-secondary-container/20 flex items-center justify-between opacity-70">
+<div class="flex items-center gap-4">
+<div class="w-14 h-14 rounded-2xl bg-secondary-container/30 flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined text-3xl filled-icon">brush</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-lg text-on-surface line-through decoration-secondary/40">Escovar os Dentes</h3>
+<div class="flex items-center gap-2 mt-1">
+<span class="text-secondary font-bold text-xs flex items-center gap-1 uppercase tracking-wider">
+<span class="material-symbols-outlined text-sm">check_circle</span> Concluído
+                                </span>
+</div>
+</div>
+</div>
+<div class="w-10 h-10 rounded-full bg-secondary text-on-secondary flex items-center justify-center">
+<span class="material-symbols-outlined filled-icon">check</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Bonus Missions (Bento Style) -->
+<section class="space-y-4">
+<div class="flex justify-between items-end mb-2">
+<h2 class="font-headline text-2xl font-extrabold tracking-tight">Missões Bônus</h2>
+<span class="material-symbols-outlined text-tertiary-fixed-dim filled-icon">star</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-gradient-to-br from-primary to-primary-container p-5 rounded-lg relative overflow-hidden aspect-square flex flex-col justify-between shadow-lg shadow-primary/20">
+<div class="absolute -top-4 -right-4 w-20 h-20 bg-white/10 rounded-full blur-2xl"></div>
+<div class="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white">
+<span class="material-symbols-outlined text-2xl filled-icon">auto_stories</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-white leading-tight">Ler por 20 min</h3>
+<p class="text-on-primary/80 text-[10px] mt-2 font-bold uppercase tracking-widest">+150 PTS RECOMPENSA</p>
+</div>
+</div>
+<div class="bg-tertiary-container p-5 rounded-lg relative overflow-hidden aspect-square flex flex-col justify-between shadow-lg shadow-tertiary/10">
+<div class="absolute -bottom-6 -right-6 w-24 h-24 border-4 border-on-tertiary-container/5 rounded-full"></div>
+<div class="w-12 h-12 rounded-full bg-on-tertiary-container/10 flex items-center justify-center text-on-tertiary-container">
+<span class="material-symbols-outlined text-2xl filled-icon">volunteer_activism</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-on-tertiary-container leading-tight">Ajudar no Jantar</h3>
+<p class="text-on-tertiary-container/60 text-[10px] mt-2 font-bold uppercase tracking-widest">+200 PTS RECOMPENSA</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Stats Card / Progress Summary -->
+<section class="pb-8">
+<div class="bg-surface-container-high/40 p-6 rounded-xl border border-white/50 backdrop-blur-sm">
+<div class="flex justify-between items-center mb-4">
+<p class="font-headline font-bold text-on-surface-variant uppercase tracking-widest text-[10px]">Progresso do Dia</p>
+<p class="font-headline font-black text-primary text-xl">1.250 pts</p>
+</div>
+<div class="w-full h-3 bg-surface-container-low rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full w-[65%]"></div>
+</div>
+<p class="text-xs text-on-surface-variant/70 mt-3 italic">Faltam 450 pts para o nível 12!</p>
+</div>
+</section>
+</main>
+<!-- Floating Action Button: Point History -->
+<button class="fixed right-6 bottom-28 w-16 h-16 rounded-full bg-primary text-on-primary shadow-2xl z-50 flex items-center justify-center transition-all active:scale-90 hover:scale-105 group overflow-hidden">
+<div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+<span class="material-symbols-outlined text-3xl filled-icon relative z-10">history_edu</span>
+</button>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full h-20 bg-[#f4f6ff]/80 dark:bg-slate-900/80 backdrop-blur-2xl flex justify-around items-center px-4 pb-2 rounded-t-[2.5rem] z-50 shadow-[0_-10px_30px_rgba(33,47,66,0.08)]">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 transition-all hover:text-indigo-500" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold uppercase tracking-wider mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-white dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-300 rounded-2xl px-5 py-2 transition-all duration-300 transform scale-110" href="#">
+<span class="material-symbols-outlined filled-icon">assignment</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold uppercase tracking-wider mt-1">Tarefas</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 transition-all hover:text-indigo-500" href="#">
+<span class="material-symbols-outlined">redeem</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold uppercase tracking-wider mt-1">Loja</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 transition-all hover:text-indigo-500" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold uppercase tracking-wider mt-1">Perfil</span>
+</a>
+</nav>
+</body></html>

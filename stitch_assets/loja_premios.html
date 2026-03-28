@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary-dim": "#3939c7",
+              "tertiary-fixed": "#fdc425",
+              "surface-container-highest": "#c9deff",
+              "secondary-dim": "#005d26",
+              "surface-dim": "#bfd6f9",
+              "on-tertiary-fixed": "#3f2e00",
+              "surface": "#f4f6ff",
+              "on-tertiary-container": "#574000",
+              "secondary-fixed-dim": "#5bf083",
+              "inverse-primary": "#8083ff",
+              "secondary-fixed": "#6bff8f",
+              "on-secondary-container": "#005f28",
+              "on-tertiary-fixed-variant": "#624900",
+              "on-secondary-fixed-variant": "#006a2d",
+              "on-primary": "#f4f1ff",
+              "error-container": "#f74b6d",
+              "error": "#b41340",
+              "primary-container": "#9396ff",
+              "error-dim": "#a70138",
+              "on-secondary-fixed": "#004a1d",
+              "outline-variant": "#a0aec5",
+              "primary-fixed-dim": "#8387ff",
+              "outline": "#6a788d",
+              "tertiary": "#745700",
+              "inverse-on-surface": "#8f9eb4",
+              "surface-bright": "#f4f6ff",
+              "surface-container-low": "#eaf1ff",
+              "on-surface": "#212f42",
+              "surface-container": "#dce9ff",
+              "primary": "#4647d3",
+              "secondary-container": "#6bff8f",
+              "tertiary-fixed-dim": "#edb60f",
+              "on-primary-fixed": "#000000",
+              "surface-container-lowest": "#ffffff",
+              "surface-container-high": "#d3e4ff",
+              "on-surface-variant": "#4e5c71",
+              "on-tertiary": "#fff1da",
+              "inverse-surface": "#010f20",
+              "on-error-container": "#510017",
+              "tertiary-container": "#fdc425",
+              "tertiary-dim": "#654c00",
+              "on-error": "#ffefef",
+              "on-primary-fixed-variant": "#0e009d",
+              "surface-variant": "#c9deff",
+              "surface-tint": "#4647d3",
+              "on-background": "#212f42",
+              "secondary": "#006a2d",
+              "primary-fixed": "#9396ff",
+              "on-primary-container": "#0a0081",
+              "on-secondary": "#ceffd0",
+              "background": "#f4f6ff"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .cloud-shadow {
+            box-shadow: 0 10px 30px rgba(33, 47, 66, 0.08);
+        }
+        .cta-gradient {
+            background: linear-gradient(135deg, #4647d3 0%, #9396ff 100%);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface min-h-screen flex flex-col pb-24">
+<!-- TopAppBar -->
+<header class="bg-[#f4f6ff] dark:bg-slate-950 flex justify-between items-center w-full px-6 py-4 max-w-md mx-auto sticky top-0 z-40">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#6366F1] dark:text-indigo-400" data-icon="account_balance_wallet">account_balance_wallet</span>
+<h1 class="font-['Plus_Jakarta_Sans'] font-bold text-lg text-[#212f42] dark:text-slate-100">Prizes</h1>
+</div>
+<div class="bg-tertiary-container px-4 py-1.5 rounded-full flex items-center gap-2 cloud-shadow">
+<span class="text-[14px] font-headline font-extrabold text-on-tertiary-container">1,250 pts</span>
+</div>
+</header>
+<main class="flex-1 px-6 pt-4 max-w-md mx-auto w-full">
+<!-- Section Header -->
+<div class="mb-8">
+<h2 class="font-headline font-extrabold text-3xl text-on-surface tracking-tight leading-tight">Loja de Prêmios</h2>
+<p class="text-on-surface-variant text-sm mt-2 font-medium">Troque seus pontos por recompensas incríveis!</p>
+</div>
+<!-- Prize Bento Grid -->
+<div class="grid grid-cols-2 gap-4">
+<!-- Prize Card 1: Cinema & Pizza -->
+<div class="col-span-2 bg-surface-container-lowest p-5 rounded-lg cloud-shadow flex flex-col gap-4 relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary-container/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+<div class="flex justify-between items-start">
+<div class="w-14 h-14 bg-surface-container rounded-lg flex items-center justify-center text-3xl">
+                        🎬
+                    </div>
+<span class="bg-tertiary-container/20 text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold font-headline">500 pts</span>
+</div>
+<div>
+<h3 class="font-headline font-bold text-lg leading-tight">Cinema &amp; Pizza</h3>
+<p class="text-on-surface-variant text-xs mt-1">Sexta à noite com filme e pizza à escolha!</p>
+</div>
+<button class="cta-gradient text-on-primary font-headline font-bold py-3 px-6 rounded-full text-sm active:scale-95 transition-transform flex items-center justify-center gap-2">
+                    Resgatar
+                </button>
+</div>
+<!-- Prize Card 2: 30 min Videogame -->
+<div class="bg-surface-container-lowest p-5 rounded-lg cloud-shadow flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 bg-surface-container-low rounded-lg flex items-center justify-center text-2xl">
+                        🎮
+                    </div>
+<span class="text-on-surface-variant text-[10px] font-bold font-headline">200 pts</span>
+</div>
+<div class="flex-1">
+<h3 class="font-headline font-bold text-sm leading-tight">30 min Videogame</h3>
+</div>
+<button class="cta-gradient text-on-primary font-headline font-bold py-2 px-4 rounded-full text-xs active:scale-95 transition-transform">
+                    Resgatar
+                </button>
+</div>
+<!-- Prize Card 3: Escolher o Jantar -->
+<div class="bg-surface-container-lowest p-5 rounded-lg cloud-shadow flex flex-col gap-4">
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 bg-surface-container-low rounded-lg flex items-center justify-center text-2xl">
+                        🍔
+                    </div>
+<span class="text-on-surface-variant text-[10px] font-bold font-headline">350 pts</span>
+</div>
+<div class="flex-1">
+<h3 class="font-headline font-bold text-sm leading-tight">Escolher o Jantar</h3>
+</div>
+<button class="cta-gradient text-on-primary font-headline font-bold py-2 px-4 rounded-full text-xs active:scale-95 transition-transform">
+                    Resgatar
+                </button>
+</div>
+<!-- Prize Card 4: LOCKED - Viagem Surpresa -->
+<div class="bg-surface-container-low/50 p-5 rounded-lg flex flex-col gap-4 relative grayscale opacity-70">
+<div class="absolute inset-0 flex items-center justify-center z-10">
+<div class="bg-on-surface/5 p-3 rounded-full backdrop-blur-sm">
+<span class="material-symbols-outlined text-on-surface" data-icon="lock">lock</span>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center text-2xl">
+                        ✈️
+                    </div>
+<span class="text-error font-bold text-[10px] font-headline">2,500 pts</span>
+</div>
+<div class="flex-1">
+<h3 class="font-headline font-bold text-sm leading-tight">Viagem Surpresa</h3>
+</div>
+<button class="bg-outline-variant/20 text-outline font-headline font-bold py-2 px-4 rounded-full text-xs cursor-not-allowed" disabled="">
+                    Pontos Insuficientes
+                </button>
+</div>
+<!-- Prize Card 5: LOCKED - Novo Brinquedo -->
+<div class="bg-surface-container-low/50 p-5 rounded-lg flex flex-col gap-4 relative grayscale opacity-70">
+<div class="absolute inset-0 flex items-center justify-center z-10">
+<div class="bg-on-surface/5 p-3 rounded-full backdrop-blur-sm">
+<span class="material-symbols-outlined text-on-surface" data-icon="lock">lock</span>
+</div>
+</div>
+<div class="flex justify-between items-start">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center text-2xl">
+                        🧸
+                    </div>
+<span class="text-error font-bold text-[10px] font-headline">1,500 pts</span>
+</div>
+<div class="flex-1">
+<h3 class="font-headline font-bold text-sm leading-tight">Novo Brinquedo</h3>
+</div>
+<button class="bg-outline-variant/20 text-outline font-headline font-bold py-2 px-4 rounded-full text-xs cursor-not-allowed" disabled="">
+                    Pontos Insuficientes
+                </button>
+</div>
+</div>
+<!-- Decorative Info Card -->
+<div class="mt-8 mb-4 bg-primary-container/10 p-4 rounded-lg flex items-center gap-4">
+<div class="p-3 bg-primary-container rounded-full text-on-primary">
+<span class="material-symbols-outlined" data-icon="stars" data-weight="fill">stars</span>
+</div>
+<div>
+<p class="text-sm font-headline font-bold text-primary">Dica de Mestre!</p>
+<p class="text-[12px] text-on-surface-variant">Complete as tarefas diárias para ganhar bônus de pontos e desbloquear prêmios raros.</p>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-[#f4f6ff]/80 dark:bg-slate-950/80 backdrop-blur-xl border-t border-[#a0aec5]/15 dark:border-slate-800 shadow-[0_-10px_30px_rgba(33,47,66,0.08)] rounded-t-[2rem]">
+<!-- Home -->
+<a class="flex flex-col items-center justify-center text-[#212f42] dark:text-slate-400 px-4 py-2 hover:text-[#6366F1] dark:hover:text-indigo-300" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold tracking-tight">Home</span>
+</a>
+<!-- Tasks -->
+<a class="flex flex-col items-center justify-center text-[#212f42] dark:text-slate-400 px-4 py-2 hover:text-[#6366F1] dark:hover:text-indigo-300" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold tracking-tight">Tasks</span>
+</a>
+<!-- Prizes (ACTIVE) -->
+<a class="flex flex-col items-center justify-center bg-[#6366F1] text-white rounded-2xl px-4 py-2 scale-90 duration-200 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="redeem" style="font-variation-settings: 'FILL' 1;">redeem</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold tracking-tight">Prizes</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-[#212f42] dark:text-slate-400 px-4 py-2 hover:text-[#6366F1] dark:hover:text-indigo-300" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Plus_Jakarta_Sans'] text-[10px] font-bold tracking-tight">Profile</span>
+</a>
+</nav>
+</body></html>

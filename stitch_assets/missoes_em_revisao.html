@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FamilyQuest - Revisão de Missões</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface": "#f4f6ff",
+              "tertiary-dim": "#654c00",
+              "error": "#b41340",
+              "surface-container-low": "#eaf1ff",
+              "outline-variant": "#a0aec5",
+              "on-tertiary-fixed-variant": "#624900",
+              "on-surface-variant": "#4e5c71",
+              "tertiary-container": "#fdc425",
+              "primary-fixed-dim": "#8387ff",
+              "on-primary-fixed-variant": "#0e009d",
+              "surface-dim": "#bfd6f9",
+              "on-tertiary-container": "#574000",
+              "on-background": "#212f42",
+              "surface-tint": "#4647d3",
+              "inverse-on-surface": "#8f9eb4",
+              "surface-variant": "#c9deff",
+              "surface-container-lowest": "#ffffff",
+              "error-container": "#f74b6d",
+              "primary": "#4647d3",
+              "on-secondary-fixed-variant": "#006a2d",
+              "secondary-dim": "#005d26",
+              "surface-container-high": "#d3e4ff",
+              "secondary-fixed-dim": "#5bf083",
+              "primary-container": "#9396ff",
+              "on-error": "#ffefef",
+              "secondary-fixed": "#6bff8f",
+              "on-error-container": "#510017",
+              "on-surface": "#212f42",
+              "error-dim": "#a70138",
+              "surface-bright": "#f4f6ff",
+              "on-secondary-container": "#005f28",
+              "secondary": "#006a2d",
+              "outline": "#6a788d",
+              "on-primary": "#f4f1ff",
+              "inverse-primary": "#8083ff",
+              "surface-container": "#dce9ff",
+              "on-secondary": "#ceffd0",
+              "primary-dim": "#3939c7",
+              "on-tertiary": "#fff1da",
+              "surface-container-highest": "#c9deff",
+              "on-secondary-fixed": "#004a1d",
+              "on-primary-fixed": "#000000",
+              "inverse-surface": "#010f20",
+              "tertiary-fixed-dim": "#edb60f",
+              "secondary-container": "#6bff8f",
+              "on-primary-container": "#0a0081",
+              "tertiary": "#745700",
+              "background": "#f4f6ff",
+              "on-tertiary-fixed": "#3f2e00",
+              "tertiary-fixed": "#fdc425",
+              "primary-fixed": "#9396ff"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .glass-header {
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+      .cloud-shadow {
+        box-shadow: 0 10px 30px rgba(33, 47, 66, 0.08);
+      }
+      body {
+        font-family: 'Be Vietnam Pro', sans-serif;
+        background-color: #f4f6ff;
+        color: #212f42;
+      }
+      h1, h2, h3, .brand-font {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+    </style>
+</head>
+<body class="min-h-screen">
+<!-- TopAppBar Shell -->
+<header class="fixed top-0 left-0 right-0 z-50 flex justify-between items-center w-full px-6 py-4 bg-[#f4f6ff]/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-[0_10px_30px_rgba(33,47,66,0.08)]">
+<div class="flex items-center gap-4">
+<span class="font-['Plus_Jakarta_Sans'] text-2xl font-extrabold tracking-tight text-indigo-700 dark:text-indigo-400">FamilyQuest</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 rounded-full hover:bg-indigo-50/50 dark:hover:bg-indigo-900/20 transition-colors">
+<span class="material-symbols-outlined text-indigo-600 dark:text-indigo-400" data-icon="notifications">notifications</span>
+</button>
+<div class="w-10 h-10 rounded-full border-2 border-surface-container-lowest overflow-hidden">
+<img alt="Admin Profile" class="w-full h-full object-cover" data-alt="Close-up portrait of a friendly smiling middle-aged man with short brown hair and neat beard in professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzLccyicXytgYrBMprCFyUdg0vrGjhgDITpcb7vBOljIvMwYYoJwV_l0Wn4pvoSyuEXsiNq3wQWSpw4wkMxRVodDL1d_zcrotsdY2IQwHFouZS7NUtqmyobdoEYcqWSauEwZJ-hHDn9IhJEP5pQiPbZyDlzeKMmFg2Rzb0B-8adwD0fzPdPx4qGRG3n-RyDtDYjd7BBKdXSIzChqIKZvsZmknBXzCbLY_2HYohKEWkgX2TL_smbysvnZwQXu23LRMXfk8g-KHtOcr7"/>
+</div>
+</div>
+</header>
+<!-- Sidebar Shell -->
+<aside class="fixed left-0 top-0 h-full w-64 bg-[#eaf1ff] dark:bg-slate-900 pt-24 px-4 flex flex-col gap-2 z-40 hidden md:flex">
+<div class="mb-8 px-2">
+<h2 class="font-['Plus_Jakarta_Sans'] text-xl font-bold text-indigo-700 dark:text-indigo-300">FamilyQuest</h2>
+<p class="text-xs text-slate-500 font-medium">Admin Portal</p>
+</div>
+<nav class="flex flex-col gap-1">
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-500 hover:translate-x-1 hover:text-indigo-600 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-500 hover:translate-x-1 hover:text-indigo-600 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-medium text-sm">Members</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-indigo-700 dark:text-indigo-300 font-bold border-r-4 border-indigo-600 bg-white/50" href="#">
+<span class="material-symbols-outlined" data-icon="assignment">assignment</span>
+<span class="font-medium text-sm">Quests</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-500 hover:translate-x-1 hover:text-indigo-600 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="workspace_premium">workspace_premium</span>
+<span class="font-medium text-sm">Rewards</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-500 hover:translate-x-1 hover:text-indigo-600 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span class="font-medium text-sm">Settings</span>
+</a>
+</nav>
+</aside>
+<!-- Main Content Canvas -->
+<main class="md:ml-64 pt-28 px-6 pb-12">
+<div class="max-w-6xl mx-auto">
+<!-- Header Section -->
+<header class="mb-10">
+<h1 class="text-4xl font-extrabold text-on-surface tracking-tight mb-2">Revisão de Missões</h1>
+<p class="text-on-surface-variant text-lg max-w-2xl">Valide as tarefas concluídas pelos membros da família para liberar os pontos e conquistas.</p>
+</header>
+<!-- Filter Tabs -->
+<div class="flex items-center gap-4 mb-8">
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded-full font-bold flex items-center gap-2 shadow-lg shadow-primary/20 transition-all active:scale-95">
+                    Pendentes <span class="bg-on-primary text-primary px-2 rounded-full text-xs">3</span>
+</button>
+<button class="bg-surface-container-low text-on-surface-variant px-6 py-2.5 rounded-full font-medium hover:bg-surface-container-high transition-colors">
+                    Aprovadas
+                </button>
+<button class="bg-surface-container-low text-on-surface-variant px-6 py-2.5 rounded-full font-medium hover:bg-surface-container-high transition-colors">
+                    Recusadas
+                </button>
+</div>
+<!-- Bento Grid Content -->
+<div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+<!-- Submission Card 1 -->
+<article class="bg-surface-container-lowest p-6 rounded-lg cloud-shadow flex flex-col gap-6 group transition-all hover:-translate-y-1">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full ring-4 ring-surface-container-low overflow-hidden">
+<img alt="Alice Silva" class="w-full h-full object-cover" data-alt="Portrait of a cheerful young girl with brown braided hair wearing a colorful t-shirt smiling warmly" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAN8J3uAaa8cKf2eMPCkVjpmHDkZs0oP9JIMJVW9P9ybMtZPxC2mmFO_OUpx_n-sRNOKpWv9wxORQa0U8G3_7arD3mR89DFkO9ER67CludSl0M9k1_nBEtzNyymEW8sce80UxAaQxUuhEJKY7K8wRX265rT6f2DInjKJMoHAdr-AvK7FvBubZUeasQnYPq7PDoLkEHMnWgvDWjs5OMsslN9jXRMj9W1Z_1hnKyBcKi1BRlBQTSIQj60VL-YwJPPFF34GlRqshb0YDx_"/>
+</div>
+<div>
+<h3 class="font-bold text-on-surface">Alice Silva</h3>
+<p class="text-xs text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span>
+                                    Hoje às 14:30
+                                </p>
+</div>
+</div>
+<div class="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold -rotate-3 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+                            +50 pts
+                        </div>
+</div>
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-0.5 rounded-md text-[10px] uppercase font-bold tracking-wider">Casa</span>
+<h4 class="text-lg font-bold text-on-surface">Arrumar o Quarto</h4>
+</div>
+<div class="aspect-video w-full rounded-md overflow-hidden bg-surface-container-low relative group-hover:shadow-inner transition-all">
+<img alt="Clean Room" class="w-full h-full object-cover" data-alt="A brightly lit children's bedroom perfectly tidy with made bed, organized toys on shelves and sunlight streaming through window" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaPrJ5Ni0amv7ZHNADtOnPpGzhsIMyFFVjBTo6TwWk2C65zjR1DZ7ApcfEMvk2Ht_W7jLvkbD1yzavUeS9iOXPxNBXV4wXVa7D7pcoQWCHqbGqEBEPSeHwtcbIGChBsrhDkrsDRM8umxUrRH2UTqqRi3IbL7aiAaRB3IlN14us9zqaqbfsXDW2I16FAwSM7GkwHXUPm-ZEiCapo2j64ysnq4UgDvdTOUW24bZ7R72rZQ6GcA4NFi0WAYwoeHOpxJTa2Um8byoPOB44"/>
+<div class="absolute inset-0 bg-indigo-900/0 group-hover:bg-indigo-900/10 transition-colors flex items-center justify-center">
+<span class="material-symbols-outlined text-white opacity-0 group-hover:opacity-100 transition-opacity scale-150" data-icon="zoom_in">zoom_in</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3 mt-auto">
+<button class="bg-surface-container-high text-on-surface py-3 rounded-full font-bold flex items-center justify-center gap-2 hover:bg-orange-100 transition-colors active:scale-95">
+<span class="material-symbols-outlined text-orange-600" data-icon="chat">chat</span>
+                            Refação
+                        </button>
+<button class="bg-gradient-to-br from-secondary to-on-secondary-fixed-variant text-on-secondary py-3 rounded-full font-bold flex items-center justify-center gap-2 shadow-lg shadow-secondary/20 hover:shadow-xl transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            Aprovar
+                        </button>
+</div>
+</article>
+<!-- Submission Card 2 -->
+<article class="bg-surface-container-lowest p-6 rounded-lg cloud-shadow flex flex-col gap-6 group transition-all hover:-translate-y-1">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full ring-4 ring-surface-container-low overflow-hidden">
+<img alt="Pedro Lucas" class="w-full h-full object-cover" data-alt="Portrait of a young boy with curly black hair wearing a green polo shirt smiling brightly" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKFu1FWrnn2-U9inJzgXk4TtP85Nlb4GOLmo1Y7QEcSpTAzDCBNYHaTQAAxmZqRcqCv6H_I5_U7Kd0zzCy0qie2KLswLxZP_F2xDimiXzs1Q3ViDjC7NwtZEKHkOhR8d2QoVOjjBtCotv4TPxSkmEKEkSFAuaKvUKHys0UzqGs26saeUBXX65s2L_BBZmwjwgdzjJKFsu5EyIWU_ogvdoeQiUKDnulEHtoo-T8vlQdoXkpN7odlU7nE_dDP2n_iCVrhkpBvQ1qC2gf"/>
+</div>
+<div>
+<h3 class="font-bold text-on-surface">Pedro Lucas</h3>
+<p class="text-xs text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span>
+                                    Hoje às 11:15
+                                </p>
+</div>
+</div>
+<div class="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold rotate-2 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+                            +30 pts
+                        </div>
+</div>
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-0.5 rounded-md text-[10px] uppercase font-bold tracking-wider">Estudos</span>
+<h4 class="text-lg font-bold text-on-surface">Tarefa de Matemática</h4>
+</div>
+<div class="aspect-video w-full rounded-md overflow-hidden bg-surface-container-low relative group-hover:shadow-inner transition-all">
+<img alt="Homework Proof" class="w-full h-full object-cover" data-alt="Close-up of a handwritten school notebook with solved math equations and a blue pen on a wooden desk" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD4z_DOoJMeqQ6FVp8eDddd4LNKFkRWc66yUAIvqEOMM716mmi8p4-HA_6ot8u8n3Iv1FWhZhYpfNPk7ukW5bqRcHKdX7LW03pOjtXJB_2W1xWGyDJGeYooM3jYciXFFsMczW1n4AMuRWV4JanrVsQlLTNtbbkCFQH6wblOWRAUVDnwelOO7qme1nOM8H_pILqmONx-CsXdxPqcVMwEEyxu1x-1p14V9q7FowilP1z6VD3WquTSkHEapaUGCQSxpCvGM7tldyQQ49Vd"/>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3 mt-auto">
+<button class="bg-surface-container-high text-on-surface py-3 rounded-full font-bold flex items-center justify-center gap-2 hover:bg-orange-100 transition-colors active:scale-95">
+<span class="material-symbols-outlined text-orange-600" data-icon="chat">chat</span>
+                            Refação
+                        </button>
+<button class="bg-gradient-to-br from-secondary to-on-secondary-fixed-variant text-on-secondary py-3 rounded-full font-bold flex items-center justify-center gap-2 shadow-lg shadow-secondary/20 hover:shadow-xl transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            Aprovar
+                        </button>
+</div>
+</article>
+<!-- Submission Card 3 -->
+<article class="bg-surface-container-lowest p-6 rounded-lg cloud-shadow flex flex-col gap-6 group transition-all hover:-translate-y-1">
+<div class="flex justify-between items-start">
+<div class="flex items-center gap-3">
+<div class="w-12 h-12 rounded-full ring-4 ring-surface-container-low overflow-hidden">
+<img alt="Alice Silva" class="w-full h-full object-cover" data-alt="Portrait of a cheerful young girl with brown braided hair wearing a colorful t-shirt smiling warmly" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDabzvRubluIhnl2WVy7XlJBUDeGmeC_BXJLqOd_FZG6xOQdiOJOuZKLWg8RmkOiFRawrJP9e5a1jhMU0j_5G_4G8XQJN0BQpQ9VP9KgvRim-g8ABp0iwuXR1IRq8fTmbRG7gbce8L1iEjPean6WH9cpThxDx_wENJRX2tM5az9u_0a60IK2L5b1b5k3yT5cwGzO7zfosZVXWMPztyQCSTo3AjHl7zUivIkUIpVx-NrcGgxsXp6RkRYuFl66DI0LuWeMmN5ZiY0h3R8"/>
+</div>
+<div>
+<h3 class="font-bold text-on-surface">Alice Silva</h3>
+<p class="text-xs text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="schedule">schedule</span>
+                                    Ontem às 18:00
+                                </p>
+</div>
+</div>
+<div class="bg-tertiary-container text-on-tertiary-container px-3 py-1 rounded-full text-xs font-bold -rotate-1 flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" data-icon="stars" style="font-variation-settings: 'FILL' 1;">stars</span>
+                            +100 pts
+                        </div>
+</div>
+<div class="space-y-2">
+<div class="flex items-center gap-2">
+<span class="bg-surface-container-high text-on-surface-variant px-2 py-0.5 rounded-md text-[10px] uppercase font-bold tracking-wider">Higiene</span>
+<h4 class="text-lg font-bold text-on-surface">Banho no Totó</h4>
+</div>
+<div class="aspect-video w-full rounded-md overflow-hidden bg-surface-container-low relative group-hover:shadow-inner transition-all">
+<img alt="Pet Care" class="w-full h-full object-cover" data-alt="A golden retriever dog sitting in a backyard looking wet and happy after a bath with a soap suds on its head" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMF6254xWFkwO_33geuQE7dE4nZH7Jy-W81u7T_gsGShZB6ZzL4swkzHX-J0-IISRbckZDH17CdI70EnSQ34PbKabPdw2q6GjLRZOzgnqbw4lFqJGomcBKjJEfQs7fFLW2HRd9TAfkOwjoIeORRevt9BFTZqt2CG9upbBrRgdyzg5zT7nQ2ZKW6QkGoul7YUWh8l8WTo_dHQsM8IYxHHPHrqKcrC9CzOpiAE6smLehNa2uaAo5c9Vh-vNnw91jR8_fS3d4W2mhgKCz"/>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-3 mt-auto">
+<button class="bg-surface-container-high text-on-surface py-3 rounded-full font-bold flex items-center justify-center gap-2 hover:bg-orange-100 transition-colors active:scale-95">
+<span class="material-symbols-outlined text-orange-600" data-icon="chat">chat</span>
+                            Refação
+                        </button>
+<button class="bg-gradient-to-br from-secondary to-on-secondary-fixed-variant text-on-secondary py-3 rounded-full font-bold flex items-center justify-center gap-2 shadow-lg shadow-secondary/20 hover:shadow-xl transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            Aprovar
+                        </button>
+</div>
+</article>
+</div>
+<!-- Empty State Section (Hidden for now as there are items) -->
+<section class="hidden flex-col items-center justify-center py-20 text-center">
+<div class="w-32 h-32 bg-secondary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-6xl" data-icon="celebration">celebration</span>
+</div>
+<h2 class="text-2xl font-extrabold text-on-surface mb-2">Tudo em dia!</h2>
+<p class="text-on-surface-variant">Nenhuma missão pendente para revisão no momento.</p>
+</section>
+</div>
+</main>
+<!-- FAB for Quick Actions -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-primary rounded-full flex items-center justify-center text-on-primary shadow-2xl shadow-primary/40 active:scale-90 transition-transform md:hidden">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+</body></html>

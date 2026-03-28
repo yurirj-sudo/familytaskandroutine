@@ -1,0 +1,34 @@
+# Dependencies
+familyquest/node_modules/
+familyquest/dist/
+familyquest/dist-ssr/
+
+# Local env (NEVER commit)
+familyquest/.env.local
+familyquest/.env.*.local
+
+# Firebase build cache
+familyquest/.firebase/
+familyquest/firebase-debug.log*
+familyquest/firestore-debug.log*
+familyquest/ui-debug.log*
+
+# Functions
+functions/node_modules/
+functions/lib/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.suo
+*.sw?
+
+# Claude memory (local only)
+memory/
