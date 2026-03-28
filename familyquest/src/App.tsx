@@ -41,19 +41,18 @@ const App: React.FC = () => {
       setFirebaseUser(firebaseUser);
       setLoading(true);
 
-      // Busca dados do usuário → familyId
+      // Wait for user doc to exist (onAuthStateChanged fires before registerAdmin
+      // finishes writing the /users/{uid} doc, so we must wait for it).
       const userSnap = await new Promise<any>((resolve) => {
         const unsub = onSnapshot(doc(db, 'users', firebaseUser.uid), (snap) => {
-          resolve(snap);
-          unsub();
+          if (snap.exists()) {
+            resolve(snap);
+            unsub();
+          }
+          // If doc doesn't exist yet, keep the listener open until it appears.
         });
       });
 
-      if (!userSnap.exists()) {
-        setLoading(false);
-        setInitialized(true);
-        return;
-      }
 
       const userData = userSnap.data() as AppUser;
       const familyId = userData.familyId;
