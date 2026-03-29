@@ -71,12 +71,26 @@ const PointsPage: React.FC = () => {
   return (
     <AppLayout title="Pontos">
       {/* Balance card */}
-      <div className="bg-surface-container-lowest rounded-DEFAULT shadow-cloud p-6 mt-2 text-center">
+      <div className={[
+        'bg-surface-container-lowest rounded-DEFAULT shadow-cloud p-6 mt-2 text-center relative overflow-hidden transition-all duration-500',
+        earnedToday > 0 ? 'shadow-primary-glow' : '',
+      ].join(' ')}>
+        {earnedToday > 0 && (
+          <div className="absolute inset-0 primary-gradient opacity-5 pointer-events-none" />
+        )}
         <p className="text-on-surface-variant text-xs mb-1">Saldo atual</p>
-        <p className="text-5xl font-headline font-black text-tertiary-dim">{totalPoints.toLocaleString('pt-BR')}</p>
+        <p className={[
+          'text-5xl font-headline font-black transition-all duration-500',
+          earnedToday > 0 ? 'text-primary animate-pulse-glow' : 'text-tertiary-dim',
+        ].join(' ')}>
+          {totalPoints.toLocaleString('pt-BR')}
+        </p>
         <p className="text-on-tertiary-container/60 text-sm mt-0.5">pontos</p>
         {earnedToday > 0 && (
-          <p className="text-secondary text-xs mt-2 font-headline font-bold">+{earnedToday} pts hoje</p>
+          <div className="inline-flex items-center gap-1 bg-primary/10 text-primary rounded-full px-3 py-1 text-xs font-headline font-bold mt-2 animate-bounce">
+            <span>⭐</span>
+            <span>+{earnedToday} pts hoje!</span>
+          </div>
         )}
       </div>
 

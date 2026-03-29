@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import confetti from 'canvas-confetti';
 import { Prize } from '../../types';
 import { requestPrizeRedemption } from '../../services/redemption.service';
 
@@ -35,6 +36,27 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
     try {
       await requestPrizeRedemption(familyId, userId, userName, userAvatar, prize.id);
       setDone(true);
+      // Fire confetti burst 🎉
+      confetti({
+        particleCount: 120,
+        spread: 80,
+        origin: { y: 0.55 },
+        colors: ['#4647d3', '#9396ff', '#F59E0B', '#22C55E', '#EF4444'],
+      });
+      setTimeout(() => {
+        confetti({
+          particleCount: 60,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0, y: 0.6 },
+        });
+        confetti({
+          particleCount: 60,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1, y: 0.6 },
+        });
+      }, 300);
       setTimeout(onSuccess, 2500);
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Erro ao solicitar. Tente novamente.');
