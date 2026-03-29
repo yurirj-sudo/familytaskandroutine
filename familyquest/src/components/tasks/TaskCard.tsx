@@ -273,31 +273,50 @@ export const TaskCard: React.FC<TaskCardProps> = ({
             >
               {task.title}
             </h3>
-            {task.type === 'mandatory' && status === 'pending' && (
-              <span className="flex-shrink-0 text-[10px] bg-error-container/20 text-error font-headline font-bold uppercase tracking-wide rounded-full px-2 py-0.5">
-                Obrigatória
-              </span>
-            )}
-            {isCompleted && (
-              <span className="flex-shrink-0 text-[10px] bg-secondary-container/30 text-secondary font-headline font-bold uppercase tracking-wide rounded-full px-2 py-0.5">
-                Feita ✓
-              </span>
-            )}
-            {status === 'submitted' && (
-              <span className="flex-shrink-0 text-[10px] bg-amber-100 text-amber-600 font-headline font-bold uppercase tracking-wide rounded-full px-2 py-0.5">
-                Pendente
-              </span>
-            )}
-            {status === 'missed' && (
-              <span className="flex-shrink-0 text-[10px] bg-error-container/20 text-error font-headline font-bold uppercase tracking-wide rounded-full px-2 py-0.5">
-                Não feita
-              </span>
-            )}
-            {status === 'rejected' && (
-              <span className="flex-shrink-0 text-[10px] bg-error-container/20 text-error font-headline font-bold uppercase tracking-wide rounded-full px-2 py-0.5">
-                Rejeitada
-              </span>
-            )}
+
+            <div className="flex items-center gap-1 flex-shrink-0">
+              {task.type === 'mandatory' && status === 'pending' && (
+                <span className="text-[10px] bg-error-container/20 text-error font-headline font-bold uppercase tracking-wide rounded-full px-2 py-0.5">
+                  Obrigatória
+                </span>
+              )}
+              {isCompleted && (
+                <span className="text-[10px] bg-secondary-container/30 text-secondary font-headline font-bold uppercase tracking-wide rounded-full px-2 py-0.5">
+                  Feita ✓
+                </span>
+              )}
+              {status === 'submitted' && (
+                <span className="text-[10px] bg-amber-100 text-amber-600 font-headline font-bold uppercase tracking-wide rounded-full px-2 py-0.5">
+                  Pendente
+                </span>
+              )}
+              {status === 'missed' && (
+                <span className="text-[10px] bg-error-container/20 text-error font-headline font-bold uppercase tracking-wide rounded-full px-2 py-0.5">
+                  Não feita
+                </span>
+              )}
+              {status === 'rejected' && (
+                <span className="text-[10px] bg-error-container/20 text-error font-headline font-bold uppercase tracking-wide rounded-full px-2 py-0.5">
+                  Rejeitada
+                </span>
+              )}
+
+              {/* Undo button — small icon, right side */}
+              {!adminMode && (status === 'completed' || status === 'submitted') && (
+                <button
+                  onClick={handleUndo}
+                  disabled={undoing}
+                  title={status === 'submitted' ? 'Cancelar envio' : 'Desfazer conclusão'}
+                  className="w-7 h-7 flex items-center justify-center rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface-variant transition-colors disabled:opacity-40 active:scale-90"
+                >
+                  {undoing ? (
+                    <span className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                  ) : (
+                    <span className="material-symbols-outlined" style={{ fontSize: 15 }}>undo</span>
+                  )}
+                </button>
+              )}
+            </div>
           </div>
 
           {task.description && (
@@ -364,21 +383,6 @@ export const TaskCard: React.FC<TaskCardProps> = ({
         </div>
       </div>
 
-      {/* Undo / Cancel submission */}
-      {!adminMode && (status === 'completed' || status === 'submitted') && (
-        <button
-          onClick={handleUndo}
-          disabled={undoing}
-          className="flex items-center justify-center gap-1.5 w-full text-xs text-on-surface-variant bg-surface-container-low hover:bg-surface-container rounded-full py-2 transition-colors disabled:opacity-50"
-        >
-          {undoing ? (
-            <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
-          ) : (
-            <span className="material-symbols-outlined" style={{ fontSize: 14 }}>undo</span>
-          )}
-          {status === 'submitted' ? 'Cancelar envio' : 'Desfazer conclusão'}
-        </button>
-      )}
 
       {/* Photo proof hint */}
       {canComplete && requirePhotoProof && (
