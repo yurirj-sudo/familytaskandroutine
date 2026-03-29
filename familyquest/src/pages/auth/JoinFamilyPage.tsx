@@ -31,6 +31,9 @@ const JoinFamilyPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [family, setFamily] = useState<Family | null>(null);
   const [lookingUp, setLookingUp] = useState(false);
+  // Preview lookup may fail with permission error when user isn't authenticated yet.
+  // Only show "not found" if the lookup succeeded but returned empty (not a permission error).
+  const [previewChecked, setPreviewChecked] = useState(false);
   const [selectedEmoji, setSelectedEmoji] = useState('👦');
 
   const {
@@ -51,12 +54,21 @@ const JoinFamilyPage: React.FC = () => {
     if (code?.length === 6) {
       setLookingUp(true);
       setFamily(null);
+      setPreviewChecked(false);
       getFamilyByInviteCode(code)
-        .then((f) => setFamily(f))
-        .catch(() => setFamily(null))
+        .then((f) => {
+          setFamily(f);
+          setPreviewChecked(true); // lookup succeeded (even if null = not found)
+        })
+        .catch(() => {
+          // Permission error (unauthenticated) — don't show "not found"
+          setFamily(null);
+          setPreviewChecked(false);
+        })
         .finally(() => setLookingUp(false));
     } else {
       setFamily(null);
+      setPreviewChecked(false);
     }
   }, [inviteCode]);
 
@@ -142,7 +154,7 @@ const JoinFamilyPage: React.FC = () => {
                 <p className="text-secondary text-sm font-headline font-bold">{family.name}</p>
               </div>
             )}
-            {!family && !lookingUp && inviteCode?.length === 6 && (
+            {!family && !lookingUp && previewChecked && inviteCode?.length === 6 && (
               <div className="flex items-center gap-2 bg-error-container/15 border border-error/20 rounded-DEFAULT px-4 py-3">
                 <span className="text-error text-sm">❌</span>
                 <p className="text-error text-sm font-medium">Código não encontrado</p>

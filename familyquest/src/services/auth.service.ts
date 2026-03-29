@@ -111,51 +111,60 @@ export interface JoinFamilyParams {
 export const joinFamily = async (params: JoinFamilyParams): Promise<string> => {
   const { email, password, displayName, inviteCode, avatar = '👤' } = params;
 
-  // 1. Buscar família pelo código
-  const familiesRef = collection(db, 'families');
-  const q = query(familiesRef, where('inviteCode', '==', inviteCode.toUpperCase()));
-  const snapshot = await getDocs(q);
-
-  if (snapshot.empty) {
-    throw new Error('Código de convite inválido. Verifique e tente novamente.');
-  }
-
-  const familyDoc = snapshot.docs[0];
-  const familyId = familyDoc.id;
-
-  // 2. Criar usuário no Firebase Auth
+  // 1. Criar conta Firebase Auth PRIMEIRO — sem auth não conseguimos ler o Firestore
   const credential = await createUserWithEmailAndPassword(auth, email, password);
   const { uid } = credential.user;
 
-  await updateProfile(credential.user, { displayName });
+  try {
+    await updateProfile(credential.user, { displayName });
 
-  // 3. Criar perfil global do usuário
-  const userData: AppUser = {
-    uid,
-    email,
-    displayName,
-    avatar,
-    familyId,
-    createdAt: serverTimestamp() as any,
-  };
-  await setDoc(doc(db, 'users', uid), userData);
+    // 2. Agora autenticado, buscar família pelo código
+    const familiesRef = collection(db, 'families');
+    const q = query(familiesRef, where('inviteCode', '==', inviteCode.toUpperCase()));
+    const snapshot = await getDocs(q);
 
-  // 4. Criar membro da família
-  const memberData: Member = {
-    uid,
-    role: 'member',
-    displayName,
-    avatar,
-    totalPoints: 0,
-    lifetimePoints: 0,
-    currentStreak: 0,
-    longestStreak: 0,
-    joinedAt: serverTimestamp() as any,
-    isActive: true,
-  };
-  await setDoc(doc(db, 'families', familyId, 'members', uid), memberData);
+    if (snapshot.empty) {
+      // Código inválido — apagar conta recém-criada para não deixar órfã
+      await credential.user.delete();
+      throw new Error('Código de convite inválido. Verifique e tente novamente.');
+    }
 
-  return familyId;
+    const familyId = snapshot.docs[0].id;
+
+    // 3. Criar perfil global do usuário
+    const userData: AppUser = {
+      uid,
+      email,
+      displayName,
+      avatar,
+      familyId,
+      createdAt: serverTimestamp() as any,
+    };
+    await setDoc(doc(db, 'users', uid), userData);
+
+    // 4. Criar membro da família
+    const memberData: Member = {
+      uid,
+      role: 'member',
+      displayName,
+      avatar,
+      totalPoints: 0,
+      lifetimePoints: 0,
+      currentStreak: 0,
+      longestStreak: 0,
+      joinedAt: serverTimestamp() as any,
+      isActive: true,
+    };
+    await setDoc(doc(db, 'families', familyId, 'members', uid), memberData);
+
+    return familyId;
+  } catch (err) {
+    // Se algo falhou após criar a conta, tentar limpar (exceto se já deletamos acima)
+    if (!(err instanceof Error && err.message.includes('Código de convite inválido'))) {
+      try { await credential.user.delete(); } catch { /* ignore */ }
+    }
+    throw err;
+  }
 };
 
 // ─── Logout ──────────────────────────────────────────────────────────────────

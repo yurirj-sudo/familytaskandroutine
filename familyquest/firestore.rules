@@ -7,7 +7,9 @@ service cloud.firestore {
     }
 
     match /families/{familyId} {
-      allow read: if isMember(familyId);
+      // Members can always read their family.
+      // Any authenticated user can also read (needed for invite-code lookup after sign-up).
+      allow read: if isMember(familyId) || request.auth != null;
       // Any authenticated user can create a new family (they have no member doc yet)
       allow create: if request.auth != null;
       allow update, delete: if isAdmin(familyId);
