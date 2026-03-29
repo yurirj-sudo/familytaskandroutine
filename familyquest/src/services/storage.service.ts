@@ -1,20 +1,16 @@
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { storage } from '../firebase';
+import { compressImageToDataUrl } from '../utils/imageCompress';
 
 /**
- * Faz upload da foto-prova de uma tarefa e retorna a URL pública.
- * Path: families/{familyId}/proofs/{taskId}_{uid}_{date}.jpg
+ * Compresses the proof photo in-browser and returns a base64 data URL.
+ * The data URL is stored directly in the Firestore completion document
+ * (no Firebase Storage required — free tier safe).
+ * Typical output: 20–40 KB JPEG, well within Firestore's 1 MB doc limit.
  */
 export const uploadTaskProof = async (
-  familyId: string,
-  taskId: string,
-  userId: string,
+  _familyId: string,
+  _taskId: string,
+  _userId: string,
   file: File
 ): Promise<string> => {
-  const date = new Date().toISOString().split('T')[0];
-  const ext = file.type.includes('png') ? 'png' : 'jpg';
-  const path = `families/${familyId}/proofs/${taskId}_${userId}_${date}.${ext}`;
-  const storageRef = ref(storage, path);
-  const snapshot = await uploadBytes(storageRef, file);
-  return getDownloadURL(snapshot.ref);
+  return compressImageToDataUrl(file);
 };

@@ -1,0 +1,17 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Task proof photos — only authenticated users can upload/read
+    // Path: families/{familyId}/proofs/{filename}
+    match /families/{familyId}/proofs/{filename} {
+      // Any authenticated user can read proof photos
+      allow read: if request.auth != null;
+
+      // Only authenticated users can upload (max 10MB, images only)
+      allow write: if request.auth != null
+        && request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+  }
+}
