@@ -57,6 +57,31 @@ export const deactivateTask = async (familyId: string, taskId: string): Promise<
   await updateDoc(doc(db, 'families', familyId, 'tasks', taskId), { isActive: false });
 };
 
+// ─── Restore Task (reactivate) ────────────────────────────────────────────────
+
+export const restoreTask = async (familyId: string, taskId: string): Promise<void> => {
+  await updateDoc(doc(db, 'families', familyId, 'tasks', taskId), { isActive: true });
+};
+
+// ─── Subscribe Inactive Tasks (real-time) ────────────────────────────────────
+
+export const subscribeInactiveTasks = (
+  familyId: string,
+  onData: (tasks: Task[]) => void,
+  onError?: (err: Error) => void
+): Unsubscribe => {
+  const q = query(
+    collection(db, 'families', familyId, 'tasks'),
+    where('isActive', '==', false),
+    orderBy('order')
+  );
+  return onSnapshot(
+    q,
+    (snap) => onData(snap.docs.map((d) => ({ id: d.id, ...d.data() } as Task))),
+    onError
+  );
+};
+
 // ─── Delete Task (hard delete, use carefully) ─────────────────────────────────
 
 export const deleteTask = async (familyId: string, taskId: string): Promise<void> => {

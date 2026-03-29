@@ -6,7 +6,8 @@ import AppLayout from '../../components/layout/AppLayout';
 import TaskCard, { TaskMember } from '../../components/tasks/TaskCard';
 import { useTasks } from '../../hooks/useTasks';
 import { useCurrentFamily, useCurrentMember } from '../../store/authStore';
-import { deactivateTask, deleteTaskCompletions } from '../../services/task.service';
+import { deactivateTask, deleteTaskCompletions, restoreTask } from '../../services/task.service';
+import { useInactiveTasks } from '../../hooks/useTasks';
 import { Task } from '../../types';
 
 // ─── Delete Confirm Dialog ────────────────────────────────────────────────────
@@ -112,7 +113,10 @@ const TasksPage: React.FC = () => {
   const family = useCurrentFamily();
   const member = useCurrentMember();
   const { tasks, loading } = useTasks(family?.id);
+  const { tasks: archivedTasks } = useInactiveTasks(family?.id);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [showArchived, setShowArchived] = useState(false);
+  const [restoringId, setRestoringId] = useState<string | null>(null);
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
   const [members, setMembers] = useState<MemberFilter[]>([]);
   const [selectedUid, setSelectedUid] = useState<string | null>(null); // null = todos
@@ -150,6 +154,16 @@ const TasksPage: React.FC = () => {
 
   const handleStats = (task: Task) => {
     navigate(`/admin/tasks/${task.id}/stats`);
+  };
+
+  const handleRestore = async (task: Task) => {
+    if (!family?.id) return;
+    setRestoringId(task.id);
+    try {
+      await restoreTask(family.id, task.id);
+    } finally {
+      setRestoringId(null);
+    }
   };
 
   const handleDelete = (task: Task) => {
@@ -312,6 +326,52 @@ const TasksPage: React.FC = () => {
                 ))}
               </div>
             </section>
+          )}
+        </div>
+      )}
+
+      {/* ── Archived tasks ── */}
+      {archivedTasks.length > 0 && (
+        <div className="mt-6">
+          <button
+            onClick={() => setShowArchived((v) => !v)}
+            className="flex items-center gap-2 text-on-surface-variant text-xs font-headline font-bold uppercase tracking-wider mb-3 w-full"
+          >
+            <span className="material-symbols-outlined text-sm">
+              {showArchived ? 'expand_less' : 'expand_more'}
+            </span>
+            🗄️ Arquivadas ({archivedTasks.length})
+          </button>
+
+          {showArchived && (
+            <div className="space-y-2">
+              {archivedTasks.map((task) => (
+                <div
+                  key={task.id}
+                  className={`flex items-center gap-3 bg-surface-container-low rounded-DEFAULT px-4 py-3 opacity-60 ${
+                    restoringId === task.id ? 'opacity-30 pointer-events-none' : ''
+                  }`}
+                >
+                  <span className="text-xl">{task.emoji || (task.type === 'mandatory' ? '⚠️' : '⭐')}</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-on-surface text-sm font-medium truncate line-through">{task.title}</p>
+                    <p className="text-on-surface-variant text-xs capitalize">{task.category}</p>
+                  </div>
+                  <button
+                    onClick={() => handleRestore(task)}
+                    disabled={restoringId === task.id}
+                    className="flex items-center gap-1 text-xs bg-primary/10 hover:bg-primary/20 text-primary rounded-full px-3 py-1.5 transition-colors font-medium flex-shrink-0"
+                  >
+                    {restoringId === task.id ? (
+                      <span className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                    ) : (
+                      <span className="material-symbols-outlined text-sm">restore</span>
+                    )}
+                    Restaurar
+                  </button>
+                </div>
+              ))}
+            </div>
           )}
         </div>
       )}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Task } from '../types';
-import { subscribeActiveTasks } from '../services/task.service';
+import { subscribeActiveTasks, subscribeInactiveTasks } from '../services/task.service';
 import { isTaskDueToday } from '../utils/recurrence';
 
 // ─── All active tasks (real-time) ────────────────────────────────────────────
@@ -49,4 +49,23 @@ export const useTodayTasks = (familyId: string | undefined, userId: string | und
   const optional = todayTasks.filter((t) => t.type === 'optional');
 
   return { todayTasks, mandatory, optional, loading, error };
+};
+
+// ─── Inactive / archived tasks (real-time) ───────────────────────────────────
+
+export const useInactiveTasks = (familyId: string | undefined) => {
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!familyId) { setLoading(false); return; }
+    setLoading(true);
+    const unsub = subscribeInactiveTasks(familyId, (data) => {
+      setTasks(data);
+      setLoading(false);
+    });
+    return unsub;
+  }, [familyId]);
+
+  return { tasks, loading };
 };
