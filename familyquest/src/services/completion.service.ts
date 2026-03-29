@@ -1,5 +1,6 @@
 import {
   doc,
+  getDoc,
   setDoc,
   updateDoc,
   collection,
@@ -15,6 +16,95 @@ import {
 import { db } from '../firebase';
 import { Completion, CompletionStatus, Task } from '../types';
 import { getCompletionId, getCurrentCycleId, getTodayString } from '../utils/date';
+import { isTaskDueToday } from '../utils/recurrence';
+
+// ─── Check and update streak after completing all mandatory tasks ─────────────
+// Called client-side since we have no Cloud Functions running.
+
+const checkAndUpdateStreak = async (
+  familyId: string,
+  userId: string
+): Promise<void> => {
+  const todayStr = getTodayString();
+  const today = new Date();
+
+  // Quick check: skip if streak was already counted today
+  const memberRef = doc(db, 'families', familyId, 'members', userId);
+  const memberSnap = await getDoc(memberRef);
+  if (!memberSnap.exists()) return;
+  if (memberSnap.data().lastStreakDate === todayStr) return;
+
+  // Get all active mandatory tasks (single-field query — no composite index needed)
+  const tasksSnap = await getDocs(
+    query(
+      collection(db, 'families', familyId, 'tasks'),
+      where('isActive', '==', true),
+      where('type', '==', 'mandatory')
+    )
+  );
+
+  const mandatoryDueToday = tasksSnap.docs
+    .map((d) => ({ id: d.id, ...d.data() } as Task))
+    .filter(
+      (t) =>
+        isTaskDueToday(t, today) &&
+        (t.assignedTo === 'all' ||
+          (Array.isArray(t.assignedTo) && t.assignedTo.includes(userId)))
+    );
+
+  if (mandatoryDueToday.length === 0) return; // nothing mandatory today → no streak change
+
+  // Get all completions for this user (filter dates client-side to avoid composite index)
+  const completionsSnap = await getDocs(
+    query(
+      collection(db, 'families', familyId, 'completions'),
+      where('userId', '==', userId)
+    )
+  );
+
+  const startOfDay = new Date(todayStr + 'T00:00:00').getTime();
+  const endOfDay   = new Date(todayStr + 'T23:59:59').getTime();
+
+  const completedTodayIds = new Set(
+    completionsSnap.docs
+      .map((d) => d.data() as Completion)
+      .filter((c) => {
+        const ts = c.dueDate?.toMillis?.() ?? 0;
+        return (
+          ts >= startOfDay &&
+          ts <= endOfDay &&
+          (c.status === 'completed' || c.status === 'approved')
+        );
+      })
+      .map((c) => c.taskId)
+  );
+
+  // All mandatory tasks done today?
+  if (!mandatoryDueToday.every((t) => completedTodayIds.has(t.id))) return;
+
+  // Update streak atomically
+  await runTransaction(db, async (tx) => {
+    const fresh = await tx.get(memberRef);
+    if (!fresh.exists()) return;
+    const data = fresh.data();
+    if (data.lastStreakDate === todayStr) return; // race condition guard
+
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().split('T')[0];
+
+    const newStreak =
+      data.lastStreakDate === yesterdayStr
+        ? (data.currentStreak ?? 0) + 1 // consecutive day
+        : 1;                             // streak reset
+
+    tx.update(memberRef, {
+      currentStreak:  newStreak,
+      longestStreak:  Math.max(newStreak, data.longestStreak ?? 0),
+      lastStreakDate: todayStr,
+    });
+  });
+};
 
 // ─── Get today completions (real-time) ───────────────────────────────────────
 
@@ -111,10 +201,13 @@ export const markTaskCompleted = async (
     if (!memberSnap.exists()) return;
     const pts = task.pointsOnComplete;
     tx.update(memberRef, {
-      totalPoints: (memberSnap.data().totalPoints ?? 0) + pts,
+      totalPoints:    (memberSnap.data().totalPoints    ?? 0) + pts,
       lifetimePoints: (memberSnap.data().lifetimePoints ?? 0) + pts,
     });
   });
+
+  // Check if all mandatory tasks are now done → update streak (fire-and-forget)
+  checkAndUpdateStreak(familyId, userId).catch(() => {});
 };
 
 // ─── Submit Task for Approval (requireTaskApproval = true) ───────────────────
@@ -204,20 +297,40 @@ export const cancelSubmission = async (
 };
 
 // ─── Approve Completion (admin, requireTaskApproval = true) ──────────────────
+// Credits points client-side (no Cloud Function running).
 
 export const approveCompletion = async (
   familyId: string,
   adminUid: string,
   completion: Completion
 ): Promise<void> => {
-  // pointsAwarded was stored on submit (task.pointsOnComplete); use it directly
   const completionRef = doc(db, 'families', familyId, 'completions', completion.id);
-  await updateDoc(completionRef, {
-    status: 'approved' as CompletionStatus,
-    completedAt: serverTimestamp(),
-    reviewedAt: serverTimestamp(),
-    reviewedBy: adminUid,
+  const memberRef     = doc(db, 'families', familyId, 'members', completion.userId);
+
+  await runTransaction(db, async (tx) => {
+    const memberSnap = await tx.get(memberRef);
+    if (!memberSnap.exists()) return;
+
+    const pts = completion.pointsAwarded ?? 0;
+    const data = memberSnap.data();
+
+    tx.update(completionRef, {
+      status:      'approved' as CompletionStatus,
+      completedAt: serverTimestamp(),
+      reviewedAt:  serverTimestamp(),
+      reviewedBy:  adminUid,
+    });
+
+    if (pts > 0) {
+      tx.update(memberRef, {
+        totalPoints:    (data.totalPoints    ?? 0) + pts,
+        lifetimePoints: (data.lifetimePoints ?? 0) + pts,
+      });
+    }
   });
+
+  // Check if all mandatory tasks are now done → update streak (fire-and-forget)
+  checkAndUpdateStreak(familyId, completion.userId).catch(() => {});
 };
 
 // ─── Reject Completion (admin) ────────────────────────────────────────────────

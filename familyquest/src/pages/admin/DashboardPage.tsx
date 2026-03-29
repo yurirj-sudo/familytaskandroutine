@@ -8,6 +8,7 @@ import { useFamilyMembers } from '../../store/familyStore';
 import { usePendingApprovalsCount } from '../../hooks/useCompletions';
 import { subscribeFamilyTodayCompletions } from '../../services/completion.service';
 import { Completion, Member } from '../../types';
+import { useThemeColors } from '../../hooks/useThemeColors';
 
 // ─── Chart tooltip ─────────────────────────────────────────────────────────────
 
@@ -42,6 +43,7 @@ const DashboardPage: React.FC = () => {
   const member = useCurrentMember();
   const members = useFamilyMembers();
   const pendingCount = usePendingApprovalsCount(family?.id);
+  const themeColors = useThemeColors();
   const [copied, setCopied] = useState(false);
   const [todayCompletions, setTodayCompletions] = useState<Completion[]>([]);
 
@@ -81,7 +83,7 @@ const DashboardPage: React.FC = () => {
       Pendentes: x.pending,
     }));
 
-  const ranking = [...members].sort((a, b) => b.totalPoints - a.totalPoints);
+  const ranking = [...members].sort((a, b) => b.lifetimePoints - a.lifetimePoints);
 
   return (
     <AppLayout title="Dashboard">
@@ -155,7 +157,7 @@ const DashboardPage: React.FC = () => {
                     tickLine={false}
                     allowDecimals={false}
                   />
-                  <Tooltip content={<ChartTooltip />} cursor={{ fill: 'rgba(70,71,211,0.05)' }} />
+                  <Tooltip content={<ChartTooltip />} cursor={{ fill: themeColors.primaryCursor }} />
                   <Bar dataKey="Feitas" fill="#006a2d" radius={[4, 4, 0, 0] as [number, number, number, number]} />
                   <Bar dataKey="Pendentes" fill="#745700" radius={[4, 4, 0, 0] as [number, number, number, number]} />
                   <Bar dataKey="Perdidas" fill="#b41340" radius={[4, 4, 0, 0] as [number, number, number, number]} />
@@ -224,7 +226,7 @@ const DashboardPage: React.FC = () => {
                       <p className="text-sm font-semibold text-on-surface truncate">{m.displayName}</p>
                       <p className="text-xs text-on-surface-variant">{m.role === 'admin' ? 'Admin' : 'Membro'}</p>
                     </div>
-                    <PointsBadge points={m.totalPoints} size="sm" />
+                    <PointsBadge points={m.lifetimePoints} size="sm" />
                   </div>
                 </div>
               ))}

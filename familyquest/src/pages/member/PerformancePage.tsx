@@ -9,6 +9,7 @@ import { useFamilyMembers } from '../../store/familyStore';
 import { useMemberCycles, useFamilyCurrentCycles } from '../../hooks/useCycle';
 import { getMonthName } from '../../utils/date';
 import { Cycle } from '../../types';
+import { useThemeColors } from '../../hooks/useThemeColors';
 
 // ─── Custom tooltip ────────────────────────────────────────────────────────────
 
@@ -36,6 +37,7 @@ const PerformancePage: React.FC = () => {
   const family = useCurrentFamily();
   const member = useCurrentMember();
   const members = useFamilyMembers();
+  const themeColors = useThemeColors();
   const now = new Date();
   const currentMonth = now.getMonth() + 1;
   const currentYear = now.getFullYear();
@@ -70,7 +72,7 @@ const PerformancePage: React.FC = () => {
         const cycle = familyCycles.find((c) => c.userId === m.uid);
         return {
           member: m,
-          points: cycle?.pointsEarned ?? m.totalPoints,
+          points: cycle?.pointsEarned ?? m.lifetimePoints,
           completionRate: cycle?.completionRate ?? 0,
           hasCycle: !!cycle,
         };
@@ -157,18 +159,18 @@ const PerformancePage: React.FC = () => {
                     tickLine={false}
                     allowDecimals={false}
                   />
-                  <Tooltip content={<ChartTooltip />} cursor={{ fill: 'rgba(70,71,211,0.05)' }} />
+                  <Tooltip content={<ChartTooltip />} cursor={{ fill: themeColors.primaryCursor }} />
                   <Bar dataKey="Ganhos" radius={[4, 4, 0, 0] as [number, number, number, number]}>
                     {chartData.map((_, i) => (
                       <Cell
                         key={i}
-                        fill={i === chartData.length - 1 ? '#4647d3' : '#006a2d'}
+                        fill={i === chartData.length - 1 ? themeColors.primary : '#006a2d'}
                       />
                     ))}
                   </Bar>
                 </BarChart>
               </ResponsiveContainer>
-              <p className="text-on-surface-variant text-xs text-center mt-1">Mês atual em índigo</p>
+              <p className="text-on-surface-variant text-xs text-center mt-1">Mês atual em destaque</p>
             </div>
           </div>
         )}

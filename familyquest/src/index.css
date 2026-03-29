@@ -4,6 +4,51 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Gender-based theme CSS variables ──────────────────────────────────────── */
+
+/* Default / sem gênero: índigo */
+:root, #root {
+  --tw-clr-primary:           70 71 211;
+  --tw-clr-primary-dim:       57 57 199;
+  --tw-clr-primary-container: 147 150 255;
+  --tw-clr-on-primary:        244 241 255;
+  --tw-gradient-primary:      linear-gradient(135deg, #4647d3 0%, #9396ff 100%);
+  --tw-shadow-primary-glow:   0 8px 25px rgba(70, 71, 211, 0.3);
+  --tw-glass-primary-bg:      rgba(70, 71, 211, 0.08);
+  --tw-glass-primary-border:  rgba(70, 71, 211, 0.2);
+  /* Glass / header / nav backgrounds */
+  --tw-glass-bg:              rgba(244, 246, 255, 0.85);
+  --tw-glass-border:          rgba(160, 174, 197, 0.15);
+}
+
+/* Masculino: azul */
+#root[data-theme="male"] {
+  --tw-clr-primary:           0 87 189;
+  --tw-clr-primary-dim:       0 50 113;
+  --tw-clr-primary-container: 191 209 255;
+  --tw-clr-on-primary:        255 255 255;
+  --tw-gradient-primary:      linear-gradient(135deg, #0057bd 0%, #4d8edf 100%);
+  --tw-shadow-primary-glow:   0 8px 25px rgba(0, 87, 189, 0.3);
+  --tw-glass-primary-bg:      rgba(0, 87, 189, 0.08);
+  --tw-glass-primary-border:  rgba(0, 87, 189, 0.2);
+  --tw-glass-bg:              rgba(230, 242, 255, 0.88);
+  --tw-glass-border:          rgba(0, 87, 189, 0.10);
+}
+
+/* Feminino: rosa */
+#root[data-theme="female"] {
+  --tw-clr-primary:           176 13 106;
+  --tw-clr-primary-dim:       157 0 93;
+  --tw-clr-primary-container: 255 209 232;
+  --tw-clr-on-primary:        255 255 255;
+  --tw-gradient-primary:      linear-gradient(135deg, #b00d6a 0%, #ff73b1 100%);
+  --tw-shadow-primary-glow:   0 8px 25px rgba(176, 13, 106, 0.3);
+  --tw-glass-primary-bg:      rgba(176, 13, 106, 0.08);
+  --tw-glass-primary-border:  rgba(176, 13, 106, 0.2);
+  --tw-glass-bg:              rgba(255, 228, 242, 0.88);
+  --tw-glass-border:          rgba(176, 13, 106, 0.10);
+}
+
 @layer base {
   * {
     box-sizing: border-box;
@@ -75,33 +120,33 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Light glass — used for floating panels (TopBar, BottomNav) */
+  /* Light glass — used for floating panels (TopBar, BottomNav) — gender-themed */
   .glass {
-    background: rgba(244, 246, 255, 0.80);
+    background: var(--tw-glass-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(160, 174, 197, 0.15);
+    border: 1px solid var(--tw-glass-border);
   }
 
   /* Kept for legacy references — same as .glass in light theme */
   .glass-dark {
-    background: rgba(244, 246, 255, 0.80);
+    background: var(--tw-glass-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(160, 174, 197, 0.15);
+    border: 1px solid var(--tw-glass-border);
   }
 
   /* Primary tinted glass */
   .glass-primary {
-    background: rgba(70, 71, 211, 0.08);
+    background: var(--tw-glass-primary-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(70, 71, 211, 0.2);
+    border: 1px solid var(--tw-glass-primary-border);
   }
 
   /* Primary gradient utility */
   .primary-gradient {
-    background: linear-gradient(135deg, #4647d3 0%, #9396ff 100%);
+    background: var(--tw-gradient-primary);
   }
 
   /* Cloud shadow utility */
@@ -124,7 +169,7 @@
 
 @layer utilities {
   .text-gradient {
-    background: linear-gradient(135deg, #4647d3, #9396ff);
+    background: var(--tw-gradient-primary);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

@@ -1,4 +1,6 @@
 import React from 'react';
+import { doc, updateDoc } from 'firebase/firestore';
+import { db } from '../../firebase';
 import AppLayout from '../../components/layout/AppLayout';
 import { useCurrentMember, useCurrentFamily } from '../../store/authStore';
 import Avatar from '../../components/ui/Avatar';
@@ -16,6 +18,11 @@ const ProfilePage = () => {
     setLoggingOut(true);
     await logout();
     navigate('/login', { replace: true });
+  };
+
+  const setGender = async (gender: 'male' | 'female') => {
+    if (!family || !member) return;
+    await updateDoc(doc(db, 'families', family.id, 'members', member.uid), { gender });
   };
 
   return (
@@ -36,6 +43,39 @@ const ProfilePage = () => {
           {family && (
             <p className="text-on-primary/60 text-sm mt-1">{family.name}</p>
           )}
+        </div>
+
+        {/* Gender / Theme selection */}
+        <div className="bg-surface-container-lowest rounded-DEFAULT shadow-cloud p-5">
+          <p className="text-on-surface-variant text-xs font-headline font-bold uppercase tracking-wider mb-3">Tema do aplicativo</p>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              onClick={() => setGender('male')}
+              className={[
+                'flex flex-col items-center gap-2 p-4 rounded-DEFAULT border-2 transition-all',
+                member?.gender === 'male'
+                  ? 'border-primary bg-primary/10 text-primary'
+                  : 'border-outline-variant text-on-surface-variant hover:border-primary/40',
+              ].join(' ')}
+            >
+              <span className="text-2xl">♂</span>
+              <span className="text-sm font-semibold">Masculino</span>
+              <span className="text-xs opacity-70">Tema azul</span>
+            </button>
+            <button
+              onClick={() => setGender('female')}
+              className={[
+                'flex flex-col items-center gap-2 p-4 rounded-DEFAULT border-2 transition-all',
+                member?.gender === 'female'
+                  ? 'border-primary bg-primary/10 text-primary'
+                  : 'border-outline-variant text-on-surface-variant hover:border-primary/40',
+              ].join(' ')}
+            >
+              <span className="text-2xl">♀</span>
+              <span className="text-sm font-semibold">Feminino</span>
+              <span className="text-xs opacity-70">Tema rosa</span>
+            </button>
+          </div>
         </div>
 
         {family && (

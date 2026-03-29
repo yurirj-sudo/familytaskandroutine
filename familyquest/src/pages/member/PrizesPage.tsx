@@ -6,6 +6,12 @@ import { usePrizes, useMemberRedemptions } from "../../hooks/usePrizes";
 import { useCurrentFamily, useCurrentMember } from "../../store/authStore";
 import { Prize } from "../../types";
 
+const STATUS_CONFIG = {
+  pending:  { label: 'Aguardando', color: 'bg-warning/15 text-warning', icon: 'schedule' },
+  approved: { label: 'Aprovado',   color: 'bg-secondary/15 text-secondary', icon: 'check_circle' },
+  rejected: { label: 'Recusado',   color: 'bg-error/15 text-error', icon: 'cancel' },
+} as const;
+
 const PrizesPage: React.FC = () => {
   const family = useCurrentFamily();
   const member = useCurrentMember();
@@ -68,28 +74,38 @@ const PrizesPage: React.FC = () => {
       {!loadingRedemptions && redemptions.length > 0 && (
         <section className="mt-8">
           <h3 className="text-on-surface-variant text-xs font-headline font-bold uppercase tracking-wider mb-3">
-            Histórico de Resgates
+            Minhas Solicitações
           </h3>
           <div className="space-y-2">
-            {redemptions.map((r) => (
-              <div
-                key={r.id}
-                className="flex items-center justify-between bg-surface-container-low rounded-DEFAULT px-4 py-3"
-              >
-                <div className="flex items-center gap-3">
+            {redemptions.map((r) => {
+              const cfg = STATUS_CONFIG[r.status] ?? STATUS_CONFIG.pending;
+              const dateTs = r.status === 'pending' ? (r.requestedAt ?? r.redeemedAt) : (r.redeemedAt ?? r.requestedAt);
+              return (
+                <div
+                  key={r.id}
+                  className="flex items-center gap-3 bg-surface-container-low rounded-DEFAULT px-4 py-3"
+                >
                   <span className="text-xl">{r.prizeEmoji || "🎁"}</span>
-                  <div>
-                    <p className="text-on-surface text-sm font-medium">{r.prizeTitle}</p>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-on-surface text-sm font-medium truncate">{r.prizeTitle}</p>
                     <p className="text-on-surface-variant text-xs">
-                      {r.redeemedAt?.toDate
-                        ? new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" }).format(r.redeemedAt.toDate())
+                      {dateTs?.toDate
+                        ? new Intl.DateTimeFormat("pt-BR", { day: "2-digit", month: "2-digit", year: "2-digit" }).format(dateTs.toDate())
                         : ""}
                     </p>
                   </div>
+                  <div className="flex flex-col items-end gap-1 flex-shrink-0">
+                    {r.status === 'approved' && (
+                      <span className="text-error text-sm font-headline font-bold">-{r.pointsCost} pts</span>
+                    )}
+                    <span className={`flex items-center gap-1 text-[10px] font-bold rounded-full px-2 py-0.5 ${cfg.color}`}>
+                      <span className="material-symbols-outlined" style={{ fontSize: 11 }}>{cfg.icon}</span>
+                      {cfg.label}
+                    </span>
+                  </div>
                 </div>
-                <span className="text-error text-sm font-headline font-bold">-{r.pointsCost} pts</span>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
       )}
@@ -101,6 +117,7 @@ const PrizesPage: React.FC = () => {
           familyId={family?.id ?? ""}
           userId={member?.uid ?? ""}
           userName={member?.displayName ?? ""}
+          userAvatar={member?.avatar ?? "👤"}
           totalPoints={totalPoints}
           onClose={() => setRedeemTarget(null)}
           onSuccess={() => setRedeemTarget(null)}

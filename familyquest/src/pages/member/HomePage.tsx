@@ -106,11 +106,11 @@ const HomePage: React.FC = () => {
             <p className="text-[10px] font-headline font-bold text-on-surface-variant uppercase tracking-tighter">Tarefas Hoje</p>
           </div>
         </div>
-        <div className="bg-surface-container-low p-5 rounded-DEFAULT flex flex-col items-center justify-center space-y-2 text-center border-b-4 border-tertiary/10">
-          <span className="material-symbols-outlined text-tertiary" style={{ fontSize: '2rem' }}>local_fire_department</span>
+        <div className="bg-primary p-5 rounded-DEFAULT flex flex-col items-center justify-center space-y-2 text-center shadow-primary-glow">
+          <span className="material-symbols-filled text-on-primary" style={{ fontSize: '2rem' }}>local_fire_department</span>
           <div>
-            <p className="text-2xl font-headline font-extrabold text-on-surface">{member?.currentStreak ?? 0}</p>
-            <p className="text-[10px] font-headline font-bold text-on-surface-variant uppercase tracking-tighter">Dias Seguidos</p>
+            <p className="text-2xl font-headline font-extrabold text-on-primary">{member?.currentStreak ?? 0}</p>
+            <p className="text-[10px] font-headline font-bold text-on-primary/80 uppercase tracking-tighter">Dias Seguidos</p>
           </div>
         </div>
       </div>

@@ -6,8 +6,71 @@ import {
   subscribeFamilyMembers,
   updateMemberRole,
   deactivateMember,
+  resetMemberHistory,
 } from '../../services/family.service';
 import { Member } from '../../types';
+
+// ─── Reset Confirm Dialog ─────────────────────────────────────────────────────
+
+const ResetHistoryDialog: React.FC<{
+  member: Member;
+  onConfirm: () => Promise<void>;
+  onCancel: () => void;
+}> = ({ member, onConfirm, onCancel }) => {
+  const [resetting, setResetting] = useState(false);
+
+  const handle = async () => {
+    setResetting(true);
+    try {
+      await onConfirm();
+    } finally {
+      setResetting(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-on-surface/60 p-5">
+      <div className="bg-surface-container-lowest rounded-DEFAULT shadow-cloud p-5 w-full max-w-sm">
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-4">
+          <div className="w-10 h-10 rounded-full bg-error-container/20 flex items-center justify-center flex-shrink-0">
+            <span className="material-symbols-outlined text-error">restart_alt</span>
+          </div>
+          <div>
+            <h3 className="font-headline font-bold text-on-surface text-base">Resetar histórico</h3>
+            <p className="text-on-surface-variant text-xs truncate max-w-[200px]">{member.displayName}</p>
+          </div>
+        </div>
+
+        <p className="text-on-surface-variant text-sm mb-4">
+          Isso irá zerar <span className="font-bold text-on-surface">pontos, streak e todo histórico de conclusões</span> de{' '}
+          <span className="font-bold text-on-surface">{member.displayName}</span>. Esta ação não pode ser desfeita.
+        </p>
+
+        {/* Actions */}
+        <div className="flex gap-2">
+          <button
+            onClick={onCancel}
+            disabled={resetting}
+            className="flex-1 bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant rounded-full py-2.5 text-sm font-medium transition-colors disabled:opacity-50"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={handle}
+            disabled={resetting}
+            className="flex-1 bg-error text-white hover:bg-error/90 rounded-full py-2.5 text-sm font-headline font-bold transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+          >
+            {resetting && (
+              <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+            )}
+            Resetar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const ROLE_LABELS: Record<string, string> = {
   admin: 'Admin',
@@ -29,6 +92,7 @@ const MembersPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
   const [actionUid, setActionUid] = useState<string | null>(null);
+  const [memberToReset, setMemberToReset] = useState<Member | null>(null);
 
   useEffect(() => {
     if (!family?.id) return;
@@ -77,6 +141,12 @@ const MembersPage: React.FC = () => {
     } finally {
       setActionUid(null);
     }
+  };
+
+  const handleResetConfirm = async () => {
+    if (!memberToReset || !family?.id) return;
+    await resetMemberHistory(family.id, memberToReset.uid);
+    setMemberToReset(null);
   };
 
   const activeMembers = members.filter((m) => m.isActive);
@@ -137,6 +207,7 @@ const MembersPage: React.FC = () => {
                   onRoleChange={handleRoleChange}
                   onAdjustPoints={() => navigate(`/admin/members/${m.uid}/points`)}
                   onDeactivate={handleDeactivate}
+                  onResetHistory={(mem) => setMemberToReset(mem)}
                   roleLabels={ROLE_LABELS}
                   roleColors={ROLE_COLORS}
                 />
@@ -172,6 +243,14 @@ const MembersPage: React.FC = () => {
           </section>
         )}
       </div>
+
+      {memberToReset && (
+        <ResetHistoryDialog
+          member={memberToReset}
+          onConfirm={handleResetConfirm}
+          onCancel={() => setMemberToReset(null)}
+        />
+      )}
     </AppLayout>
   );
 };
@@ -185,6 +264,7 @@ interface MemberCardProps {
   onRoleChange: (m: Member, role: Member['role']) => void;
   onAdjustPoints: () => void;
   onDeactivate: (m: Member) => void;
+  onResetHistory: (m: Member) => void;
   roleLabels: Record<string, string>;
   roleColors: Record<string, string>;
 }
@@ -196,6 +276,7 @@ const MemberCard: React.FC<MemberCardProps> = ({
   onRoleChange,
   onAdjustPoints,
   onDeactivate,
+  onResetHistory,
   roleLabels,
   roleColors,
 }) => {
@@ -258,6 +339,16 @@ const MemberCard: React.FC<MemberCardProps> = ({
           >
             <span className="material-symbols-outlined" style={{ fontSize: 14 }}>stars</span>
             Pontos
+          </button>
+
+          {/* Reset history */}
+          <button
+            onClick={() => onResetHistory(member)}
+            disabled={isLoading}
+            title="Resetar histórico"
+            className="w-9 h-9 flex items-center justify-center rounded-full bg-warning/10 text-warning hover:bg-warning/20 transition-colors disabled:opacity-50"
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: 16 }}>restart_alt</span>
           </button>
 
           {/* Deactivate */}

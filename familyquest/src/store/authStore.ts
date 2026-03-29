@@ -8,6 +8,7 @@ interface AuthState {
   family: Family | null;
   loading: boolean;
   initialized: boolean;
+  viewAsRole: 'admin' | 'member'; // admin can switch to member view
 }
 
 interface AuthActions {
@@ -16,6 +17,7 @@ interface AuthActions {
   setFamily: (family: Family | null) => void;
   setLoading: (loading: boolean) => void;
   setInitialized: (initialized: boolean) => void;
+  setViewAsRole: (role: 'admin' | 'member') => void;
   reset: () => void;
 }
 
@@ -25,6 +27,7 @@ const initialState: AuthState = {
   family: null,
   loading: true,
   initialized: false,
+  viewAsRole: 'admin',
 };
 
 export const useAuthStore = create<AuthState & AuthActions>((set) => ({
@@ -35,6 +38,7 @@ export const useAuthStore = create<AuthState & AuthActions>((set) => ({
   setFamily: (family) => set({ family }),
   setLoading: (loading) => set({ loading }),
   setInitialized: (initialized) => set({ initialized }),
+  setViewAsRole: (viewAsRole) => set({ viewAsRole }),
 
   reset: () => set({ ...initialState, loading: false, initialized: true }),
 }));
@@ -47,3 +51,5 @@ export const useCurrentFamily = () => useAuthStore((s) => s.family);
 export const useIsAdmin = () => useAuthStore((s) => s.member?.role === 'admin');
 export const useIsAuthenticated = () => useAuthStore((s) => s.firebaseUser !== null);
 export const useAuthLoading = () => useAuthStore((s) => s.loading);
+export const useViewAsRole = () => useAuthStore((s) => s.viewAsRole);
+export const useSetViewAsRole = () => useAuthStore((s) => s.setViewAsRole);

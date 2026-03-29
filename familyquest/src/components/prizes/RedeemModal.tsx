@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import confetti from 'canvas-confetti';
 import { Prize } from '../../types';
-import { redeemPrize } from '../../services/redemption.service';
+import { requestPrizeRedemption } from '../../services/redemption.service';
 
 interface RedeemModalProps {
   prize: Prize;
   familyId: string;
   userId: string;
   userName: string;
+  userAvatar: string;
   totalPoints: number;
   onClose: () => void;
   onSuccess: () => void;
@@ -18,6 +18,7 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
   familyId,
   userId,
   userName,
+  userAvatar,
   totalPoints,
   onClose,
   onSuccess,
@@ -32,36 +33,32 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
     setLoading(true);
     setError(null);
     try {
-      await redeemPrize(familyId, userId, userName, prize.id);
+      await requestPrizeRedemption(familyId, userId, userName, userAvatar, prize.id);
       setDone(true);
-      confetti({
-        particleCount: 120,
-        spread: 80,
-        origin: { y: 0.6 },
-        colors: ['#fdc425', '#4647d3', '#006a2d', '#f59e0b', '#ec4899'],
-      });
-      setTimeout(onSuccess, 2000);
+      setTimeout(onSuccess, 2500);
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Erro ao resgatar. Tente novamente.');
+      setError(err instanceof Error ? err.message : 'Erro ao solicitar. Tente novamente.');
       setLoading(false);
     }
   };
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-on-surface/60 p-4"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-on-surface/60 p-5"
       onClick={onClose}
     >
       <div
-        className="bg-surface-container-lowest rounded-DEFAULT shadow-cloud p-6 w-full max-w-sm mb-2 animate-fade-up"
+        className="bg-surface-container-lowest rounded-DEFAULT shadow-cloud p-6 w-full max-w-sm animate-fade-up"
         onClick={(e) => e.stopPropagation()}
       >
         {done ? (
-          // ── Success state ────────────────────────────────────────────────
+          // ── Success state ─────────────────────────────────────────────────
           <div className="text-center py-4">
-            <div className="text-6xl mb-3">{prize.emoji || '🎁'}</div>
-            <h3 className="font-headline font-bold text-on-surface text-lg">Resgatado!</h3>
-            <p className="text-on-surface-variant text-sm mt-1">{prize.title} é seu agora.</p>
+            <div className="text-6xl mb-3">📬</div>
+            <h3 className="font-headline font-bold text-on-surface text-lg">Solicitação enviada!</h3>
+            <p className="text-on-surface-variant text-sm mt-1">
+              Aguardando aprovação do administrador. Seus pontos serão descontados após a confirmação.
+            </p>
           </div>
         ) : (
           <>
@@ -92,11 +89,19 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
               </div>
               <div className="h-px bg-outline-variant/20" />
               <div className="flex justify-between text-sm">
-                <span className="text-on-surface-variant">Saldo após resgate</span>
+                <span className="text-on-surface-variant">Saldo após aprovação</span>
                 <span className={`font-headline font-bold ${pointsAfter >= 0 ? 'text-secondary' : 'text-error'}`}>
                   {pointsAfter.toLocaleString('pt-BR')} pts
                 </span>
               </div>
+            </div>
+
+            {/* Approval notice */}
+            <div className="flex items-start gap-2 bg-primary/5 border border-primary/15 rounded-DEFAULT px-3 py-2 mb-4">
+              <span className="material-symbols-outlined text-primary flex-shrink-0" style={{ fontSize: 16, marginTop: 1 }}>info</span>
+              <p className="text-xs text-on-surface-variant">
+                Sua solicitação será enviada ao administrador para aprovação. Os pontos só serão descontados após a confirmação.
+              </p>
             </div>
 
             {error && (
@@ -113,14 +118,14 @@ export const RedeemModal: React.FC<RedeemModalProps> = ({
                 Cancelar
               </button>
               <button
-                className="flex-1 bg-tertiary-container/30 hover:bg-tertiary-container/50 text-on-tertiary-container border border-tertiary/20 rounded-full py-3 text-sm font-headline font-bold transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
+                className="flex-1 primary-gradient text-on-primary rounded-full py-3 text-sm font-headline font-bold transition-colors disabled:opacity-50 flex items-center justify-center gap-2"
                 onClick={handleConfirm}
                 disabled={loading}
               >
                 {loading && (
-                  <span className="w-4 h-4 border-2 border-on-tertiary-container border-t-transparent rounded-full animate-spin" />
+                  <span className="w-4 h-4 border-2 border-on-primary border-t-transparent rounded-full animate-spin" />
                 )}
-                Confirmar
+                Solicitar
               </button>
             </div>
           </>

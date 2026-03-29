@@ -1,13 +1,13 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
-import { useCurrentFamily, useIsAdmin } from '../../store/authStore';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useCurrentFamily, useIsAdmin, useViewAsRole, useSetViewAsRole } from '../../store/authStore';
 import { usePendingApprovalsCount } from '../../hooks/useCompletions';
+import { usePendingRedemptionsCount } from '../../hooks/usePrizes';
 
 interface NavItem {
   to: string;
   label: string;
   icon: string;
-  adminOnly?: boolean;
 }
 
 const memberNavItems: NavItem[] = [
@@ -22,15 +22,34 @@ const adminNavItems: NavItem[] = [
   { to: '/admin/dashboard', label: 'Dashboard', icon: 'dashboard' },
   { to: '/admin/approvals', label: 'Aprovar', icon: 'task_alt' },
   { to: '/admin/tasks', label: 'Tarefas', icon: 'checklist' },
+  { to: '/admin/prizes', label: 'Prêmios', icon: 'card_giftcard' },
   { to: '/admin/members', label: 'Membros', icon: 'group' },
-  { to: '/profile', label: 'Perfil', icon: 'person' },
 ];
 
 export const BottomNav: React.FC = () => {
   const isAdmin = useIsAdmin();
   const family = useCurrentFamily();
+  const viewAsRole = useViewAsRole();
+  const setViewAsRole = useSetViewAsRole();
+  const navigate = useNavigate();
+  // Effective role for navigation: admins can switch view
+  const effectiveRole = isAdmin ? viewAsRole : 'member';
+
   const pendingCount = usePendingApprovalsCount(isAdmin ? family?.id : undefined);
-  const navItems = isAdmin ? adminNavItems : memberNavItems;
+  const pendingRedemptionsCount = usePendingRedemptionsCount(
+    isAdmin && effectiveRole === 'admin' ? family?.id : undefined
+  );
+  const navItems = effectiveRole === 'admin' ? adminNavItems : memberNavItems;
+
+  const handleToggleView = () => {
+    if (effectiveRole === 'admin') {
+      setViewAsRole('member');
+      navigate('/home');
+    } else {
+      setViewAsRole('admin');
+      navigate('/admin/dashboard');
+    }
+  };
 
   return (
     <nav
@@ -38,13 +57,32 @@ export const BottomNav: React.FC = () => {
       style={{ maxWidth: 430 }}
       aria-label="Navegação principal"
     >
+      {/* Admin view-switch pill — visible only to admins */}
+      {isAdmin && (
+        <div className="flex justify-center pb-1">
+          <button
+            onClick={handleToggleView}
+            className={`flex items-center gap-1.5 text-[10px] font-headline font-bold uppercase tracking-wider rounded-full px-3 py-1 shadow-cloud transition-all ${
+              effectiveRole === 'member'
+                ? 'bg-primary text-on-primary'
+                : 'bg-surface-container-lowest text-on-surface-variant border border-outline-variant/20'
+            }`}
+          >
+            <span className="material-symbols-outlined" style={{ fontSize: '0.875rem' }}>
+              {effectiveRole === 'member' ? 'admin_panel_settings' : 'supervised_user_circle'}
+            </span>
+            {effectiveRole === 'member' ? 'Voltar ao Admin' : 'Ver como membro'}
+          </button>
+        </div>
+      )}
+
       <div
         className="w-full"
         style={{
-          background: 'rgba(244, 246, 255, 0.80)',
+          background: 'var(--tw-glass-bg)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          borderTop: '1px solid rgba(160, 174, 197, 0.15)',
+          borderTop: '1px solid var(--tw-glass-border)',
           borderRadius: '2.5rem 2.5rem 0 0',
           boxShadow: '0 -10px 30px rgba(33, 47, 66, 0.08)',
         }}
@@ -82,6 +120,11 @@ export const BottomNav: React.FC = () => {
                     {item.to === '/admin/approvals' && pendingCount > 0 && (
                       <span className="absolute -top-1 -right-2 bg-error text-on-error text-[10px] font-bold rounded-full min-w-[16px] h-4 flex items-center justify-center px-0.5">
                         {pendingCount > 9 ? '9+' : pendingCount}
+                      </span>
+                    )}
+                    {item.to === '/admin/prizes' && pendingRedemptionsCount > 0 && (
+                      <span className="absolute -top-1 -right-2 bg-error text-on-error text-[10px] font-bold rounded-full min-w-[16px] h-4 flex items-center justify-center px-0.5">
+                        {pendingRedemptionsCount > 9 ? '9+' : pendingRedemptionsCount}
                       </span>
                     )}
                   </span>

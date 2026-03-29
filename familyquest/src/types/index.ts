@@ -43,6 +43,8 @@ export interface Member {
   lifetimePoints: number;
   currentStreak: number;
   longestStreak: number;
+  lastStreakDate?: string; // 'YYYY-MM-DD' — last date streak was incremented
+  gender?: 'male' | 'female';
   joinedAt: Timestamp;
   fcmToken?: string;
   isActive: boolean;
@@ -127,6 +129,8 @@ export interface Prize {
 
 // ─── Redemption ──────────────────────────────────────────────────────────────
 
+export type RedemptionStatus = 'pending' | 'approved' | 'rejected';
+
 export interface Redemption {
   id: string;
   prizeId: string;
@@ -135,9 +139,14 @@ export interface Redemption {
   pointsCost: number;
   userId: string;
   userName: string;
+  userAvatar?: string;
   familyId: string;
-  status: 'approved';
-  redeemedAt: Timestamp;
+  status: RedemptionStatus;
+  requestedAt?: Timestamp;  // present in new records
+  redeemedAt?: Timestamp;   // set when approved; also present in legacy records as primary timestamp
+  reviewedAt?: Timestamp;
+  reviewedBy?: string;
+  rejectionReason?: string;
   cycleId: string;
 }
 

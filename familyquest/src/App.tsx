@@ -3,11 +3,24 @@ import { RouterProvider } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, onSnapshot, collection } from 'firebase/firestore';
 import { auth, db } from './firebase';
-import { useAuthStore } from './store/authStore';
+import { useAuthStore, useCurrentMember } from './store/authStore';
 import { useFamilyStore } from './store/familyStore';
 import { router } from './router';
 import { initFCM } from './services/fcm.service';
 import type { AppUser, Member, Family } from './types';
+
+// Applies data-theme to #root based on member gender
+const ThemeApplier: React.FC = () => {
+  const member = useCurrentMember();
+  useEffect(() => {
+    const root = document.getElementById('root');
+    if (!root) return;
+    if (member?.gender === 'male') root.setAttribute('data-theme', 'male');
+    else if (member?.gender === 'female') root.setAttribute('data-theme', 'female');
+    else root.removeAttribute('data-theme');
+  }, [member?.gender]);
+  return null;
+};
 
 const App: React.FC = () => {
   const {
@@ -113,7 +126,12 @@ const App: React.FC = () => {
     };
   }, []);
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <ThemeApplier />
+      <RouterProvider router={router} />
+    </>
+  );
 };
 
 export default App;

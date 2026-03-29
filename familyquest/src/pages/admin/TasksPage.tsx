@@ -6,7 +6,7 @@ import AppLayout from '../../components/layout/AppLayout';
 import TaskCard, { TaskMember } from '../../components/tasks/TaskCard';
 import { useTasks } from '../../hooks/useTasks';
 import { useCurrentFamily, useCurrentMember } from '../../store/authStore';
-import { deactivateTask, deleteTaskCompletions, restoreTask } from '../../services/task.service';
+import { deactivateTask, deleteTaskCompletions, restoreTask, deleteTask } from '../../services/task.service';
 import { useInactiveTasks } from '../../hooks/useTasks';
 import { Task } from '../../types';
 
@@ -118,6 +118,7 @@ const TasksPage: React.FC = () => {
   const [showArchived, setShowArchived] = useState(false);
   const [restoringId, setRestoringId] = useState<string | null>(null);
   const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
+  const [permanentDeleteId, setPermanentDeleteId] = useState<string | null>(null);
   const [members, setMembers] = useState<MemberFilter[]>([]);
   const [selectedUid, setSelectedUid] = useState<string | null>(null); // null = todos
 
@@ -168,6 +169,21 @@ const TasksPage: React.FC = () => {
 
   const handleDelete = (task: Task) => {
     setTaskToDelete(task);
+  };
+
+  const handlePermanentDelete = async (task: Task) => {
+    if (!family?.id) return;
+    const confirmed = window.confirm(
+      `Excluir permanentemente "${task.title}"? Esta ação apagará também todo o histórico de conclusões e não pode ser desfeita.`
+    );
+    if (!confirmed) return;
+    setPermanentDeleteId(task.id);
+    try {
+      await deleteTaskCompletions(family.id, task.id);
+      await deleteTask(family.id, task.id);
+    } finally {
+      setPermanentDeleteId(null);
+    }
   };
 
   const handleDeleteConfirm = async (deleteHistory: boolean) => {
@@ -357,18 +373,32 @@ const TasksPage: React.FC = () => {
                     <p className="text-on-surface text-sm font-medium truncate line-through">{task.title}</p>
                     <p className="text-on-surface-variant text-xs capitalize">{task.category}</p>
                   </div>
-                  <button
-                    onClick={() => handleRestore(task)}
-                    disabled={restoringId === task.id}
-                    className="flex items-center gap-1 text-xs bg-primary/10 hover:bg-primary/20 text-primary rounded-full px-3 py-1.5 transition-colors font-medium flex-shrink-0"
-                  >
-                    {restoringId === task.id ? (
-                      <span className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                    ) : (
-                      <span className="material-symbols-outlined text-sm">restore</span>
-                    )}
-                    Restaurar
-                  </button>
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <button
+                      onClick={() => handleRestore(task)}
+                      disabled={restoringId === task.id || permanentDeleteId === task.id}
+                      className="flex items-center gap-1 text-xs bg-primary/10 hover:bg-primary/20 text-primary rounded-full px-3 py-1.5 transition-colors font-medium"
+                    >
+                      {restoringId === task.id ? (
+                        <span className="w-3 h-3 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <span className="material-symbols-outlined text-sm">restore</span>
+                      )}
+                      Restaurar
+                    </button>
+                    <button
+                      onClick={() => handlePermanentDelete(task)}
+                      disabled={restoringId === task.id || permanentDeleteId === task.id}
+                      title="Excluir permanentemente"
+                      className="w-8 h-8 flex items-center justify-center rounded-full bg-error-container/15 text-error hover:bg-error-container/30 transition-colors disabled:opacity-50"
+                    >
+                      {permanentDeleteId === task.id ? (
+                        <span className="w-3 h-3 border-2 border-error border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <span className="material-symbols-outlined" style={{ fontSize: 16 }}>delete_forever</span>
+                      )}
+                    </button>
+                  </div>
                 </div>
               ))}
             </div>

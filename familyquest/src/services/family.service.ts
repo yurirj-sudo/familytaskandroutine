@@ -10,6 +10,7 @@ import {
   serverTimestamp,
   onSnapshot,
   runTransaction,
+  writeBatch,
   Unsubscribe,
 } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -146,6 +147,44 @@ export const deactivateMember = async (
   uid: string
 ): Promise<void> => {
   await updateDoc(doc(db, 'families', familyId, 'members', uid), { isActive: false });
+};
+
+// ─── Reset Member History ─────────────────────────────────────────────────
+export const resetMemberHistory = async (
+  familyId: string,
+  uid: string
+): Promise<void> => {
+  // 1. Zero out member stats
+  await updateDoc(doc(db, 'families', familyId, 'members', uid), {
+    totalPoints: 0,
+    lifetimePoints: 0,
+    currentStreak: 0,
+    longestStreak: 0,
+    lastStreakDate: null,
+  });
+
+  const BATCH_SIZE = 400;
+
+  const deleteDocs = async (snap: { docs: { ref: unknown }[] }) => {
+    for (let i = 0; i < snap.docs.length; i += BATCH_SIZE) {
+      const batch = writeBatch(db);
+      (snap.docs.slice(i, i + BATCH_SIZE) as { ref: Parameters<typeof batch.delete>[0] }[])
+        .forEach((d) => batch.delete(d.ref));
+      await batch.commit();
+    }
+  };
+
+  // 2. Delete all completions for this member
+  const completionsSnap = await getDocs(
+    query(collection(db, 'families', familyId, 'completions'), where('userId', '==', uid))
+  );
+  if (!completionsSnap.empty) await deleteDocs(completionsSnap);
+
+  // 3. Delete all redemptions for this member
+  const redemptionsSnap = await getDocs(
+    query(collection(db, 'families', familyId, 'redemptions'), where('userId', '==', uid))
+  );
+  if (!redemptionsSnap.empty) await deleteDocs(redemptionsSnap);
 };
 
 // ─── Adjust Member Points (admin manual adjustment) ───────────────────────

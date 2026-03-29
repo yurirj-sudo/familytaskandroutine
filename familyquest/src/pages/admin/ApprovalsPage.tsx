@@ -39,8 +39,8 @@ const RejectDialog: React.FC<{
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-on-surface/60 p-4">
-      <div className="bg-surface-container-lowest rounded-DEFAULT shadow-cloud p-5 w-full max-w-sm mb-4">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-on-surface/60 p-5">
+      <div className="bg-surface-container-lowest rounded-DEFAULT shadow-cloud p-5 w-full max-w-sm">
         <h3 className="font-headline font-bold text-on-surface mb-1">Rejeitar tarefa</h3>
         <p className="text-on-surface-variant text-sm mb-3">
           Motivo para <strong className="text-on-surface">{completion.taskTitle}</strong>
@@ -51,7 +51,6 @@ const RejectDialog: React.FC<{
           placeholder="Ex: A foto não mostra a tarefa completa"
           value={reason}
           onChange={(e) => setReason(e.target.value)}
-          autoFocus
         />
         <div className="flex gap-2 mt-3">
           <button

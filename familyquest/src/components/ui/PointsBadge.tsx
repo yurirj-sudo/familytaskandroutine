@@ -30,7 +30,7 @@ export const PointsBadge: React.FC<PointsBadgeProps> = ({
     <div
       className={[
         'inline-flex items-center rounded-full font-headline font-bold',
-        'bg-tertiary-container text-on-tertiary-container shadow-cloud',
+        'bg-primary text-on-primary shadow-primary-glow',
         animate ? 'animate-pulse-glow' : '',
         sizeClasses[size],
         className,

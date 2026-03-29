@@ -8,6 +8,7 @@ import { useMemberCycles } from '../../hooks/useCycle';
 import { formatPoints } from '../../utils/points';
 import { getMonthName } from '../../utils/date';
 import { Cycle } from '../../types';
+import { useThemeColors } from '../../hooks/useThemeColors';
 
 // ─── Tooltip ───────────────────────────────────────────────────────────────────
 
@@ -35,6 +36,7 @@ const ChartTooltip: React.FC<{ active?: boolean; payload?: TooltipEntry[]; label
 const PointsPage: React.FC = () => {
   const family = useCurrentFamily();
   const member = useCurrentMember();
+  const themeColors = useThemeColors();
   const { redemptions, loading: loadingRedemptions } = useMemberRedemptions(family?.id, member?.uid);
   const { completions } = useTodayCompletions(family?.id, member?.uid);
   const { cycles, loading: loadingCycles } = useMemberCycles(family?.id, member?.uid);
@@ -114,7 +116,7 @@ const PointsPage: React.FC = () => {
                   tickLine={false}
                   allowDecimals={false}
                 />
-                <Tooltip content={<ChartTooltip />} cursor={{ fill: 'rgba(70,71,211,0.05)' }} />
+                <Tooltip content={<ChartTooltip />} cursor={{ fill: themeColors.primaryCursor }} />
                 <Bar
                   dataKey="Ganhos"
                   radius={[4, 4, 0, 0] as [number, number, number, number]}
@@ -122,7 +124,7 @@ const PointsPage: React.FC = () => {
                   {chartData.map((entry, i) => (
                     <Cell
                       key={i}
-                      fill={isCurrentMonth(entry) ? '#4647d3' : '#006a2d'}
+                      fill={isCurrentMonth(entry) ? themeColors.primary : '#006a2d'}
                     />
                   ))}
                 </Bar>
@@ -134,7 +136,7 @@ const PointsPage: React.FC = () => {
               </BarChart>
             </ResponsiveContainer>
             <div className="flex items-center justify-center gap-5 mt-2">
-              {[['#4647d3', 'Mês atual'], ['#006a2d', 'Ganhos'], ['#b41340', 'Perdidos']].map(([color, label]) => (
+              {[[themeColors.primary, 'Mês atual'], ['#006a2d', 'Ganhos'], ['#b41340', 'Perdidos']].map(([color, label]) => (
                 <div key={label} className="flex items-center gap-1.5">
                   <span className="w-2.5 h-2.5 rounded-sm" style={{ background: color }} />
                   <span className="text-on-surface-variant text-xs">{label}</span>
