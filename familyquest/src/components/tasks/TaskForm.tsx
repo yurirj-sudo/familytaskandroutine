@@ -24,6 +24,8 @@ const schema = z.object({
   pointsOnMiss: z.number().min(0, 'Mínimo 0').max(1000),
   assignedTo: z.union([z.literal('all'), z.array(z.string()).min(1, 'Selecione ao menos um membro')]),
   startDate: z.string().optional(),
+  requireApproval: z.boolean(),
+  requirePhotoProof: z.boolean(),
 });
 
 export type TaskFormValues = z.infer<typeof schema>;
@@ -98,6 +100,8 @@ export const TaskForm: React.FC<TaskFormProps> = ({
     pointsOnMiss: initialPointsOnMiss,
     assignedTo: initialValues?.assignedTo ?? 'all',
     startDate: '',
+    requireApproval: initialValues?.requireApproval ?? false,
+    requirePhotoProof: initialValues?.requirePhotoProof ?? false,
   };
 
   const {
@@ -116,6 +120,8 @@ export const TaskForm: React.FC<TaskFormProps> = ({
   const dayOfWeekRelative = watch('dayOfWeekRelative');
   const dayOfMonth = watch('dayOfMonth');
   const assignedTo = watch('assignedTo');
+  const requireApproval = watch('requireApproval');
+  const requirePhotoProof = watch('requirePhotoProof');
 
   // Auto-reset penalty when switching to optional
   useEffect(() => {
@@ -521,6 +527,85 @@ export const TaskForm: React.FC<TaskFormProps> = ({
 
         {errors.assignedTo && (
           <p className="text-error text-xs mt-1 ml-2">{errors.assignedTo.message as string}</p>
+        )}
+      </div>
+
+      {/* Approval & Photo proof toggles */}
+      <div className="bg-surface-container-low rounded-DEFAULT px-4 py-3 space-y-3">
+        <p className="text-on-surface-variant text-xs font-headline font-bold uppercase tracking-wider mb-1">
+          Verificação
+        </p>
+
+        {/* Require Approval */}
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="text-on-surface text-sm font-medium">Requer aprovação do admin</p>
+            <p className="text-on-surface-variant text-xs">Pontos só são creditados após aprovação</p>
+          </div>
+          <Controller
+            control={control}
+            name="requireApproval"
+            render={({ field }) => (
+              <button
+                type="button"
+                role="switch"
+                aria-checked={field.value}
+                onClick={() => field.onChange(!field.value)}
+                className={`relative w-12 h-6 rounded-full transition-colors flex-shrink-0 ${
+                  field.value ? 'bg-primary' : 'bg-outline/30'
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                    field.value ? 'translate-x-6' : 'translate-x-0.5'
+                  }`}
+                />
+              </button>
+            )}
+          />
+        </div>
+
+        {/* Require Photo Proof */}
+        <div className="flex items-center justify-between gap-3">
+          <div>
+            <p className="text-on-surface text-sm font-medium">Exigir foto como prova</p>
+            <p className="text-on-surface-variant text-xs">Membro deve tirar foto ao concluir</p>
+          </div>
+          <Controller
+            control={control}
+            name="requirePhotoProof"
+            render={({ field }) => (
+              <button
+                type="button"
+                role="switch"
+                aria-checked={field.value}
+                onClick={() => field.onChange(!field.value)}
+                className={`relative w-12 h-6 rounded-full transition-colors flex-shrink-0 ${
+                  field.value ? 'bg-primary' : 'bg-outline/30'
+                }`}
+              >
+                <span
+                  className={`absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                    field.value ? 'translate-x-6' : 'translate-x-0.5'
+                  }`}
+                />
+              </button>
+            )}
+          />
+        </div>
+
+        {/* Combined hint */}
+        {(requireApproval || requirePhotoProof) && (
+          <div className="flex items-start gap-1.5 pt-1">
+            <span className="material-symbols-outlined text-primary text-base mt-0.5">info</span>
+            <p className="text-on-surface-variant text-xs">
+              {requirePhotoProof && requireApproval
+                ? 'O membro tira uma foto e o admin aprova antes dos pontos serem creditados.'
+                : requirePhotoProof
+                ? 'O membro deverá tirar uma foto ao concluir a tarefa.'
+                : 'O admin precisará aprovar a conclusão antes dos pontos serem creditados.'}
+            </p>
+          </div>
         )}
       </div>
 

@@ -28,8 +28,7 @@ const HomePage: React.FC = () => {
     member?.uid
   );
 
-  const requireApproval = family?.settings?.requireTaskApproval ?? false;
-  const requirePhotoProof = family?.settings?.requirePhotoProof ?? false;
+
 
   const stats = useMemo(() => {
     const allToday = [...mandatory, ...optional];
@@ -137,8 +136,8 @@ const HomePage: React.FC = () => {
                     familyId={family?.id ?? ''}
                     userId={member?.uid ?? ''}
                     completion={completionMap.get(task.id)}
-                    requireApproval={requireApproval}
-                    requirePhotoProof={requirePhotoProof}
+                    requireApproval={task.requireApproval ?? false}
+                    requirePhotoProof={task.requirePhotoProof ?? false}
                   />
                 ))}
               </div>
@@ -159,8 +158,8 @@ const HomePage: React.FC = () => {
                     familyId={family?.id ?? ''}
                     userId={member?.uid ?? ''}
                     completion={completionMap.get(task.id)}
-                    requireApproval={requireApproval}
-                    requirePhotoProof={requirePhotoProof}
+                    requireApproval={task.requireApproval ?? false}
+                    requirePhotoProof={task.requirePhotoProof ?? false}
                   />
                 ))}
               </div>

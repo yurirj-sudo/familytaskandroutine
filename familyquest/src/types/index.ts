@@ -69,6 +69,8 @@ export interface Task {
   pointsOnComplete: number;
   pointsOnMiss: number;          // negativo, só mandatory
   assignedTo: string[] | 'all';
+  requireApproval: boolean;      // true: filho submete → pai aprova antes dos pontos
+  requirePhotoProof: boolean;    // true: exige foto ao marcar como concluída
   createdBy: string;
   createdAt: Timestamp;
   isActive: boolean;

@@ -66,6 +66,8 @@ const TaskFormPage: React.FC = () => {
         // UI shows positive value — convert to negative for mandatory, 0 for optional
         pointsOnMiss: values.type === 'mandatory' ? -Math.abs(values.pointsOnMiss) : 0,
         assignedTo: values.assignedTo,
+        requireApproval: values.requireApproval,
+        requirePhotoProof: values.requirePhotoProof,
       };
 
       // Only include frequency-specific fields when applicable
