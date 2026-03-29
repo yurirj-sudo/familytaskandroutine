@@ -8,6 +8,9 @@ import {
   where,
   getDocs,
   serverTimestamp,
+  onSnapshot,
+  runTransaction,
+  Unsubscribe,
 } from 'firebase/firestore';
 import { db } from '../firebase';
 import { Family, FamilySettings, Member } from '../types';
@@ -113,4 +116,53 @@ export const getFamilyMembers = async (familyId: string): Promise<Member[]> => {
     collection(db, 'families', familyId, 'members')
   );
   return snap.docs.map((d) => d.data() as Member);
+};
+
+// ─── Subscribe Family Members (real-time) ─────────────────────────────────
+export const subscribeFamilyMembers = (
+  familyId: string,
+  onData: (members: Member[]) => void,
+  onError?: (err: Error) => void
+): Unsubscribe => {
+  return onSnapshot(
+    collection(db, 'families', familyId, 'members'),
+    (snap) => onData(snap.docs.map((d) => d.data() as Member)),
+    onError
+  );
+};
+
+// ─── Update Member Role ───────────────────────────────────────────────────
+export const updateMemberRole = async (
+  familyId: string,
+  uid: string,
+  role: Member['role']
+): Promise<void> => {
+  await updateDoc(doc(db, 'families', familyId, 'members', uid), { role });
+};
+
+// ─── Deactivate Member ────────────────────────────────────────────────────
+export const deactivateMember = async (
+  familyId: string,
+  uid: string
+): Promise<void> => {
+  await updateDoc(doc(db, 'families', familyId, 'members', uid), { isActive: false });
+};
+
+// ─── Adjust Member Points (admin manual adjustment) ───────────────────────
+export const adjustMemberPoints = async (
+  familyId: string,
+  uid: string,
+  delta: number   // positive = add, negative = deduct
+): Promise<void> => {
+  const memberRef = doc(db, 'families', familyId, 'members', uid);
+  await runTransaction(db, async (tx) => {
+    const snap = await tx.get(memberRef);
+    if (!snap.exists()) throw new Error('Membro não encontrado');
+    const data = snap.data();
+    const newTotal = Math.max(0, (data.totalPoints ?? 0) + delta);
+    const newLifetime = delta > 0
+      ? (data.lifetimePoints ?? 0) + delta
+      : data.lifetimePoints ?? 0;
+    tx.update(memberRef, { totalPoints: newTotal, lifetimePoints: newLifetime });
+  });
 };

@@ -35,6 +35,7 @@ const TaskFormPage = lazy(() => import("../pages/admin/TaskFormPage"));
 const TasksPage = lazy(() => import('../pages/admin/TasksPage'));
 const PrizesAdminPage = lazy(() => import('../pages/admin/PrizesAdminPage'));
 const MembersPage = lazy(() => import('../pages/admin/MembersPage'));
+const PointsAdjustPage = lazy(() => import('../pages/admin/PointsAdjustPage'));
 const SettingsPage = lazy(() => import('../pages/admin/SettingsPage'));
 
 // ─── Router ───────────────────────────────────────────────────────────────────
@@ -82,6 +83,7 @@ export const router = createBrowserRouter([
           { path: 'tasks/:taskId/edit', element: wrap(<TaskFormPage />) },
           { path: 'prizes', element: wrap(<PrizesAdminPage />) },
           { path: 'members', element: wrap(<MembersPage />) },
+          { path: 'members/:uid/points', element: wrap(<PointsAdjustPage />) },
           { path: 'settings', element: wrap(<SettingsPage />) },
         ],
       },
