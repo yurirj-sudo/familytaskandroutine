@@ -20,7 +20,7 @@ import { Task } from '../types';
 export interface CreateTaskParams {
   familyId: string;
   createdBy: string;
-  data: Omit<Task, 'id' | 'createdBy' | 'createdAt' | 'isActive' | 'order'>;
+  data: Record<string, unknown>;
 }
 
 export const createTask = async ({ familyId, createdBy, data }: CreateTaskParams): Promise<string> => {
@@ -45,9 +45,9 @@ export const createTask = async ({ familyId, createdBy, data }: CreateTaskParams
 export const updateTask = async (
   familyId: string,
   taskId: string,
-  data: Partial<Omit<Task, 'id' | 'createdBy' | 'createdAt'>>
+  data: Record<string, unknown>
 ): Promise<void> => {
-  await updateDoc(doc(db, 'families', familyId, 'tasks', taskId), data as Record<string, unknown>);
+  await updateDoc(doc(db, 'families', familyId, 'tasks', taskId), data);
 };
 
 // ─── Deactivate Task (soft delete) ───────────────────────────────────────────

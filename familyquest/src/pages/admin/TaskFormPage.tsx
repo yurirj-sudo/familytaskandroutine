@@ -32,25 +32,37 @@ const TaskFormPage: React.FC = () => {
     setSubmitError(null);
 
     try {
-      const taskData = {
+      // Build task data without undefined fields — Firestore rejects undefined values
+      const taskData: Record<string, unknown> = {
         title: values.title,
         description: values.description ?? '',
         category: values.category,
         emoji: values.emoji ?? '',
         type: values.type,
         frequency: values.frequency,
-        activeDays: values.frequency === 'weekly' ? (values.activeDays ?? []) : undefined,
-        dayOfMonth: values.frequency === 'monthly' ? values.dayOfMonth : undefined,
-        weekOfMonth: values.frequency === 'monthly_relative' ? (values.weekOfMonth as 1 | 2 | 3 | 4) : undefined,
-        dayOfWeekRelative: values.frequency === 'monthly_relative' ? values.dayOfWeekRelative : undefined,
-        dueTime: values.dueTime || undefined,
         pointsOnComplete: values.pointsOnComplete,
         pointsOnMiss: values.type === 'mandatory' ? values.pointsOnMiss : 0,
         assignedTo: values.assignedTo,
-        startDate: values.frequency === 'once' && values.startDate
-          ? new Date(values.startDate)
-          : undefined,
       };
+
+      // Only include frequency-specific fields when applicable
+      if (values.frequency === 'weekly') {
+        taskData.activeDays = values.activeDays ?? [];
+      }
+      if (values.frequency === 'monthly') {
+        taskData.dayOfMonth = values.dayOfMonth;
+      }
+      if (values.frequency === 'monthly_relative') {
+        taskData.weekOfMonth = values.weekOfMonth;
+        taskData.dayOfWeekRelative = values.dayOfWeekRelative;
+      }
+      if (values.frequency === 'once' && values.startDate) {
+        taskData.startDate = new Date(values.startDate);
+      }
+      // Only include dueTime if it has a value
+      if (values.dueTime) {
+        taskData.dueTime = values.dueTime;
+      }
 
       if (isEditing && taskId) {
         await updateTask(family.id, taskId, taskData);
