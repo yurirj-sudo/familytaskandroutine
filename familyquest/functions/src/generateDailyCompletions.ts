@@ -1,8 +1,6 @@
 import * as admin from 'firebase-admin';
 import { isTaskDueOnDate, TaskRecurrence } from './recurrence';
 
-const db = admin.firestore;
-
 /**
  * Gera completions diárias para todas as famílias.
  *

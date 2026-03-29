@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin';
-import * as functions from 'firebase-functions';
+import * as functions from 'firebase-functions/v1';
 import { generateDailyCompletions } from './generateDailyCompletions';
 import { processMissedTasks } from './processMissedTasks';
 import { handleCompletionUpdate } from './onCompletionApproved';
@@ -59,7 +59,7 @@ export const scheduledSendTaskReminders = functions
 export const onCompletionStatusChanged = functions
   .region('southamerica-east1')
   .firestore.document('families/{familyId}/completions/{completionId}')
-  .onUpdate(async (change, context) => {
+  .onUpdate(async (change: functions.Change<functions.firestore.DocumentSnapshot>, context: functions.EventContext) => {
     const { familyId } = context.params;
-    await handleCompletionUpdate(familyId, change.before.data(), change.after.data());
+    await handleCompletionUpdate(familyId, change.before.data() ?? {}, change.after.data() ?? {});
   });
