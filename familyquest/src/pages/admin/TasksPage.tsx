@@ -17,70 +17,82 @@ const DeleteTaskDialog: React.FC<{
   onCancel: () => void;
 }> = ({ task, onConfirm, onCancel }) => {
   const [deleting, setDeleting] = useState(false);
+  const [deleteHistory, setDeleteHistory] = useState(false);
 
-  const handle = async (deleteHistory: boolean) => {
+  const handle = async () => {
     setDeleting(true);
-    await onConfirm(deleteHistory);
-    setDeleting(false);
+    try {
+      await onConfirm(deleteHistory);
+    } finally {
+      setDeleting(false);
+    }
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-on-surface/60 p-5">
       <div className="bg-surface-container-lowest rounded-DEFAULT shadow-cloud p-5 w-full max-w-sm">
-        <div className="flex items-center gap-3 mb-3">
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 rounded-full bg-error-container/20 flex items-center justify-center flex-shrink-0">
             <span className="material-symbols-outlined text-error">delete</span>
           </div>
           <div>
             <h3 className="font-headline font-bold text-on-surface text-base">Remover tarefa</h3>
-            <p className="text-on-surface-variant text-xs">"{task.title}"</p>
+            <p className="text-on-surface-variant text-xs truncate max-w-[200px]">"{task.title}"</p>
           </div>
         </div>
 
-        <p className="text-on-surface-variant text-sm mb-4">
-          Deseja também excluir o histórico de conclusões desta tarefa?
-        </p>
-
-        <div className="space-y-2">
-          {/* Keep history */}
-          <button
-            onClick={() => handle(false)}
-            disabled={deleting}
-            className="w-full text-left px-4 py-3 rounded-DEFAULT border-2 border-outline-variant/30 hover:border-primary/40 hover:bg-primary/5 transition-colors disabled:opacity-50"
-          >
-            <p className="text-on-surface text-sm font-headline font-bold">Remover só a tarefa</p>
-            <p className="text-on-surface-variant text-xs mt-0.5">
-              O histórico de conclusões é preservado.
-            </p>
-          </button>
-
-          {/* Delete history too */}
-          <button
-            onClick={() => handle(true)}
-            disabled={deleting}
-            className="w-full text-left px-4 py-3 rounded-DEFAULT border-2 border-error/25 hover:border-error/50 hover:bg-error/5 transition-colors disabled:opacity-50"
-          >
-            <p className="text-error text-sm font-headline font-bold">Remover tarefa e histórico</p>
-            <p className="text-on-surface-variant text-xs mt-0.5">
-              Apaga também todas as conclusões registradas. Esta ação não pode ser desfeita.
-            </p>
-          </button>
-        </div>
-
+        {/* Toggle: also delete history */}
         <button
-          onClick={onCancel}
+          type="button"
+          onClick={() => setDeleteHistory((v) => !v)}
           disabled={deleting}
-          className="w-full mt-3 bg-surface-container-high text-on-surface-variant rounded-full py-2.5 text-sm font-medium transition-colors hover:bg-surface-container-highest disabled:opacity-50"
+          className={`w-full flex items-center justify-between gap-3 px-4 py-3 rounded-DEFAULT border-2 transition-colors mb-4 ${
+            deleteHistory
+              ? 'border-error/40 bg-error/5'
+              : 'border-outline-variant/20 bg-surface-container-low'
+          }`}
         >
-          Cancelar
+          <div className="text-left">
+            <p className={`text-sm font-headline font-bold ${deleteHistory ? 'text-error' : 'text-on-surface'}`}>
+              Apagar histórico de conclusões
+            </p>
+            <p className="text-on-surface-variant text-xs mt-0.5">
+              {deleteHistory
+                ? 'Todas as conclusões registradas serão apagadas.'
+                : 'O histórico de conclusões será preservado.'}
+            </p>
+          </div>
+          {/* Toggle switch */}
+          <div className={`relative w-12 h-6 rounded-full flex-shrink-0 transition-colors ${deleteHistory ? 'bg-error' : 'bg-gray-300'}`}>
+            <span className={`absolute top-[2px] w-5 h-5 bg-white rounded-full shadow-md transition-all duration-200 ${deleteHistory ? 'left-[26px]' : 'left-[2px]'}`} />
+          </div>
         </button>
 
-        {deleting && (
-          <div className="flex items-center justify-center gap-2 mt-3">
-            <span className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-            <span className="text-on-surface-variant text-xs">Removendo...</span>
-          </div>
-        )}
+        {/* Actions */}
+        <div className="flex gap-2">
+          <button
+            onClick={onCancel}
+            disabled={deleting}
+            className="flex-1 bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant rounded-full py-2.5 text-sm font-medium transition-colors disabled:opacity-50"
+          >
+            Cancelar
+          </button>
+          <button
+            onClick={handle}
+            disabled={deleting}
+            className={`flex-1 rounded-full py-2.5 text-sm font-headline font-bold transition-colors disabled:opacity-50 flex items-center justify-center gap-2 ${
+              deleteHistory
+                ? 'bg-error text-white hover:bg-error/90'
+                : 'bg-surface-container-high hover:bg-surface-container-highest text-on-surface'
+            }`}
+          >
+            {deleting && (
+              <span className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+            )}
+            Remover
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -127,6 +139,10 @@ const TasksPage: React.FC = () => {
 
   const handleEdit = (task: Task) => {
     navigate(`/admin/tasks/${task.id}/edit`);
+  };
+
+  const handleStats = (task: Task) => {
+    navigate(`/admin/tasks/${task.id}/stats`);
   };
 
   const handleDelete = (task: Task) => {
@@ -252,6 +268,7 @@ const TasksPage: React.FC = () => {
                       members={members}
                       onEdit={handleEdit}
                       onDelete={handleDelete}
+                      onStats={handleStats}
                     />
                   </div>
                 ))}
@@ -282,6 +299,7 @@ const TasksPage: React.FC = () => {
                       members={members}
                       onEdit={handleEdit}
                       onDelete={handleDelete}
+                      onStats={handleStats}
                     />
                   </div>
                 ))}

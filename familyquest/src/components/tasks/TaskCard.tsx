@@ -25,6 +25,7 @@ interface TaskCardProps {
   members?: TaskMember[];
   onEdit?: (task: Task) => void;
   onDelete?: (task: Task) => void;
+  onStats?: (task: Task) => void;
 }
 
 // ─── Style maps ──────────────────────────────────────────────────────────────
@@ -77,6 +78,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   members = [],
   onEdit,
   onDelete,
+  onStats,
 }) => {
   const [loading, setLoading] = useState(false);
   const [undoing, setUndoing] = useState(false);
@@ -410,6 +412,13 @@ export const TaskCard: React.FC<TaskCardProps> = ({
             onClick={() => onEdit?.(task)}
           >
             ✏️ Editar
+          </button>
+          <button
+            className="text-xs bg-primary/10 hover:bg-primary/20 text-primary rounded-full py-2 px-3 transition-colors font-medium"
+            onClick={() => onStats?.(task)}
+            title="Ver desempenho"
+          >
+            📊
           </button>
           <button
             className="flex-1 text-xs bg-error-container/15 hover:bg-error-container/25 text-error rounded-full py-2 transition-colors font-medium"
