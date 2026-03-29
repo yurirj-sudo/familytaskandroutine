@@ -29,10 +29,19 @@ service cloud.firestore {
         allow create: if isMember(familyId) &&
           request.resource.data.userId == request.auth.uid;
         allow update: if isAdmin(familyId) ||
-          // Member submits a completion for approval
+          // Member marks as completed (no approval required): pending → completed
           (request.auth.uid == resource.data.userId &&
-           request.resource.data.status in ['submitted']) ||
-          // Member undoes a completed/submitted task (revert to pending)
+           resource.data.status == 'pending' &&
+           request.resource.data.status == 'completed') ||
+          // Member submits for approval: pending → submitted
+          (request.auth.uid == resource.data.userId &&
+           resource.data.status == 'pending' &&
+           request.resource.data.status == 'submitted') ||
+          // Member retries after rejection: rejected → submitted/completed
+          (request.auth.uid == resource.data.userId &&
+           resource.data.status == 'rejected' &&
+           request.resource.data.status in ['submitted', 'completed']) ||
+          // Member undoes: completed/submitted → pending
           (request.auth.uid == resource.data.userId &&
            resource.data.status in ['completed', 'submitted'] &&
            request.resource.data.status == 'pending');
