@@ -29,8 +29,13 @@ service cloud.firestore {
         allow create: if isMember(familyId) &&
           request.resource.data.userId == request.auth.uid;
         allow update: if isAdmin(familyId) ||
+          // Member submits a completion for approval
           (request.auth.uid == resource.data.userId &&
-           request.resource.data.status in ['submitted']);
+           request.resource.data.status in ['submitted']) ||
+          // Member undoes a completed/submitted task (revert to pending)
+          (request.auth.uid == resource.data.userId &&
+           resource.data.status in ['completed', 'submitted'] &&
+           request.resource.data.status == 'pending');
         allow delete: if isAdmin(familyId);
       }
 
