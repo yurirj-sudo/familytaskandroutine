@@ -152,6 +152,55 @@ export const submitTaskForApproval = async (
   );
 };
 
+// ─── Undo Completion (member self-completed, no approval) ────────────────────
+// Resets status back to 'pending' and reverses credited points (transaction).
+
+export const undoCompletion = async (
+  familyId: string,
+  userId: string,
+  completion: Completion
+): Promise<void> => {
+  const completionRef = doc(db, 'families', familyId, 'completions', completion.id);
+  const memberRef    = doc(db, 'families', familyId, 'members', userId);
+
+  await runTransaction(db, async (tx) => {
+    const memberSnap = await tx.get(memberRef);
+    if (!memberSnap.exists()) return;
+
+    const pts = completion.pointsAwarded ?? 0;
+    const current = memberSnap.data();
+
+    // Reverse credited points (floor at 0 to avoid negatives from race)
+    tx.update(memberRef, {
+      totalPoints:    Math.max(0, (current.totalPoints    ?? 0) - pts),
+      lifetimePoints: Math.max(0, (current.lifetimePoints ?? 0) - pts),
+    });
+
+    // Reset completion to pending
+    tx.update(completionRef, {
+      status:       'pending' as CompletionStatus,
+      pointsAwarded: 0,
+      completedAt:  null,
+      photoProofUrl: null,
+    });
+  });
+};
+
+// ─── Cancel Submission (member cancels a submitted-for-approval task) ─────────
+// No point reversal needed — points are credited only on approval.
+
+export const cancelSubmission = async (
+  familyId: string,
+  completionId: string
+): Promise<void> => {
+  await updateDoc(doc(db, 'families', familyId, 'completions', completionId), {
+    status:       'pending' as CompletionStatus,
+    pointsAwarded: 0,
+    submittedAt:  null,
+    photoProofUrl: null,
+  });
+};
+
 // ─── Approve Completion (admin, requireTaskApproval = true) ──────────────────
 
 export const approveCompletion = async (

@@ -1,6 +1,11 @@
 import React, { useRef, useState } from 'react';
 import { Completion, Task } from '../../types';
-import { markTaskCompleted, submitTaskForApproval } from '../../services/completion.service';
+import {
+  markTaskCompleted,
+  submitTaskForApproval,
+  undoCompletion,
+  cancelSubmission,
+} from '../../services/completion.service';
 import { uploadTaskProof } from '../../services/storage.service';
 
 export interface TaskMember {
@@ -74,6 +79,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   onDelete,
 }) => {
   const [loading, setLoading] = useState(false);
+  const [undoing, setUndoing] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -100,6 +106,23 @@ export const TaskCard: React.FC<TaskCardProps> = ({
     if (!file) return;
     await completeTask(file);
     e.target.value = '';
+  };
+
+  const handleUndo = async () => {
+    if (!completion || undoing) return;
+    setUndoing(true);
+    setError(null);
+    try {
+      if (status === 'completed') {
+        await undoCompletion(familyId, userId, completion);
+      } else if (status === 'submitted') {
+        await cancelSubmission(familyId, completion.id);
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Erro ao desfazer');
+    } finally {
+      setUndoing(false);
+    }
   };
 
   const completeTask = async (photoFile?: File) => {
@@ -340,6 +363,22 @@ export const TaskCard: React.FC<TaskCardProps> = ({
           )}
         </div>
       </div>
+
+      {/* Undo / Cancel submission */}
+      {!adminMode && (status === 'completed' || status === 'submitted') && (
+        <button
+          onClick={handleUndo}
+          disabled={undoing}
+          className="flex items-center justify-center gap-1.5 w-full text-xs text-on-surface-variant bg-surface-container-low hover:bg-surface-container rounded-full py-2 transition-colors disabled:opacity-50"
+        >
+          {undoing ? (
+            <span className="w-3.5 h-3.5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+          ) : (
+            <span className="material-symbols-outlined" style={{ fontSize: 14 }}>undo</span>
+          )}
+          {status === 'submitted' ? 'Cancelar envio' : 'Desfazer conclusão'}
+        </button>
+      )}
 
       {/* Photo proof hint */}
       {canComplete && requirePhotoProof && (
