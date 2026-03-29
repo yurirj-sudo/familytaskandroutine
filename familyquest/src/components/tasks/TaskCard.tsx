@@ -2,6 +2,12 @@ import React from 'react';
 import { Completion, Task } from '../../types';
 import CompletionButton from './CompletionButton';
 
+export interface TaskMember {
+  uid: string;
+  displayName: string;
+  avatar: string;
+}
+
 interface TaskCardProps {
   task: Task;
   familyId: string;
@@ -11,6 +17,8 @@ interface TaskCardProps {
   requirePhotoProof: boolean;
   /** Admin mode: show edit/delete actions instead of completion */
   adminMode?: boolean;
+  /** Members list for resolving assignedTo UIDs in admin mode */
+  members?: TaskMember[];
   onEdit?: (task: Task) => void;
   onDelete?: (task: Task) => void;
 }
@@ -39,6 +47,7 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   requireApproval,
   requirePhotoProof,
   adminMode = false,
+  members = [],
   onEdit,
   onDelete,
 }) => {
@@ -103,6 +112,31 @@ export const TaskCard: React.FC<TaskCardProps> = ({
               <span className="text-xs text-error">{task.pointsOnMiss} pts se falhar</span>
             )}
           </div>
+
+          {/* Assignment badge — admin only */}
+          {adminMode && (
+            <div className="flex items-center gap-1.5 mt-2 flex-wrap">
+              {task.assignedTo === 'all' ? (
+                <span className="inline-flex items-center gap-1 text-[10px] bg-surface-container text-on-surface-variant rounded-full px-2 py-0.5">
+                  <span className="material-symbols-outlined text-xs">public</span>
+                  Livre
+                </span>
+              ) : (
+                (task.assignedTo as string[]).map((uid) => {
+                  const m = members.find((mb) => mb.uid === uid);
+                  return (
+                    <span
+                      key={uid}
+                      className="inline-flex items-center gap-1 text-[10px] bg-secondary-container/20 text-secondary rounded-full px-2 py-0.5"
+                    >
+                      <span className="text-xs leading-none">{m?.avatar ?? '👤'}</span>
+                      {m?.displayName ?? uid.slice(0, 6)}
+                    </span>
+                  );
+                })
+              )}
+            </div>
+          )}
         </div>
       </div>
 
