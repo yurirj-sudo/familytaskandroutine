@@ -10,6 +10,7 @@ import {
   orderBy,
   onSnapshot,
   serverTimestamp,
+  writeBatch,
   Unsubscribe,
 } from 'firebase/firestore';
 import { db } from '../firebase';
@@ -60,6 +61,24 @@ export const deactivateTask = async (familyId: string, taskId: string): Promise<
 
 export const deleteTask = async (familyId: string, taskId: string): Promise<void> => {
   await deleteDoc(doc(db, 'families', familyId, 'tasks', taskId));
+};
+
+// ─── Delete all completions for a task (batched, max 500 per batch) ───────────
+
+export const deleteTaskCompletions = async (familyId: string, taskId: string): Promise<void> => {
+  const snap = await getDocs(
+    query(collection(db, 'families', familyId, 'completions'), where('taskId', '==', taskId))
+  );
+  if (snap.empty) return;
+
+  // Firestore batch supports up to 500 ops — chunk if needed
+  const BATCH_SIZE = 400;
+  const docs = snap.docs;
+  for (let i = 0; i < docs.length; i += BATCH_SIZE) {
+    const batch = writeBatch(db);
+    docs.slice(i, i + BATCH_SIZE).forEach((d) => batch.delete(d.ref));
+    await batch.commit();
+  }
 };
 
 // ─── Get Active Tasks (one-time) ──────────────────────────────────────────────

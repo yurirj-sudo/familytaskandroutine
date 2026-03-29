@@ -6,8 +6,85 @@ import AppLayout from '../../components/layout/AppLayout';
 import TaskCard, { TaskMember } from '../../components/tasks/TaskCard';
 import { useTasks } from '../../hooks/useTasks';
 import { useCurrentFamily, useCurrentMember } from '../../store/authStore';
-import { deactivateTask } from '../../services/task.service';
+import { deactivateTask, deleteTaskCompletions } from '../../services/task.service';
 import { Task } from '../../types';
+
+// ─── Delete Confirm Dialog ────────────────────────────────────────────────────
+
+const DeleteTaskDialog: React.FC<{
+  task: Task;
+  onConfirm: (deleteHistory: boolean) => Promise<void>;
+  onCancel: () => void;
+}> = ({ task, onConfirm, onCancel }) => {
+  const [deleting, setDeleting] = useState(false);
+
+  const handle = async (deleteHistory: boolean) => {
+    setDeleting(true);
+    await onConfirm(deleteHistory);
+    setDeleting(false);
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-on-surface/60 p-5">
+      <div className="bg-surface-container-lowest rounded-DEFAULT shadow-cloud p-5 w-full max-w-sm">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-10 h-10 rounded-full bg-error-container/20 flex items-center justify-center flex-shrink-0">
+            <span className="material-symbols-outlined text-error">delete</span>
+          </div>
+          <div>
+            <h3 className="font-headline font-bold text-on-surface text-base">Remover tarefa</h3>
+            <p className="text-on-surface-variant text-xs">"{task.title}"</p>
+          </div>
+        </div>
+
+        <p className="text-on-surface-variant text-sm mb-4">
+          Deseja também excluir o histórico de conclusões desta tarefa?
+        </p>
+
+        <div className="space-y-2">
+          {/* Keep history */}
+          <button
+            onClick={() => handle(false)}
+            disabled={deleting}
+            className="w-full text-left px-4 py-3 rounded-DEFAULT border-2 border-outline-variant/30 hover:border-primary/40 hover:bg-primary/5 transition-colors disabled:opacity-50"
+          >
+            <p className="text-on-surface text-sm font-headline font-bold">Remover só a tarefa</p>
+            <p className="text-on-surface-variant text-xs mt-0.5">
+              O histórico de conclusões é preservado.
+            </p>
+          </button>
+
+          {/* Delete history too */}
+          <button
+            onClick={() => handle(true)}
+            disabled={deleting}
+            className="w-full text-left px-4 py-3 rounded-DEFAULT border-2 border-error/25 hover:border-error/50 hover:bg-error/5 transition-colors disabled:opacity-50"
+          >
+            <p className="text-error text-sm font-headline font-bold">Remover tarefa e histórico</p>
+            <p className="text-on-surface-variant text-xs mt-0.5">
+              Apaga também todas as conclusões registradas. Esta ação não pode ser desfeita.
+            </p>
+          </button>
+        </div>
+
+        <button
+          onClick={onCancel}
+          disabled={deleting}
+          className="w-full mt-3 bg-surface-container-high text-on-surface-variant rounded-full py-2.5 text-sm font-medium transition-colors hover:bg-surface-container-highest disabled:opacity-50"
+        >
+          Cancelar
+        </button>
+
+        {deleting && (
+          <div className="flex items-center justify-center gap-2 mt-3">
+            <span className="w-4 h-4 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+            <span className="text-on-surface-variant text-xs">Removendo...</span>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
 
 type MemberFilter = TaskMember;
 
@@ -17,6 +94,7 @@ const TasksPage: React.FC = () => {
   const member = useCurrentMember();
   const { tasks, loading } = useTasks(family?.id);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [taskToDelete, setTaskToDelete] = useState<Task | null>(null);
   const [members, setMembers] = useState<MemberFilter[]>([]);
   const [selectedUid, setSelectedUid] = useState<string | null>(null); // null = todos
 
@@ -51,17 +129,21 @@ const TasksPage: React.FC = () => {
     navigate(`/admin/tasks/${task.id}/edit`);
   };
 
-  const handleDelete = async (task: Task) => {
-    if (!family?.id) return;
-    const confirmed = window.confirm(
-      `Remover a tarefa "${task.title}"? Esta ação não pode ser desfeita.`
-    );
-    if (!confirmed) return;
-    setDeletingId(task.id);
+  const handleDelete = (task: Task) => {
+    setTaskToDelete(task);
+  };
+
+  const handleDeleteConfirm = async (deleteHistory: boolean) => {
+    if (!taskToDelete || !family?.id) return;
+    setDeletingId(taskToDelete.id);
     try {
-      await deactivateTask(family.id, task.id);
+      if (deleteHistory) {
+        await deleteTaskCompletions(family.id, taskToDelete.id);
+      }
+      await deactivateTask(family.id, taskToDelete.id);
     } finally {
       setDeletingId(null);
+      setTaskToDelete(null);
     }
   };
 
@@ -207,6 +289,14 @@ const TasksPage: React.FC = () => {
             </section>
           )}
         </div>
+      )}
+
+      {taskToDelete && (
+        <DeleteTaskDialog
+          task={taskToDelete}
+          onConfirm={handleDeleteConfirm}
+          onCancel={() => setTaskToDelete(null)}
+        />
       )}
     </AppLayout>
   );
