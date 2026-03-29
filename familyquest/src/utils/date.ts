@@ -61,11 +61,12 @@ export function getTodayString(): string {
 
 /**
  * Gera o ID determinístico de uma completion.
- * Formato: "{taskId}_{uid}_{YYYY-MM-DD}"
+ * Normal:    "{taskId}_{uid}_{YYYY-MM-DD}"
+ * Shared:    "{taskId}_shared_{YYYY-MM-DD}"  — um único doc para todos os membros
  */
-export function getCompletionId(taskId: string, uid: string, date?: string): string {
+export function getCompletionId(taskId: string, uid: string, date?: string, shared = false): string {
   const dateStr = date || getTodayString();
-  return `${taskId}_${uid}_${dateStr}`;
+  return shared ? `${taskId}_shared_${dateStr}` : `${taskId}_${uid}_${dateStr}`;
 }
 
 /**

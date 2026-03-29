@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { collection, getDocs, query, where, Timestamp } from 'firebase/firestore';
 import { db } from '../../firebase';
 import AppLayout from '../../components/layout/AppLayout';
@@ -27,7 +27,6 @@ function countDueDaysInMonth(task: Task, year: number, month: number): number {
 
 const TaskStatsPage: React.FC = () => {
   const { taskId } = useParams<{ taskId: string }>();
-  const navigate = useNavigate();
   const family = useCurrentFamily();
   const members = useFamilyMembers();
 
@@ -38,7 +37,6 @@ const TaskStatsPage: React.FC = () => {
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth();
-  const cycleId = `${year}-${String(month + 1).padStart(2, '0')}`;
 
   useEffect(() => {
     if (!family?.id || !taskId) return;
@@ -49,19 +47,24 @@ const TaskStatsPage: React.FC = () => {
       const found = tasks.find((t) => t.id === taskId);
       setTask(found);
 
-      // Load completions for this task this month
-      const startOfMonth = Timestamp.fromDate(new Date(year, month, 1));
-      const endOfMonth = Timestamp.fromDate(new Date(year, month + 1, 0, 23, 59, 59));
+      // Load completions for this task — filter by date client-side
+      // (avoids composite index requirement on taskId + dueDate)
+      const startMs = new Date(year, month, 1).getTime();
+      const endMs = new Date(year, month + 1, 0, 23, 59, 59).getTime();
 
       const snap = await getDocs(
         query(
           collection(db, 'families', family.id, 'completions'),
-          where('taskId', '==', taskId),
-          where('dueDate', '>=', startOfMonth),
-          where('dueDate', '<=', endOfMonth)
+          where('taskId', '==', taskId)
         )
       );
-      setCompletions(snap.docs.map((d) => ({ id: d.id, ...d.data() } as Completion)));
+      const all = snap.docs.map((d) => ({ id: d.id, ...d.data() } as Completion));
+      setCompletions(
+        all.filter((c) => {
+          const ms = (c.dueDate as Timestamp)?.toMillis?.() ?? 0;
+          return ms >= startMs && ms <= endMs;
+        })
+      );
       setLoading(false);
     };
 

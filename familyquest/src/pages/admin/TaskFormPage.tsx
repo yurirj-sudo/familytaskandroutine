@@ -68,6 +68,7 @@ const TaskFormPage: React.FC = () => {
         assignedTo: values.assignedTo,
         requireApproval: values.requireApproval,
         requirePhotoProof: values.requirePhotoProof,
+        sharedCompletion: values.sharedCompletion,
       };
 
       // Only include frequency-specific fields when applicable

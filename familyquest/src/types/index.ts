@@ -71,6 +71,7 @@ export interface Task {
   assignedTo: string[] | 'all';
   requireApproval: boolean;      // true: filho submete → pai aprova antes dos pontos
   requirePhotoProof: boolean;    // true: exige foto ao marcar como concluída
+  sharedCompletion: boolean;     // true: 1 conclusão serve para todos os atribuídos
   createdBy: string;
   createdAt: Timestamp;
   isActive: boolean;

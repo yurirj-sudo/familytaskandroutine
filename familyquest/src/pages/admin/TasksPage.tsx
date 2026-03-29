@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebase';
@@ -18,11 +18,18 @@ const DeleteTaskDialog: React.FC<{
 }> = ({ task, onConfirm, onCancel }) => {
   const [deleting, setDeleting] = useState(false);
   const [deleteHistory, setDeleteHistory] = useState(false);
+  const deleteHistoryRef = useRef(false);
+
+  const toggleHistory = () => {
+    const next = !deleteHistoryRef.current;
+    deleteHistoryRef.current = next;
+    setDeleteHistory(next);
+  };
 
   const handle = async () => {
     setDeleting(true);
     try {
-      await onConfirm(deleteHistory);
+      await onConfirm(deleteHistoryRef.current);
     } finally {
       setDeleting(false);
     }
@@ -45,7 +52,7 @@ const DeleteTaskDialog: React.FC<{
         {/* Toggle: also delete history */}
         <button
           type="button"
-          onClick={() => setDeleteHistory((v) => !v)}
+          onClick={toggleHistory}
           disabled={deleting}
           className={`w-full flex items-center justify-between gap-3 px-4 py-3 rounded-DEFAULT border-2 transition-colors mb-4 ${
             deleteHistory

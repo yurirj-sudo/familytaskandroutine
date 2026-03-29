@@ -26,6 +26,7 @@ const schema = z.object({
   startDate: z.string().optional(),
   requireApproval: z.boolean(),
   requirePhotoProof: z.boolean(),
+  sharedCompletion: z.boolean(),
 });
 
 export type TaskFormValues = z.infer<typeof schema>;
@@ -102,6 +103,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({
     startDate: '',
     requireApproval: initialValues?.requireApproval ?? false,
     requirePhotoProof: initialValues?.requirePhotoProof ?? false,
+    sharedCompletion: initialValues?.sharedCompletion ?? false,
   };
 
   const {
@@ -122,6 +124,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({
   const assignedTo = watch('assignedTo');
   const requireApproval = watch('requireApproval');
   const requirePhotoProof = watch('requirePhotoProof');
+  const sharedCompletion = watch('sharedCompletion');
 
   // Auto-reset penalty when switching to optional
   useEffect(() => {
@@ -594,12 +597,45 @@ export const TaskForm: React.FC<TaskFormProps> = ({
           />
         </div>
 
+        {/* Shared Completion */}
+        <div className="flex items-center justify-between gap-3 pt-1 border-t border-outline-variant/15">
+          <div>
+            <p className="text-on-surface text-sm font-medium">Tarefa única para o grupo</p>
+            <p className="text-on-surface-variant text-xs">Quando alguém concluir, desaparece para os demais</p>
+          </div>
+          <Controller
+            control={control}
+            name="sharedCompletion"
+            render={({ field }) => (
+              <button
+                type="button"
+                role="switch"
+                aria-checked={field.value}
+                onClick={() => field.onChange(!field.value)}
+                className={`relative w-12 h-6 rounded-full transition-colors flex-shrink-0 ${
+                  field.value ? 'bg-primary' : 'bg-gray-300'
+                }`}
+              >
+                <span className={`absolute top-[2px] w-5 h-5 bg-white rounded-full shadow-md transition-all duration-200 ${
+                  field.value ? 'left-[26px]' : 'left-[2px]'
+                }`} />
+              </button>
+            )}
+          />
+        </div>
+
         {/* Combined hint */}
-        {(requireApproval || requirePhotoProof) && (
+        {(requireApproval || requirePhotoProof || sharedCompletion) && (
           <div className="flex items-start gap-1.5 pt-1">
             <span className="material-symbols-outlined text-primary text-base mt-0.5">info</span>
             <p className="text-on-surface-variant text-xs">
-              {requirePhotoProof && requireApproval
+              {sharedCompletion && requirePhotoProof && requireApproval
+                ? 'Tarefa única: o primeiro a concluir (com foto e aprovação) libera para todos.'
+                : sharedCompletion && requireApproval
+                ? 'Tarefa única: o primeiro a ter aprovação libera para todos.'
+                : sharedCompletion
+                ? 'Tarefa única: o primeiro a concluir libera para os demais.'
+                : requirePhotoProof && requireApproval
                 ? 'O membro tira uma foto e o admin aprova antes dos pontos serem creditados.'
                 : requirePhotoProof
                 ? 'O membro deverá tirar uma foto ao concluir a tarefa.'

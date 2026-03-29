@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Completion } from '../types';
 import {
   subscribeTodayCompletions,
+  subscribeFamilyTodayCompletions,
   subscribePendingApprovals,
 } from '../services/completion.service';
 
@@ -31,6 +32,28 @@ export const useTodayCompletions = (
   const completionMap = new Map(completions.map((c) => [c.taskId, c]));
 
   return { completions, completionMap, loading };
+};
+
+// ─── All family completions for today (real-time) — used for shared tasks ─────
+
+export const useFamilyTodayCompletions = (familyId: string | undefined) => {
+  const [completions, setCompletions] = useState<Completion[]>([]);
+
+  useEffect(() => {
+    if (!familyId) return;
+    const unsub = subscribeFamilyTodayCompletions(familyId, setCompletions);
+    return unsub;
+  }, [familyId]);
+
+  // Map taskId → first non-pending completion (shared task lookup)
+  const sharedCompletionMap = new Map<string, Completion>();
+  for (const c of completions) {
+    if (c.status !== 'pending' && !sharedCompletionMap.has(c.taskId)) {
+      sharedCompletionMap.set(c.taskId, c);
+    }
+  }
+
+  return { completions, sharedCompletionMap };
 };
 
 // ─── Pending approvals (admin, real-time) ─────────────────────────────────────

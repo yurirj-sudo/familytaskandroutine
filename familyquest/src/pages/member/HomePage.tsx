@@ -4,7 +4,7 @@ import TaskCard from '../../components/tasks/TaskCard';
 import PushPermissionBanner from '../../components/notifications/PushPermissionBanner';
 import { useCurrentFamily, useCurrentMember } from '../../store/authStore';
 import { useTodayTasks } from '../../hooks/useTasks';
-import { useTodayCompletions } from '../../hooks/useCompletions';
+import { useTodayCompletions, useFamilyTodayCompletions } from '../../hooks/useCompletions';
 import { formatDateFull } from '../../utils/date';
 
 const LEVEL_NAMES = ['Iniciante', 'Aprendiz', 'Aventureiro', 'Herói', 'Campeão', 'Lenda'];
@@ -27,6 +27,11 @@ const HomePage: React.FC = () => {
     family?.id,
     member?.uid
   );
+  const { sharedCompletionMap } = useFamilyTodayCompletions(family?.id);
+
+  // Pick the right completion per task: shared tasks use family-wide map
+  const getCompletion = (taskId: string, isShared: boolean) =>
+    isShared ? sharedCompletionMap.get(taskId) : completionMap.get(taskId);
 
 
 
@@ -135,7 +140,7 @@ const HomePage: React.FC = () => {
                     task={task}
                     familyId={family?.id ?? ''}
                     userId={member?.uid ?? ''}
-                    completion={completionMap.get(task.id)}
+                    completion={getCompletion(task.id, task.sharedCompletion ?? false)}
                     requireApproval={task.requireApproval ?? false}
                     requirePhotoProof={task.requirePhotoProof ?? false}
                   />
@@ -157,7 +162,7 @@ const HomePage: React.FC = () => {
                     task={task}
                     familyId={family?.id ?? ''}
                     userId={member?.uid ?? ''}
-                    completion={completionMap.get(task.id)}
+                    completion={getCompletion(task.id, task.sharedCompletion ?? false)}
                     requireApproval={task.requireApproval ?? false}
                     requirePhotoProof={task.requirePhotoProof ?? false}
                   />

@@ -77,7 +77,8 @@ export const markTaskCompleted = async (
   photoProofUrl?: string
 ): Promise<void> => {
   const todayStr = getTodayString();
-  const completionId = getCompletionId(task.id, userId, todayStr);
+  const shared = task.sharedCompletion ?? false;
+  const completionId = getCompletionId(task.id, userId, todayStr, shared);
   const completionRef = doc(db, 'families', familyId, 'completions', completionId);
 
   await setDoc(
@@ -125,7 +126,8 @@ export const submitTaskForApproval = async (
   photoProofUrl?: string
 ): Promise<void> => {
   const todayStr = getTodayString();
-  const completionId = getCompletionId(task.id, userId, todayStr);
+  const shared = task.sharedCompletion ?? false;
+  const completionId = getCompletionId(task.id, userId, todayStr, shared);
   const completionRef = doc(db, 'families', familyId, 'completions', completionId);
 
   await setDoc(

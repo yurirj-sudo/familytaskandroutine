@@ -87,7 +87,10 @@ export const TaskCard: React.FC<TaskCardProps> = ({
 
   const status = completion?.status ?? 'pending';
   const isCompleted = status === 'completed' || status === 'approved';
-  const canComplete = !adminMode && (status === 'pending' || status === 'rejected');
+  const completedByMe = completion?.userId === userId;
+  // Shared task completed by someone else → show as done but don't allow undo
+  const completedByOther = isCompleted && !completedByMe && (task.sharedCompletion ?? false);
+  const canComplete = !adminMode && !completedByOther && (status === 'pending' || status === 'rejected');
 
   const catColor =
     categoryColors[task.category] ?? 'bg-surface-container-high text-on-surface-variant';
@@ -303,8 +306,8 @@ export const TaskCard: React.FC<TaskCardProps> = ({
                 </span>
               )}
 
-              {/* Undo button — small icon, right side */}
-              {!adminMode && (status === 'completed' || status === 'submitted') && (
+              {/* Undo button — only when completed by current user */}
+              {!adminMode && (status === 'completed' || status === 'submitted') && completedByMe && (
                 <button
                   onClick={handleUndo}
                   disabled={undoing}
@@ -358,6 +361,12 @@ export const TaskCard: React.FC<TaskCardProps> = ({
             </span>
             {task.type === 'mandatory' && task.pointsOnMiss < 0 && (
               <span className="text-xs text-error">{task.pointsOnMiss} pts se falhar</span>
+            )}
+            {completedByOther && (
+              <span className="text-xs text-secondary flex items-center gap-1">
+                <span className="material-symbols-outlined" style={{ fontSize: 12 }}>group</span>
+                Concluída por outro membro
+              </span>
             )}
           </div>
 
