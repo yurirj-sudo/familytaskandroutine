@@ -3,7 +3,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Task, TaskFrequency, TaskType } from '../../types';
-import { isTaskDueToday, getNextOccurrences } from '../../utils/recurrence';
+import { getNextOccurrences } from '../../utils/recurrence';
 
 // ─── Schema ───────────────────────────────────────────────────────────────────
 
@@ -19,10 +19,11 @@ const schema = z.object({
   weekOfMonth: z.number().min(1).max(4).optional(),
   dayOfWeekRelative: z.number().min(0).max(6).optional(),
   dueTime: z.string().optional(),
-  pointsOnComplete: z.number().min(0).max(1000),
-  pointsOnMiss: z.number().max(0).min(-1000),
-  assignedTo: z.union([z.literal('all'), z.array(z.string())]),
-  startDate: z.string().optional(), // ISO date string for 'once'
+  // Both always positive in the UI — TaskFormPage negates pointsOnMiss when saving
+  pointsOnComplete: z.number().min(0, 'Mínimo 0').max(1000),
+  pointsOnMiss: z.number().min(0, 'Mínimo 0').max(1000),
+  assignedTo: z.union([z.literal('all'), z.array(z.string()).min(1, 'Selecione ao menos um membro')]),
+  startDate: z.string().optional(),
 });
 
 export type TaskFormValues = z.infer<typeof schema>;
@@ -33,25 +34,40 @@ const WEEK_DAYS = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 const CATEGORIES = ['higiene', 'escola', 'casa', 'alimentação', 'exercício', 'outro'];
 const WEEK_OF_MONTH_LABELS = ['1ª', '2ª', '3ª', '4ª'];
 
+export interface MemberOption {
+  uid: string;
+  displayName: string;
+  avatar: string;
+}
+
 interface TaskFormProps {
   initialValues?: Partial<Task>;
   onSubmit: (values: TaskFormValues) => Promise<void>;
   onCancel: () => void;
   isEditing?: boolean;
+  members?: MemberOption[];
 }
 
 // ─── Input class helpers ──────────────────────────────────────────────────────
 
 function fieldLabel(children: React.ReactNode) {
-  return <label className="block text-on-surface-variant text-sm font-headline font-bold mb-1 ml-1">{children}</label>;
+  return (
+    <label className="block text-on-surface-variant text-sm font-headline font-bold mb-1 ml-1">
+      {children}
+    </label>
+  );
 }
 
 function inputClass(error?: { message?: string }) {
-  return `w-full bg-surface-container-low border-none rounded-full px-4 py-3 text-on-surface text-sm placeholder:text-outline focus:outline-none focus:ring-2 ${error ? 'ring-2 ring-error' : 'focus:ring-primary'} transition-all`;
+  return `w-full bg-surface-container-low border-none rounded-full px-4 py-3 text-on-surface text-sm placeholder:text-outline focus:outline-none focus:ring-2 ${
+    error ? 'ring-2 ring-error' : 'focus:ring-primary'
+  } transition-all`;
 }
 
 function selectClass(error?: { message?: string }) {
-  return `w-full bg-surface-container-low border-none rounded-full px-4 py-3 text-on-surface text-sm focus:outline-none focus:ring-2 ${error ? 'ring-2 ring-error' : 'focus:ring-primary'} transition-all`;
+  return `w-full bg-surface-container-low border-none rounded-full px-4 py-3 text-on-surface text-sm focus:outline-none focus:ring-2 ${
+    error ? 'ring-2 ring-error' : 'focus:ring-primary'
+  } transition-all`;
 }
 
 // ─── TaskForm ─────────────────────────────────────────────────────────────────
@@ -61,7 +77,11 @@ export const TaskForm: React.FC<TaskFormProps> = ({
   onSubmit,
   onCancel,
   isEditing = false,
+  members = [],
 }) => {
+  // pointsOnMiss is stored as negative in Firestore — show absolute value in UI
+  const initialPointsOnMiss = Math.abs(initialValues?.pointsOnMiss ?? 0);
+
   const defaultValues: TaskFormValues = {
     title: initialValues?.title ?? '',
     description: initialValues?.description ?? '',
@@ -75,7 +95,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({
     dayOfWeekRelative: initialValues?.dayOfWeekRelative ?? 1,
     dueTime: initialValues?.dueTime ?? '',
     pointsOnComplete: initialValues?.pointsOnComplete ?? 10,
-    pointsOnMiss: initialValues?.pointsOnMiss ?? 0,
+    pointsOnMiss: initialPointsOnMiss,
     assignedTo: initialValues?.assignedTo ?? 'all',
     startDate: '',
   };
@@ -95,13 +115,14 @@ export const TaskForm: React.FC<TaskFormProps> = ({
   const weekOfMonth = watch('weekOfMonth');
   const dayOfWeekRelative = watch('dayOfWeekRelative');
   const dayOfMonth = watch('dayOfMonth');
+  const assignedTo = watch('assignedTo');
 
-  // Auto-set pointsOnMiss to 0 for optional tasks
+  // Auto-reset penalty when switching to optional
   useEffect(() => {
     if (type === 'optional') setValue('pointsOnMiss', 0);
   }, [type, setValue]);
 
-  // ─── Next occurrences preview ─────────────────────────────────────────────
+  // ─── Next occurrences preview ────────────────────────────────────────────
 
   const previewDates = useMemo(() => {
     const mockTask = {
@@ -116,8 +137,24 @@ export const TaskForm: React.FC<TaskFormProps> = ({
 
   const toggleDay = (day: number) => {
     const current = activeDays ?? [];
-    const next = current.includes(day) ? current.filter((d) => d !== day) : [...current, day].sort();
+    const next = current.includes(day)
+      ? current.filter((d) => d !== day)
+      : [...current, day].sort();
     setValue('activeDays', next);
+  };
+
+  // ─── Assignment helpers ──────────────────────────────────────────────────
+
+  const isAssignedToAll = assignedTo === 'all';
+  const selectedUids: string[] = isAssignedToAll ? [] : (assignedTo as string[]);
+
+  const toggleMember = (uid: string) => {
+    const current = selectedUids;
+    const next = current.includes(uid)
+      ? current.filter((id) => id !== uid)
+      : [...current, uid];
+    // If all deselected, go back to 'all'
+    setValue('assignedTo', next.length === 0 ? 'all' : next);
   };
 
   const handleFormSubmit = async (values: TaskFormValues) => {
@@ -135,7 +172,9 @@ export const TaskForm: React.FC<TaskFormProps> = ({
           className={inputClass(errors.title)}
           placeholder="Ex: Escovar os dentes"
         />
-        {errors.title && <p className="text-error text-xs mt-1 ml-2">{errors.title.message}</p>}
+        {errors.title && (
+          <p className="text-error text-xs mt-1 ml-2">{errors.title.message}</p>
+        )}
       </div>
 
       {/* Emoji + Category row */}
@@ -179,13 +218,15 @@ export const TaskForm: React.FC<TaskFormProps> = ({
           {(['optional', 'mandatory'] as TaskType[]).map((t) => (
             <label key={t} className="cursor-pointer">
               <input {...register('type')} type="radio" value={t} className="sr-only" />
-              <div className={`rounded-DEFAULT border-2 px-3 py-2.5 text-center text-sm transition-colors ${
-                type === t
-                  ? t === 'mandatory'
-                    ? 'border-error bg-error-container/15 text-error'
-                    : 'border-primary bg-primary/5 text-primary'
-                  : 'border-transparent bg-surface-container-low text-on-surface-variant'
-              }`}>
+              <div
+                className={`rounded-DEFAULT border-2 px-3 py-2.5 text-center text-sm transition-colors ${
+                  type === t
+                    ? t === 'mandatory'
+                      ? 'border-error bg-error-container/15 text-error'
+                      : 'border-primary bg-primary/5 text-primary'
+                    : 'border-transparent bg-surface-container-low text-on-surface-variant'
+                }`}
+              >
                 {t === 'mandatory' ? '⚠️ Obrigatória' : '⭐ Opcional'}
               </div>
             </label>
@@ -310,11 +351,19 @@ export const TaskForm: React.FC<TaskFormProps> = ({
       {/* Next occurrences preview */}
       {frequency !== 'once' && previewDates.length > 0 && (
         <div className="bg-surface-container-low rounded-DEFAULT px-4 py-3">
-          <p className="text-on-surface-variant text-xs font-headline font-bold mb-2">📅 Próximas ocorrências:</p>
+          <p className="text-on-surface-variant text-xs font-headline font-bold mb-2">
+            📅 Próximas ocorrências:
+          </p>
           <div className="flex gap-2 flex-wrap">
             {previewDates.map((d) => (
-              <span key={d} className="text-xs bg-primary/10 text-primary font-headline font-bold rounded-full px-2.5 py-1">
-                {new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: '2-digit' }).format(new Date(d))}
+              <span
+                key={d}
+                className="text-xs bg-primary/10 text-primary font-headline font-bold rounded-full px-2.5 py-1"
+              >
+                {new Intl.DateTimeFormat('pt-BR', {
+                  day: '2-digit',
+                  month: '2-digit',
+                }).format(new Date(d))}
               </span>
             ))}
           </div>
@@ -355,33 +404,124 @@ export const TaskForm: React.FC<TaskFormProps> = ({
               />
             )}
           />
-          {errors.pointsOnComplete && <p className="text-error text-xs mt-1 ml-2">{errors.pointsOnComplete.message}</p>}
+          {errors.pointsOnComplete && (
+            <p className="text-error text-xs mt-1 ml-2">{errors.pointsOnComplete.message}</p>
+          )}
         </div>
         <div>
-          {fieldLabel(type === 'mandatory' ? 'Penalidade (negativo)' : 'Penalidade')}
+          {fieldLabel(type === 'mandatory' ? 'Penalidade (pts)' : 'Penalidade')}
           <Controller
             control={control}
             name="pointsOnMiss"
             render={({ field }) => (
               <input
                 type="number"
-                max={0}
-                min={-1000}
+                min={0}
+                max={1000}
                 {...field}
                 onChange={(e) => {
                   const raw = e.target.value;
-                  // Allow intermediate states like "-" while typing negative numbers
-                  if (raw === '' || raw === '-') return;
+                  if (raw === '') return;
                   const num = Number(raw);
                   if (!isNaN(num)) field.onChange(num);
                 }}
                 disabled={type === 'optional'}
-                className={`${inputClass(errors.pointsOnMiss)} ${type === 'optional' ? 'opacity-40 cursor-not-allowed' : ''}`}
+                className={`${inputClass(errors.pointsOnMiss)} ${
+                  type === 'optional' ? 'opacity-40 cursor-not-allowed' : ''
+                }`}
               />
             )}
           />
-          {errors.pointsOnMiss && <p className="text-error text-xs mt-1 ml-2">{errors.pointsOnMiss.message}</p>}
+          {type === 'mandatory' && (
+            <p className="text-on-surface-variant text-xs mt-1 ml-2">
+              Será descontado automaticamente
+            </p>
+          )}
+          {errors.pointsOnMiss && (
+            <p className="text-error text-xs mt-1 ml-2">{errors.pointsOnMiss.message}</p>
+          )}
         </div>
+      </div>
+
+      {/* Assignment */}
+      <div>
+        {fieldLabel('Atribuição')}
+        <div className="grid grid-cols-2 gap-2 mb-3">
+          {/* Livre */}
+          <button
+            type="button"
+            onClick={() => setValue('assignedTo', 'all')}
+            className={`rounded-DEFAULT border-2 px-3 py-2.5 text-sm transition-colors flex items-center justify-center gap-1.5 ${
+              isAssignedToAll
+                ? 'border-primary bg-primary/5 text-primary'
+                : 'border-transparent bg-surface-container-low text-on-surface-variant'
+            }`}
+          >
+            <span className="material-symbols-outlined text-base">public</span>
+            Livre
+          </button>
+          {/* Atribuir */}
+          <button
+            type="button"
+            onClick={() => {
+              if (isAssignedToAll && members.length > 0) {
+                setValue('assignedTo', [members[0].uid]);
+              }
+            }}
+            className={`rounded-DEFAULT border-2 px-3 py-2.5 text-sm transition-colors flex items-center justify-center gap-1.5 ${
+              !isAssignedToAll
+                ? 'border-secondary bg-secondary/5 text-secondary'
+                : 'border-transparent bg-surface-container-low text-on-surface-variant'
+            }`}
+          >
+            <span className="material-symbols-outlined text-base">person</span>
+            Atribuir a
+          </button>
+        </div>
+
+        {/* Livre description */}
+        {isAssignedToAll && (
+          <p className="text-on-surface-variant text-xs ml-1">
+            Qualquer membro pode executar esta tarefa.
+          </p>
+        )}
+
+        {/* Member chips */}
+        {!isAssignedToAll && members.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-1">
+            {members.map((m) => {
+              const selected = selectedUids.includes(m.uid);
+              return (
+                <button
+                  key={m.uid}
+                  type="button"
+                  onClick={() => toggleMember(m.uid)}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-full text-sm font-medium transition-colors ${
+                    selected
+                      ? 'bg-secondary text-on-secondary shadow-sm'
+                      : 'bg-surface-container-low text-on-surface-variant hover:bg-surface-container'
+                  }`}
+                >
+                  <span className="text-base leading-none">{m.avatar || '👤'}</span>
+                  {m.displayName}
+                  {selected && (
+                    <span className="material-symbols-outlined text-sm">check</span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        )}
+
+        {!isAssignedToAll && members.length === 0 && (
+          <p className="text-on-surface-variant text-xs ml-1">
+            Nenhum membro encontrado na família.
+          </p>
+        )}
+
+        {errors.assignedTo && (
+          <p className="text-error text-xs mt-1 ml-2">{errors.assignedTo.message as string}</p>
+        )}
       </div>
 
       {/* Actions */}

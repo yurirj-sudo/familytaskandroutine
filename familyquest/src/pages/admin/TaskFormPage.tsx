@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { collection, getDocs } from 'firebase/firestore';
 import AppLayout from '../../components/layout/AppLayout';
-import TaskForm, { TaskFormValues } from '../../components/tasks/TaskForm';
+import TaskForm, { TaskFormValues, MemberOption } from '../../components/tasks/TaskForm';
 import { useCurrentFamily, useCurrentMember } from '../../store/authStore';
 import { createTask, updateTask, getActiveTasks } from '../../services/task.service';
 import { Task } from '../../types';
+import { db } from '../../firebase';
 
 const TaskFormPage: React.FC = () => {
   const { taskId } = useParams<{ taskId?: string }>();
@@ -15,6 +17,7 @@ const TaskFormPage: React.FC = () => {
 
   const [existingTask, setExistingTask] = useState<Task | undefined>(undefined);
   const [loadingTask, setLoadingTask] = useState(isEditing);
+  const [members, setMembers] = useState<MemberOption[]>([]);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
   // Load existing task when editing
@@ -26,6 +29,25 @@ const TaskFormPage: React.FC = () => {
       setLoadingTask(false);
     });
   }, [isEditing, family?.id, taskId]);
+
+  // Load family members for assignment
+  useEffect(() => {
+    if (!family?.id) return;
+    getDocs(collection(db, 'families', family.id, 'members')).then((snap) => {
+      const list: MemberOption[] = snap.docs
+        .map((d) => {
+          const data = d.data();
+          return {
+            uid: d.id,
+            displayName: data.displayName ?? 'Membro',
+            avatar: data.avatar ?? '👤',
+          };
+        })
+        // Show only active non-viewer members
+        .filter((_, i) => snap.docs[i].data().isActive !== false);
+      setMembers(list);
+    });
+  }, [family?.id]);
 
   const handleSubmit = async (values: TaskFormValues) => {
     if (!family?.id || !member?.uid) return;
@@ -41,7 +63,8 @@ const TaskFormPage: React.FC = () => {
         type: values.type,
         frequency: values.frequency,
         pointsOnComplete: values.pointsOnComplete,
-        pointsOnMiss: values.type === 'mandatory' ? values.pointsOnMiss : 0,
+        // UI shows positive value — convert to negative for mandatory, 0 for optional
+        pointsOnMiss: values.type === 'mandatory' ? -Math.abs(values.pointsOnMiss) : 0,
         assignedTo: values.assignedTo,
       };
 
@@ -59,7 +82,6 @@ const TaskFormPage: React.FC = () => {
       if (values.frequency === 'once' && values.startDate) {
         taskData.startDate = new Date(values.startDate);
       }
-      // Only include dueTime if it has a value
       if (values.dueTime) {
         taskData.dueTime = values.dueTime;
       }
@@ -76,7 +98,8 @@ const TaskFormPage: React.FC = () => {
 
       navigate('/admin/tasks');
     } catch (err: unknown) {
-      const message = err instanceof Error ? err.message : 'Erro ao salvar tarefa. Tente novamente.';
+      const message =
+        err instanceof Error ? err.message : 'Erro ao salvar tarefa. Tente novamente.';
       setSubmitError(message);
     }
   };
@@ -105,6 +128,7 @@ const TaskFormPage: React.FC = () => {
           onSubmit={handleSubmit}
           onCancel={() => navigate('/admin/tasks')}
           isEditing={isEditing}
+          members={members}
         />
       </div>
     </AppLayout>
