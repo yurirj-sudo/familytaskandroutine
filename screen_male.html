@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FamQuest - Home</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "tertiary-fixed-dim": "#ff73b1",
+              "secondary-fixed-dim": "#a9c4ff",
+              "surface-dim": "#bdd6fc",
+              "tertiary-dim": "#9d005d",
+              "primary-fixed": "#0057bd",
+              "primary-dim": "#003271",
+              "error": "#b02500",
+              "primary-container": "#0057bd",
+              "surface-container": "#dce9ff",
+              "surface-variant": "#c9deff",
+              "on-background": "#203044",
+              "on-tertiary": "#ffeff2",
+              "inverse-primary": "#a9c4ff",
+              "primary-fixed-dim": "#a9c4ff",
+              "surface-tint": "#0057bd",
+              "on-secondary-fixed-variant": "#004da8",
+              "on-surface-variant": "#4d5d73",
+              "surface-container-highest": "#c9deff",
+              "outline-variant": "#9eaec7",
+              "on-primary": "#ffffff",
+              "outline": "#68788f",
+              "surface-container-low": "#eaf1ff",
+              "secondary": "#0057bd",
+              "surface": "#F8F9FA",
+              "inverse-on-surface": "#8e9eb7",
+              "on-primary-fixed": "#000000",
+              "surface-container-lowest": "#ffffff",
+              "error-container": "#f95630",
+              "error-dim": "#b92902",
+              "on-primary-container": "#ffffff",
+              "on-error": "#ffefec",
+              "surface-bright": "#F8F9FA",
+              "secondary-dim": "#004ca6",
+              "on-secondary-container": "#004496",
+              "on-primary-fixed-variant": "#004da8",
+              "on-secondary-fixed": "#003271",
+              "on-tertiary-fixed-variant": "#740044",
+              "tertiary-container": "#ff8cbc",
+              "inverse-surface": "#000f21",
+              "tertiary": "#b00d6a",
+              "primary": "#0057bd",
+              "secondary-container": "#bfd1ff",
+              "surface-container-high": "#d2e4ff",
+              "on-tertiary-container": "#64003a",
+              "background": "#F8F9FA",
+              "on-surface": "#203044",
+              "on-secondary": "#ffffff",
+              "tertiary-fixed": "#ff8cbc",
+              "on-error-container": "#520c00",
+              "on-tertiary-fixed": "#37001d",
+              "secondary-fixed": "#bfd1ff"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Plus Jakarta Sans"],
+              "label": ["Plus Jakarta Sans"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-sky-50/90 dark:bg-slate-900/90 backdrop-blur-xl shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-container flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="close-up portrait of a friendly man with short dark hair in high-resolution photography with soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtVUT-kmgk8dcDCYobE2lg9It86zuMI0-wMwtFZOWAR1MJvxu4V_zvnICYUeAIdxts2sgPO7Gyb0-Z5rP5S0SEbioxRCVpWn_wIYQo17t4LeFRfnXEnwabglACkzcWxxnamu4WfJqROGqbRm-E7upRrHSkl0Wrb8QPV9XSOhDUlUeY6i6ao80qX-xMKP_3kSVr4JSzARrY76AcgkA6iemxxdSHeAZjVCo5mNxza6EGbYy9aicT7qN0C0JmAjIGr3cvvwJ3Yj9tBbWu"/>
+</div>
+<span class="text-xl font-extrabold text-black dark:text-white font-plus-jakarta tracking-tight">FamQuest</span>
+</div>
+<div class="flex items-center gap-2 px-4 py-1.5 bg-secondary text-on-secondary rounded-full font-bold text-sm shadow-md shadow-secondary/20">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span>2,450 pts</span>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-2xl mx-auto space-y-8">
+<!-- Welcome Hero -->
+<section class="grid grid-cols-12 gap-4">
+<div class="col-span-12 bg-secondary text-on-secondary p-8 rounded-lg relative overflow-hidden shadow-xl">
+<div class="relative z-10">
+<p class="text-xs font-bold uppercase tracking-widest opacity-80 mb-2">Architect Profile</p>
+<h1 class="text-3xl font-extrabold leading-tight mb-4">Bom dia, Marc. <br/>Pronto para a próxima missão?</h1>
+<div class="flex gap-3">
+<button class="bg-white/20 backdrop-blur-md px-6 py-2 rounded-full font-bold text-sm hover:bg-white/30 transition-all active:scale-95">Ver Perfil</button>
+</div>
+</div>
+<div class="absolute -right-4 -bottom-4 opacity-20 transform rotate-12">
+<span class="material-symbols-outlined text-9xl" style="font-variation-settings: 'FILL' 1;">architecture</span>
+</div>
+</div>
+</section>
+<!-- Weekly Progress -->
+<section class="space-y-4">
+<div class="flex justify-between items-end">
+<h2 class="text-lg font-bold tracking-tight text-on-surface">Progresso Semanal</h2>
+<span class="text-sm font-bold text-secondary">65% concluído</span>
+</div>
+<div class="bg-surface-container-low p-6 rounded-lg space-y-4">
+<div class="w-full h-4 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-secondary to-secondary-dim w-[65%] rounded-full shadow-lg"></div>
+</div>
+<div class="flex justify-between">
+<div class="flex flex-col items-center">
+<span class="text-[10px] font-bold text-outline uppercase mb-1">SEG</span>
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[10px] font-bold text-outline uppercase mb-1">TER</span>
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[10px] font-bold text-outline uppercase mb-1">QUA</span>
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[10px] font-bold text-outline uppercase mb-1">QUI</span>
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+</div>
+<div class="flex flex-col items-center">
+<span class="text-[10px] font-bold text-outline uppercase mb-1">SEX</span>
+<div class="w-2 h-2 rounded-full bg-surface-container-highest"></div>
+</div>
+<div class="flex flex-col items-center opacity-40">
+<span class="text-[10px] font-bold text-outline uppercase mb-1">SAB</span>
+<div class="w-2 h-2 rounded-full bg-surface-container-highest"></div>
+</div>
+<div class="flex flex-col items-center opacity-40">
+<span class="text-[10px] font-bold text-outline uppercase mb-1">DOM</span>
+<div class="w-2 h-2 rounded-full bg-surface-container-highest"></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Next Quest Card -->
+<section class="space-y-4">
+<h2 class="text-lg font-bold tracking-tight text-on-surface">Quest Sugerida</h2>
+<div class="bg-white rounded-lg overflow-hidden shadow-lg border-2 border-transparent hover:border-secondary/20 transition-all group">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="modern backyard garden with clean landscaping and stone path in soft morning sunlight and blue sky" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOOoerpMauZw7i9B6iT-3SK52w7YxD9jqub-6C07WbOtd0a4MNlCyZ4kTVuTOIns9aPOS0LJ2ZRFBV1S95-mDIoHh73v27Pg2ckCBD6K-AbIGgy6IX8Kg5dzZ6pPnV4OCQieJe-VYdmhopMA6DAwGtOl7YnT67nbdniVbI01RouTSpldDL2J0ceG81OoeWxeXZZ6H1q5NYsg7Z3t6J-KlNFZAdCDjYaUlL0q_7ZqIHUi8SA6NMvINQ6M0Hfb6mdmOzj9op6luisT-I"/>
+<div class="absolute top-4 left-4 bg-orange-600 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+                    +500 pts
+                </div>
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+<div class="absolute bottom-4 left-6">
+<h3 class="text-white text-xl font-bold">O Jardim Suspenso</h3>
+<p class="text-white/80 text-sm">Organizar as prateleiras da varanda</p>
+</div>
+</div>
+<div class="p-6 flex justify-between items-center">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-200 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="portrait of a woman with long dark hair, soft lighting, outdoor blurred background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCteUlcm_3v4BywWL9ZPKY9v67T-U63I_QBpC0lHQghXTtEwOSkCcF0X3ZUQr-BTnKbFl_35bCb5ucXKEG5HyOE_u6CfFxMZ4EvqEP_Za5ADui4QBzTJvyfI3DPKbTvFlL4kiFC_b9OyKcD45HvGkBEwCGtg10YEflYu3OFZcRvrX9OWZEYATL6je-_04C_YemozDxM6-jOn3eHAODs5R1whRpTtOHklfvgyJxH2wJpQE7r_ypHuiEAAAspTheHqGnhaArT6wGOT2r8"/>
+</div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-[10px] font-bold text-slate-600">
+                        +2
+                    </div>
+</div>
+<button class="bg-secondary text-on-secondary px-8 py-3 rounded-full font-bold text-sm flex items-center gap-2 active:scale-95 transition-all shadow-md shadow-secondary/20">
+<span>Iniciar</span>
+<span class="material-symbols-outlined text-lg">play_arrow</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Stats Grid -->
+<section class="grid grid-cols-2 gap-4">
+<div class="bg-white p-6 rounded-lg space-y-2 shadow-sm border border-slate-100">
+<span class="material-symbols-outlined text-secondary text-3xl">emoji_events</span>
+<p class="text-2xl font-extrabold text-on-surface">12</p>
+<p class="text-xs font-bold text-outline uppercase tracking-wider">Troféus</p>
+</div>
+<div class="bg-white p-6 rounded-lg space-y-2 shadow-sm border border-slate-100">
+<span class="material-symbols-outlined text-orange-600 text-3xl">bolt</span>
+<p class="text-2xl font-extrabold text-on-surface">5 dias</p>
+<p class="text-xs font-bold text-outline uppercase tracking-wider">Streak Atual</p>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-white dark:bg-slate-900 border-t border-slate-200/50 shadow-[0_-10px_40px_rgba(0,0,0,0.04)] rounded-t-[2.5rem]">
+<!-- Home Active -->
+<a class="flex flex-col items-center justify-center bg-sky-50 dark:bg-sky-900/30 text-secondary dark:text-sky-300 rounded-full px-5 py-2 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-[11px] font-bold uppercase tracking-wider font-plus-jakarta mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-secondary transition-colors" href="#">
+<span class="material-symbols-outlined">extension</span>
+<span class="text-[11px] font-bold uppercase tracking-wider font-plus-jakarta mt-1">Quests</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-secondary transition-colors" href="#">
+<span class="material-symbols-outlined">emoji_events</span>
+<span class="text-[11px] font-bold uppercase tracking-wider font-plus-jakarta mt-1">Rewards</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-secondary transition-colors" href="#">
+<span class="material-symbols-outlined">leaderboard</span>
+<span class="text-[11px] font-bold uppercase tracking-wider font-plus-jakarta mt-1">Ranking</span>
+</a>
+</nav>
+<!-- FAB -->
+<button class="fixed bottom-28 right-6 w-14 h-14 bg-secondary text-white rounded-full shadow-2xl flex items-center justify-center active:scale-90 transition-transform z-40">
+<span class="material-symbols-outlined text-3xl">add</span>
+</button>
+</body></html>

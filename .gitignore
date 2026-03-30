@@ -32,3 +32,6 @@ Thumbs.db
 
 # Claude memory (local only)
 memory/
+
+# Claude Code local settings (may contain tokens/secrets)
+.claude/settings.local.json
