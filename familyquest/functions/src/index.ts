@@ -5,6 +5,7 @@ import { processMissedTasks } from './processMissedTasks';
 import { handleCompletionUpdate } from './onCompletionApproved';
 import { closeMonthCycle } from './closeMonthCycle';
 import { sendTaskReminders } from './sendTaskReminders';
+import { notifyIfDueSoon } from './onTaskSaved';
 
 admin.initializeApp();
 
@@ -51,6 +52,25 @@ export const scheduledSendTaskReminders = functions
   .timeZone('UTC')
   .onRun(async () => {
     await sendTaskReminders();
+  });
+
+// ─── onTaskSaved ─────────────────────────────────────────────────────────────
+// Trigger: quando uma tarefa é criada ou atualizada
+// Se o dueTime cair nos próximos 15 min, envia FCM imediatamente
+export const onTaskCreated = functions
+  .region('southamerica-east1')
+  .firestore.document('families/{familyId}/tasks/{taskId}')
+  .onCreate(async (snap: functions.firestore.DocumentSnapshot, context: functions.EventContext) => {
+    const { familyId, taskId } = context.params;
+    await notifyIfDueSoon(familyId, taskId, snap.data() ?? {});
+  });
+
+export const onTaskUpdated = functions
+  .region('southamerica-east1')
+  .firestore.document('families/{familyId}/tasks/{taskId}')
+  .onUpdate(async (change: functions.Change<functions.firestore.DocumentSnapshot>, context: functions.EventContext) => {
+    const { familyId, taskId } = context.params;
+    await notifyIfDueSoon(familyId, taskId, change.after.data() ?? {});
   });
 
 // ─── onCompletionStatusChanged ────────────────────────────────────────────────
