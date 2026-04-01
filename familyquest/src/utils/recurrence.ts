@@ -1,6 +1,15 @@
 import type { Task } from '../types';
 
 /**
+ * Converte Firestore Timestamp ou Date para Date nativo.
+ * Firestore retorna objetos com .toDate() — JS Date não tem esse método.
+ */
+function toDate(d: unknown): Date {
+  if (d && typeof (d as any).toDate === 'function') return (d as any).toDate();
+  return d as Date;
+}
+
+/**
  * Verifica se uma tarefa está com prazo hoje, baseado na frequência configurada.
  * Suporta: daily, weekly, monthly, monthly_relative, once.
  */
@@ -24,7 +33,7 @@ export function isTaskDueToday(task: Task, date: Date = new Date()): boolean {
     }
 
     case 'once':
-      return task.startDate ? isSameDay(date, task.startDate) : false;
+      return task.startDate ? isSameDay(date, toDate(task.startDate)) : false;
 
     default:
       return false;
@@ -35,10 +44,12 @@ export function isTaskDueToday(task: Task, date: Date = new Date()): boolean {
  * Verifica se duas datas são o mesmo dia (ignora horário).
  */
 export function isSameDay(a: Date, b: Date): boolean {
+  const da = toDate(a);
+  const db = toDate(b);
   return (
-    a.getFullYear() === b.getFullYear() &&
-    a.getMonth() === b.getMonth() &&
-    a.getDate() === b.getDate()
+    da.getFullYear() === db.getFullYear() &&
+    da.getMonth() === db.getMonth() &&
+    da.getDate() === db.getDate()
   );
 }
 

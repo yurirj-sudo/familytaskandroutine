@@ -83,7 +83,10 @@ const TaskFormPage: React.FC = () => {
         taskData.dayOfWeekRelative = values.dayOfWeekRelative;
       }
       if (values.frequency === 'once' && values.startDate) {
-        taskData.startDate = new Date(values.startDate);
+        // Append local midnight so the date is parsed as local time (not UTC).
+        // new Date("YYYY-MM-DD") would parse as UTC midnight, which in Brazil (UTC-3)
+        // becomes the previous day — causing the task to never show on the chosen date.
+        taskData.startDate = new Date(values.startDate + 'T00:00:00');
       }
       if (values.dueTime) {
         taskData.dueTime = values.dueTime;

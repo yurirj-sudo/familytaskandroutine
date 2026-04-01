@@ -1,5 +1,5 @@
 import { getMessaging, getToken, isSupported } from 'firebase/messaging';
-import { doc, updateDoc } from 'firebase/firestore';
+import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
 import app, { db } from '../firebase';
 
 // ─── Initialize FCM and save token to Firestore ───────────────────────────────
@@ -8,6 +8,7 @@ import app, { db } from '../firebase';
  * Requests push notification permission and saves the FCM token to the
  * member's Firestore document so Cloud Functions can send targeted pushes.
  *
+ * Tokens are stored as an array (fcmTokens) to support multiple devices.
  * Returns the token string, or null if not supported / permission denied.
  */
 export const initFCM = async (
@@ -26,12 +27,17 @@ export const initFCM = async (
     const messaging = getMessaging(app);
     const vapidKey = import.meta.env.VITE_FIREBASE_VAPID_KEY;
 
-    const token = await getToken(messaging, { vapidKey });
+    // Pass the service worker registration explicitly so FCM uses the correct SW.
+    // Without this, the SDK falls back to finding any registered SW, which may
+    // not be the compiled firebase-messaging-sw.js and causes getToken to return null.
+    const registration = await navigator.serviceWorker.getRegistration('/firebase-messaging-sw.js');
+    const token = await getToken(messaging, { vapidKey, serviceWorkerRegistration: registration });
     if (!token) return null;
 
-    // Persist token so Cloud Functions can address this device
+    // Persist token as array to support multiple devices per member.
+    // arrayUnion avoids duplicates if the same token is re-registered.
     const memberRef = doc(db, 'families', familyId, 'members', userId);
-    await updateDoc(memberRef, { fcmToken: token });
+    await updateDoc(memberRef, { fcmTokens: arrayUnion(token) });
 
     return token;
   } catch (err) {

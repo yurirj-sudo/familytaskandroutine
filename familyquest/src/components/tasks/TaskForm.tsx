@@ -100,7 +100,12 @@ export const TaskForm: React.FC<TaskFormProps> = ({
     pointsOnComplete: initialValues?.pointsOnComplete ?? 10,
     pointsOnMiss: initialPointsOnMiss,
     assignedTo: initialValues?.assignedTo ?? 'all',
-    startDate: '',
+    startDate: initialValues?.startDate
+      ? (typeof (initialValues.startDate as any).toDate === 'function'
+          ? (initialValues.startDate as any).toDate()
+          : new Date(initialValues.startDate as any)
+        ).toISOString().split('T')[0]
+      : '',
     requireApproval: initialValues?.requireApproval ?? false,
     requirePhotoProof: initialValues?.requirePhotoProof ?? false,
     sharedCompletion: initialValues?.sharedCompletion ?? false,
