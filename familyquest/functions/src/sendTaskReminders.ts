@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin';
-import { isTaskDueToday } from './recurrence';
+import { isTaskDueOnDate } from './recurrence';
 
 /**
  * Envia push notifications para tarefas que vencem nos proximos 15 minutos.
@@ -52,7 +52,7 @@ export async function sendTaskReminders(): Promise<void> {
         .filter((task: any) => {
           if (!task.dueTime) return false;
           // Only remind if the task is actually due today (respects frequency/activeDays etc.)
-          if (!isTaskDueToday(task, nowInTz)) return false;
+          if (!isTaskDueOnDate(task, nowInTz)) return false;
           const [h, m] = (task.dueTime as string).split(':').map(Number);
           const taskMinutes = h * 60 + m;
           // Window is (now+15, now+30] — always at least 15 min before due time.
